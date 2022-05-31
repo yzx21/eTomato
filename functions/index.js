@@ -40,16 +40,16 @@ Array.prototype.contains = function (array) {
 }
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCWtGfTpToGgibo6nesNnMGXreMgBNZdDo",
-    authDomain: "modelcreator-cdd8f.firebaseapp.com",
-    projectId: "modelcreator-cdd8f",
-    storageBucket: "modelcreator-cdd8f.appspot.com",
-    messagingSenderId: "810288170650",
-    appId: "1:810288170650:web:da961e0e607a7ae2e14123",
-    measurementId: "G-X6WPSQ0HTH"
+    apiKey: "AIzaSyBe7BVBWqB6znKy7b_UND2nUd09nnUFmEQ",
+    authDomain: "etomato-63aac.firebaseapp.com",
+    databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com",
+    projectId: "etomato-63aac",
+    storageBucket: "etomato-63aac.appspot.com",
+    messagingSenderId: "144378496941",
+    appId: "1:144378496941:web:dc08de13472e73f14d0324",
+    measurementId: "G-7W4Q6GF7JP"
 };
 firebase.initializeApp(firebaseConfig);
-
 app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Dashboard</title>
+  <link rel="icon" href="./public/img/model_creator.png">
+
+  <!-- Custom fonts for this template-->
+  <link href="./public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="./public/css/line_chart.css" rel="stylesheet" type="text/css"></script>
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="./public/css/sb-admin-2.min.css" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+</head>
+
+<body id="page-top" onload="loadChart();">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./dashboard">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-home"></i>
+          <span>S-Creator</span>
+        </div>
+        <div class="sidebar-brand-text mx-3"></div>
+      </a>
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed.show" href="#" data-toggle="collapse" data-target="#collapseTwo"
+          aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cubes"></i>
+          <span>My Streams</span>
+        </a>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item active" href="./dashboard">Owned</a>
+            <a class="collapse-item" href="./saved">Subscription</a>
+            <a class="collapse-item" href="./new_model">New</a>
+          </div>
+        </div>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+          aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fab fa-searchengin"></i>
+          <span>Explore Streams</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="./public_models?index=0">Public Streams</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="https://prospector-5lx7id43eq-uc.a.run.app/" target="_blank">S-Ensembler</a>
+      </li>
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for my streams..."
+                aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                      aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
+
+            <!-- Nav Item - Messages -->
+            <!-- TODO(alan) fix the bug that clearUnread not working on second click --> 
+            <li class="nav-item dropdown no-arrow mx-1" onclick="clearUnread()">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-envelope fa-fw"></i>
+                    <!-- Counter - Messages -->
+                    <% if (unread.length) { %>
+                      <span class="badge badge-danger badge-counter" id="unread_cnt_id"><%= unread.length %></span>
+                    <% } else { %>
+                      <span class="badge badge-danger badge-counter"></span> 
+                    <% } %>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    aria-labelledby="messagesDropdown">
+                    <% if (unread.length) { %>
+                      <h6 class="dropdown-header">
+                       Unread 
+                    </h6>
+                    <% } else { %>
+                      <h6 class="dropdown-header">
+                        No unread
+                    </h6>
+                    <% } %>
+                    
+                    <% for(var i=0; i<unread.length; i++) { %>
+                      <a class="dropdown-item d-flex align-items-center" href="./all_messages">
+                          <div class="font-weight-bold">
+                              <div class="text-truncate"><%= unread[i].message %></div>
+                              <div class="small text-gray-500"><%= unread[i].time %></div>
+                          </div>
+                      </a>
+                    <% } %>
+                    <a class="dropdown-item text-center small text-gray-500" href="./all_messages" >All Messages</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-star fa-fw"></i> <%= score %>
+              </a>
+            </li>
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <%= user_name %>
+                </span>
+                <img class="img-profile rounded-circle" src="./public/img/undraw_profile.svg">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="./profile">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <% if(Object.keys(passed_models).length==0) { %>
+            <div class="container-fluid mt-100">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h5>Subscription</h5>
+                    </div>
+                    <div class="card-body cart">
+                      <div class="col-sm-12 empty-cart-cls text-center">
+                        <i class="fas fa-fw fa-cubes fa-10x"></i>
+                        <h3><strong>You don't have any stream yet</strong></h3>
+                        <h4>Start to create your first stream now</h4> <a href="./new_model"
+                          class="btn btn-primary cart-btn-transform m-3" data-abc="true">Create a new stream</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } else { %>
+              <% const values=Object.values(passed_models); const keys=Object.keys(lineDataPoints); for(var i=0; i<values.length; i++) { %>
+                <div class="col-md-9">
+                  <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100">
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane  fade  active show" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                        <% if(values[i].public) {%>
+                          <span class="float-right text-info">[Public]<i
+                            class="icofont-check-circled text-success"></i>
+                          </span>
+                        <% } else {%>
+                          <span class="float-right text-info">[Private]<i
+                            class="icofont-check-circled text-info"></i>
+                          </span>
+                        <% } %>
+                        <% if(values[i].used) { %>
+                          <span class="float-right text-info">[Used]<i
+                            class="icofont-check-circled text-success"></i>
+                          </span>
+                        <% } else {%>
+                          <span class="float-right text-info">[Unused]<i
+                            class="icofont-check-circled text-info"></i>
+                          </span>
+                        <% } %>
+
+                        <h4 class="font-weight-bold mt-0 mb-4">Streams created by me
+                          <% if (values[i].coAuthorCnt != 0) { %>
+                            and (an)other <%= values[i].coAuthorCnt %> author(s)
+                          <% } %>
+                        </h4>
+                        <div class="bg-white card mb-4 order-list shadow-sm">
+                          <div class="gold-members p-4">
+                            <div class="media">
+                              <i class="fas fa-fw fa-cubes fa-5x" style="color:blue"></i>
+                              <div class="media-body">
+                                <span class="float-right text-info">Created at <%= values[i].create_time %> <i
+                                      class="icofont-check-circled text-success"></i>
+                                </span>
+                                <h6 class="mb-2">
+                                  <p class="text-black">
+                                    <%= values[i].model_name %> </a>
+                                    <p class="text-black">
+                                      <%= values[i].stocks %> </a>    
+                                </h6>
+                                <p class="text-gray mb-1"><i class="icofont-location-arrow"></i>
+                                  <%= values[i].model_description %> </a>
+                                    <span class="float-right">Subscription: <%= values[i].like_cnt %> <i
+                                      class="icofont-check-circled text-success"></i>
+                                    </span>
+                                    <span class="float-right">Score: <%= values[i].score %>/<i
+                                      class="icofont-check-circled text-success"></i>
+                                    </span>
+                                    <% if (keys.includes(values[i].model_id) ) { %> 
+                                      <hr>
+                                      <% for(let j=0; j<=values[i].yList.length; j++) { %>
+                                        <div id="wrapper" class="<%=values[i].model_id+j%>" hidden="true">    
+                                            <canvas class="my-4 w-100 h-25" id="<%=values[i].model_id+j%>" height="50" ></canvas>
+                                        </div>
+                                      <% } %>
+                                      <canvas class="my-4 w-100" id="<%=values[i].model_id%>" width="900" height="150"></canvas>
+                                      <div class="custom-control custom-switch float-right">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitches<%=i%>" onclick="toogleCheckbox(this, '<%=values[i].model_id%>', '<%=values[i].yList.length%>')">
+                                        <label class="custom-control-label" for="customSwitches<%=i%>"></label>
+                                    </div>
+                                    <% } %>
+                                    <hr>
+                                    <div style="text-align: center">
+                                      <div class="float-left">
+                                        <% href="./model_output?model_id=" + values[i].model_id%>
+                                          <a class="btn btn-sm btn-outline-primary" href=<%=href%>> <i
+                                              class="icofont-refresh"></i>
+                                            Stream Output</a>
+                                      </div>
+                                      model_id: <p id="<%=values[i].model_id%>_cpy" onclick="copy('<%=values[i].model_id%>'+'_cpy')"><mark><%= values[i].model_id %></mark></p>
+                                      <div class="float-right" style="vertical-align: top">
+                                        <% href="./edit_model?model_id=" + values[i].model_id%>
+                                          <a class="btn btn-sm btn-primary" href=<%=href%>> <i
+                                              class="icofont-refresh"></i>
+                                            EDIT</a>
+                                      </div>
+                                    </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+                  <% } %>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Armadillo </span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+
+      </div>
+      <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" onclick="LogoutFunction()">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function LogoutFunction() {
+        console.log("Clearing session");
+        fetch("./logout", {
+          method: "GET",
+        })
+          .then(response => {
+            console.log("window.location.href = ");
+            window.location.href = "./index";
+          });
+        sessionStorage.setItem("session", "");
+      }
+
+      function clearUnread() {
+        fetch("./clear_unread", {
+          method: "GET"
+        })
+        .then(response => {
+          unread = []
+          document.getElementById("unread_cnt_id").textContent = "";
+        });
+      }
+
+      function copy(model_id) {
+        var copyText = document.getElementById(model_id).innerText;
+        var elem = document.createElement("textarea");
+        document.body.appendChild(elem);
+        elem.value = copyText;
+        elem.select();
+        document.execCommand("copy");
+        document.body.removeChild(elem);
+        alert("Copied!"); 
+      }
+
+      function loadChart() {
+            const firebaseConfig = {
+              apiKey: "AIzaSyCWtGfTpToGgibo6nesNnMGXreMgBNZdDo",
+              authDomain: "modelcreator-cdd8f.firebaseapp.com",
+              projectId: "modelcreator-cdd8f",
+              storageBucket: "modelcreator-cdd8f.appspot.com",
+              messagingSenderId: "810288170650",
+              appId: "1:810288170650:web:da961e0e607a7ae2e14123",
+              measurementId: "G-X6WPSQ0HTH"
+            };
+            try {
+              firebase.initializeApp(firebaseConfig);
+            } catch {
+            }
+            firebase.analytics().logEvent('dashboard');
+            
+            var lineDP = JSON.parse('<%- JSON.stringify(lineDataPoints) %>');
+            var mdIds = Object.keys(lineDP);
+            var psdMdl = '<%- JSON.stringify(passed_models) %>'.replaceAll('""', '"').replaceAll('/g', '"');
+            var mds = JSON.parse(psdMdl);
+            for(let i=0; i<mds.length; i++) {
+                var id = mds[i]['model_id'];
+                var basePointsX = lineDP[id][0];
+                var basePointsY = lineDP[id][1];
+                const canvas = document.getElementById(id);
+                if (!canvas) continue
+                const ctx = canvas.getContext('2d');
+                // eslint-disable-next-line no-unused-vars
+
+                var datasets = [];
+                datasets.push({
+                            label: "prediction",
+                            data: basePointsY,
+                            lineTension: 0,
+                            backgroundColor: 'transparent',
+                            borderColor: '#007bff',
+                            borderWidth: 1,
+                            pointBackgroundColor: '#007bff',
+                            pointRadius: 1,
+                            pointHoverRadius: 5
+                        })
+                var yList = mds[i]['yList'];
+                for( let j=0; j<yList.length; j++) {
+                    var name = yList[j][0];
+                    var xs = yList[j][1];
+                    var ys = yList[j][2];
+                    datasets.push({
+                        label: name,
+                        data: ys,
+                        backgroundColor: 'transparent',
+                        borderColor: '#808080',
+                        borderWidth: 0.5,
+                        pointBackgroundColor: '#808080',
+                        pointRadius: 1,
+                        pointHoverRadius: 5
+                    })
+                } 
+                var myChart = new Chart(canvas, {
+                    type: 'line',
+                    data: {
+                        labels: xs,
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: false
+                                }
+                            }]
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                });
+
+
+                var datasets2 = [];
+                var yList = mds[i]['yList'];
+                for( let j=0; j<yList.length; j++) {
+                    var name = yList[j][0];
+                    var xs = yList[j][1];
+                    var ys = yList[j][2];
+                    datasets2.push({
+                        label: name,
+                        data: ys,
+                        backgroundColor: 'transparent',
+                        borderColor: '#808080',
+                        borderWidth: 0.5,
+                        pointBackgroundColor: '#808080',
+                        pointRadius: 1,
+                        pointHoverRadius: 5
+                    })
+                }
+                const canvas2 = document.getElementById(id+"0");
+                var myChart = new Chart(canvas2, {
+                    type: 'line',
+                    data: {
+                        labels: xs,
+                        datasets: datasets2
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: false
+                                }
+                            }]
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                });
+
+
+                var datasets3 = [];
+                datasets3.push({
+                            label: "prediction",
+                            data: basePointsY,
+                            lineTension: 0,
+                            backgroundColor: 'transparent',
+                            borderColor: '#007bff',
+                            borderWidth: 1,
+                            pointBackgroundColor: '#007bff',
+                            pointRadius: 1,
+                            pointHoverRadius: 5
+                        })
+                const canvas3 = document.getElementById(id+yList.length);
+                var myChart = new Chart(canvas3, {
+                    type: 'line',
+                    data: {
+                        labels: xs,
+                        datasets: datasets3
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: false
+                                }
+                            }]
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                });
+            }
+       }
+ 
+      function toogleCheckbox(item, modelId, cnt) {
+          if(item.checked) {
+              for(let j=0; j<=cnt; j++) {
+                  var name = modelId + j.toString();
+                  var chart = document.getElementsByClassName(name);
+                  chart.wrapper.hidden=false
+              }
+          } else {
+              for(let j=0; j<=cnt; j++) {
+                  var name = modelId + j.toString();
+                  var chart = document.getElementsByClassName(name);
+                  chart.wrapper.hidden=true
+              }
+          }
+      }
+    </script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="./public/vendor/jquery/jquery.min.js"></script>
+    <script src="./public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="./public/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="./public/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="./public/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="./public/js/demo/chart-area-demo.js"></script>
+    <script src="./public/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Add the line chart -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+
+    <!-- boostrap growl-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+
+</body>
+
+</html>

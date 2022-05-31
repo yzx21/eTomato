@@ -1,0 +1,17 @@
+body { 
+  font: 12px Arial;
+}
+
+div#div_graph_content {
+  border: 1px;  
+  border-style: solid;
+  border-color: rgb(119, 119, 119);  
+  border-radius: 5px;
+}
+
+div#div_line_content {
+  border: 1px;  
+  border-style: solid;
+  border-color: rgb(119, 119, 119);  
+  border-radius: 5px;
+}

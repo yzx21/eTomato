@@ -88,7 +88,8 @@
     <div class="hero-area-l-14 position-relative z-index-1 overflow-hidden">
       <div class="container">
         <div class="row position-relative justify-content-center">
-          <div class="clock" data-aos="fade-left">
+
+          <div class="clock" data-aos="fade-left" style="font-family:Futura; text-shadow: 4px 4px #000000; font-size: 120;">
             <div class="hours">
               <div class="first">
                 <div class="number">0</div>
@@ -119,8 +120,10 @@
           
           <div class="col-xl-7 col-lg-5 col-md-8" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
             <div class="content" style="text-align:center;">
-              <p>Action speak louder than words!</p>
-              <a href="#" class="btn focus-reset">Start a tomato</a>
+              <p style="font-family:AppleGothic;">Action speak louder than words!</p>
+              <a href="#">
+                  <img id="startBtn" alt="Start a tomato" src="./public/image/button_start.png" width="348" height="96" onmouseover="startOver();" onmouseout="startOut();" onclick="startTomato();" ondblclick="startTomato();">
+              </a>
             </div>
           </div>
           <!-- <div class="col-xl-7 col-lg-5 col-md-8 " data-aos="fade-left" data-aos-duration="800" data-aos-once="true">
@@ -134,7 +137,6 @@
     </div>
     
     <footer class="footer-area-l-12 position-relative">
-      
     </footer>
   </div>
   <!-- Vendor Scripts -->
@@ -144,6 +146,19 @@
   <!-- Activation Script -->
   <script src="./public/js/custom.js"></script>
   <script src="./public/js/clock.js"></script>
+
+  <script>
+    function startOver() {
+      document.getElementById('startBtn').src = "./public/image/button_start_over.png";
+    }
+    function startOut() {
+      document.getElementById("startBtn").src = "./public/image/button_start.png";
+    }
+
+    function startTomato() {
+      document.getElementById("startBtn").src = "./public/image/button_start_pressed.png";
+    }
+  </script>
 </body>
 
 </html>

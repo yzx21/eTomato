@@ -10,7 +10,7 @@ firebase emulators:start
 firebase deploy
 
 # Test URL
-http://localhost:5001/etomato-63aac/us-central1/functions
+http://localhost:5001/etomato-63aac/us-central1/functions/
 
 # Online URL
 https://us-central1-etomato-63aac.cloudfunctions.net/app

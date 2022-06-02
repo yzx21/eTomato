@@ -30,7 +30,7 @@ const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLI
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://modelcreator-cdd8f-default-rtdb.firebaseio.com"
+    databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com"
 });
 
 Array.prototype.contains = function (array) {
@@ -67,13 +67,15 @@ app.use(session({
 
 app.post("/sessionLogin", (req, res) => {
     const id_token = JSON.parse(req.body)["idToken"];
+    console.log(id_token)
     const expiresIn = 1000 * 60 * 60 * 24 * 14;
     admin.auth().createSessionCookie(id_token, { expiresIn })
         .then(
             (sessionCookie) => {
                 const options = { maxAge: expiresIn, httpOnly: true, secure: true };
                 res.cookie("__session", sessionCookie, options);
-                res.redirect("/dashboard");
+                res.redirect("/");
+                console.log(sessionCookie)
                 return;
             },
             (error) => {
@@ -96,17 +98,9 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    console.log(sessionCookie)
     res.render("dashboard");
-    // const sessionCookie = req.cookies.__session || "";
-    // try {
-    //     var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
-    // } catch (err) {
-    //     res.redirect("/index");
-    //     return;
-    // }
-    // var db = admin.database();
-    // var snap = await db.ref("users").child(userSnap.user_id).once('value');
-    // var owned_model_ids = snap.val()['owned_model_ids'];
 });
 
 exports.functions = functions.https.onRequest(app);

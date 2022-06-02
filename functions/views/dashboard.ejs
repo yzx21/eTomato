@@ -23,7 +23,16 @@
   <link rel="stylesheet" href="./public/plugins/aos/aos.min.css">
   <!-- Vendor stylesheets  -->
   <link rel="stylesheet" href="./public/css/main.css">
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
   <!-- Custom stylesheet -->
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';">
@@ -68,7 +77,7 @@
                     width=102" height="38"></a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link-item"><img alt="Login" src="./public/image/button_login.png"
+                  <a href="#" class="nav-link-item" onclick="login(); return false;"><img alt="Login" src="./public/image/button_login.png"
                     width=87" height="38"></a>
                 </li>
               </ul>
@@ -150,6 +159,8 @@
   <script>
     function startOver() {
       document.getElementById('startBtn').src = "./public/image/button_start_over.png";
+      var snd = new Audio("./public/sounds/clap.wav");
+      snd.play();
     }
     function startOut() {
       document.getElementById("startBtn").src = "./public/image/button_start.png";
@@ -157,6 +168,72 @@
 
     function startTomato() {
       document.getElementById("startBtn").src = "./public/image/button_start_pressed.png";
+    }
+
+    function login() {
+      const firebaseConfig = {
+        apiKey: "AIzaSyBe7BVBWqB6znKy7b_UND2nUd09nnUFmEQ",
+        authDomain: "etomato-63aac.firebaseapp.com",
+        databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com",
+        projectId: "etomato-63aac",
+        storageBucket: "etomato-63aac.appspot.com",
+        messagingSenderId: "144378496941",
+        appId: "1:144378496941:web:dc08de13472e73f14d0324",
+        measurementId: "G-7W4Q6GF7JP"
+      };
+      try {
+        firebase.initializeApp(firebaseConfig);
+      } catch {
+      }
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          /** @type {firebase.auth.OAuthCredential} */
+          var credential = result.credential;
+
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = credential.accessToken;
+
+          // The signed-in user info.
+          var user = result.user;
+          // ...
+
+          var headers = new Headers();
+          headers.append('Content-Type', 'application/json');
+          headers.append('Accept', 'application/json')
+          firebase.auth().currentUser.getIdToken()
+          .then((idToken) => {
+            return fetch("./sessionLogin", {
+                  method: "POST",
+                  mode: 'same-origin',
+                  redirect: 'follow',
+                  credentials: 'include', // Don't forget to specify this if you need cookies
+                  header: headers,
+                  body: JSON.stringify({ idToken }),
+                });
+          })
+          .catch((error) => {
+            // Error occurred.
+          });
+        })
+        .then(function (value) {
+            alert('logout')
+            return firebase.auth().signOut();
+          })
+        .then(function (value) {
+          window.location.href = "./";
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        });
     }
   </script>
 </body>

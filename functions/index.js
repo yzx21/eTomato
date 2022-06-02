@@ -67,7 +67,6 @@ app.use(session({
 
 app.post("/sessionLogin", (req, res) => {
     const id_token = JSON.parse(req.body)["idToken"];
-    console.log(id_token)
     const expiresIn = 1000 * 60 * 60 * 24 * 14;
     admin.auth().createSessionCookie(id_token, { expiresIn })
         .then(
@@ -75,7 +74,6 @@ app.post("/sessionLogin", (req, res) => {
                 const options = { maxAge: expiresIn, httpOnly: true, secure: true };
                 res.cookie("__session", sessionCookie, options);
                 res.redirect("/");
-                console.log(sessionCookie)
                 return;
             },
             (error) => {
@@ -83,24 +81,26 @@ app.post("/sessionLogin", (req, res) => {
                 console.log("create session cookie error: " + error);
             }
         )
-        .catch((error) => { });
-});
-
-app.post("/login", (req, res) => {
-    const pathname = url.parse(req.url).pathname;
-    auth
-        .signInWithEmailAndPassword(req.body.email, req.body.password)
-        .then(user => {
-            return;
-        }).catch(error => {
-            res.send("$.bootstrapGrowl(error.message, { ele: 'body', type: 'info', align: 'center', delay: 3000, offset: {from: top, amount: 20}, allow_dismiss: true, stackup_spacing: 10 });");
+        .catch((error) => { 
+            console.log(error)
         });
 });
 
 app.get("/", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
-    console.log(sessionCookie)
-    res.render("dashboard");
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.render("dashboard", {logged_in: false});
+        return;
+    }
+    res.render("dashboard", {logged_in: true});
+});
+
+app.get("/logout", (req, res) => {
+    res.clearCookie("__session");
+    res.setHeader('Cache-control', 'private, max-age=0');
+    res.redirect('/');
 });
 
 exports.functions = functions.https.onRequest(app);

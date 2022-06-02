@@ -35,7 +35,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
 </head>
 
-<body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';">
+<body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';" onload="onLoad();">
   <div class="site-wrapper overflow-hidden position-relative">
     <!-- Site Header -->
     <!-- Preloader -->
@@ -68,10 +68,12 @@
                 <div class="mobile-menu-close">&times;</div>
               </div>
               <ul class="site-menu-main">
-                <li class="nav-item">
-                  <a href="#" class="nav-link-item"><img alt="History" src="./public/image/button_history.png"
-                    width=102" height="30"></a>
-                </li>
+                <% if (logged_in) { %> 
+                  <li class="nav-item">
+                    <a href="#" class="nav-link-item"><img alt="History" src="./public/image/button_history.png"
+                      width=102" height="30"></a>
+                  </li>
+                <% } %>
                 <li class="nav-item">
                   <% if (logged_in) { %>
                   <a href="#" class="nav-link-item" data-toggle="modal" data-target="#logoutModal"><img alt="Logout" src="./public/image/button_logout.png"
@@ -242,23 +244,7 @@
   <script src="./public/js/clock.js"></script>
 
   <script>
-    function startOver() {
-      document.getElementById('startBtn').src = "./public/image/button_start_over.png";
-      var snd = new Audio("./public/sounds/start_over.mp3");
-      snd.play();
-    }
-    function startOut() {
-      document.getElementById("startBtn").src = "./public/image/button_start.png";
-    }
-
-    function startTomato() {
-      document.getElementById("startBtn").src = "./public/image/button_start_pressed.png";
-      var snd = new Audio("./public/sounds/start_clicked.mp3");
-      snd.play();
-    }
-
-    function login() {
-      const firebaseConfig = {
+    const firebaseConfig = {
         apiKey: "AIzaSyBe7BVBWqB6znKy7b_UND2nUd09nnUFmEQ",
         authDomain: "etomato-63aac.firebaseapp.com",
         databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com",
@@ -272,6 +258,32 @@
         firebase.initializeApp(firebaseConfig);
       } catch {
       }
+  </script>
+  <script>
+    function onLoad() {
+      firebase.analytics().logEvent('onLoad');
+    }
+
+    function startOver() {
+      document.getElementById('startBtn').src = "./public/image/button_start_over.png";
+      var snd = new Audio("./public/sounds/start_over.mp3");
+      snd.play();
+      firebase.analytics().logEvent('startOver');
+    }
+    function startOut() {
+      document.getElementById("startBtn").src = "./public/image/button_start.png";
+      firebase.analytics().logEvent('startOut');
+    }
+
+    function startTomato() {
+      document.getElementById("startBtn").src = "./public/image/button_start_pressed.png";
+      var snd = new Audio("./public/sounds/start_clicked.mp3");
+      snd.play();
+      firebase.analytics().logEvent('startTomato');
+    }
+
+    function login() {
+      firebase.analytics().logEvent('login');
       var provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth()
         .signInWithPopup(provider)
@@ -319,6 +331,7 @@
     }
 
     function logout() {
+      firebase.analytics().logEvent('logout');
       fetch("./logout", {
         method: "GET",
       })

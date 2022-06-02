@@ -1,6 +1,5 @@
 var hoursContainer = document.querySelector('.hours')
 var minutesContainer = document.querySelector('.minutes')
-var secondsContainer = document.querySelector('.seconds')
 var tickElements = Array.from(document.querySelectorAll('.tick'))
 
 var last = new Date(0)
@@ -21,13 +20,6 @@ function updateTime () {
   var nowMinutes = now.getMinutes().toString()
   if (lastMinutes !== nowMinutes) {
     updateContainer(minutesContainer, nowMinutes)
-  }
-  
-  var lastSeconds = last.getSeconds().toString()
-  var nowSeconds = now.getSeconds().toString()
-  if (lastSeconds !== nowSeconds) {
-    //tick()
-    updateContainer(secondsContainer, nowSeconds)
   }
   
   last = now

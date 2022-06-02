@@ -70,15 +70,15 @@
               <ul class="site-menu-main">
                 <li class="nav-item">
                   <a href="#" class="nav-link-item"><img alt="About" src="./public/image/button_about.png"
-                    width=93" height="38"></a>
+                    width=93" height="30"></a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link-item"><img alt="History" src="./public/image/button_history.png"
-                    width=102" height="38"></a>
+                    width=102" height="30"></a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link-item" onclick="login(); return false;"><img alt="Login" src="./public/image/button_login.png"
-                    width=87" height="38"></a>
+                    width="87" height="30"></a>
                 </li>
               </ul>
             </nav>
@@ -116,15 +116,6 @@
                 <div class="number">0</div>
               </div>
             </div>
-            <div class="tick">:</div>
-            <div class="seconds">
-              <div class="first">
-                <div class="number">0</div>
-              </div>
-              <div class="second infinite">
-                <div class="number">0</div>
-              </div>
-            </div>
           </div>
           
           <div class="col-xl-7 col-lg-5 col-md-8" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
@@ -159,7 +150,7 @@
   <script>
     function startOver() {
       document.getElementById('startBtn').src = "./public/image/button_start_over.png";
-      var snd = new Audio("./public/sounds/clap.wav");
+      var snd = new Audio("./public/sounds/start_over.mp3");
       snd.play();
     }
     function startOut() {
@@ -168,6 +159,8 @@
 
     function startTomato() {
       document.getElementById("startBtn").src = "./public/image/button_start_pressed.png";
+      var snd = new Audio("./public/sounds/start_clicked.mp3");
+      snd.play();
     }
 
     function login() {

@@ -91,10 +91,10 @@ app.get("/", async (req, res) => {
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.render("dashboard", {logged_in: false});
+        res.render("index");
         return;
     }
-    res.render("dashboard", {logged_in: true});
+    res.render("dashboard");
 });
 
 app.get("/logout", (req, res) => {

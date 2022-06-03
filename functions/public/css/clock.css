@@ -1,6 +1,6 @@
  .clock {
-    margin: 0;
-    padding: 0;
+    margin: 20;
+    padding: 20;
     box-sizing: border-box;
     height: 10vh;
     color: white;

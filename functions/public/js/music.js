@@ -2,8 +2,9 @@ var tabs = document.querySelectorAll(".tabs_wrap ul li");
 var active = document.querySelectorAll(".active");
 var calm = document.querySelectorAll(".calm");
 var all = document.querySelectorAll(".item_wrap");
-var sounds1 = new Audio("./public/sounds/active.mp3");
-var sounds2 = new Audio("./public/sounds/calm.mp3");
+var sounds1 = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Factive.mp3?alt=media&token=f0b203f4-f034-4bae-a4db-fd7d7d05e87d");
+var sounds2 = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fcalm.mp3?alt=media&token=508f5661-9340-4a0f-9d9a-4f0b75760650");
+
 
 tabs.forEach((tab)=>{
   tab.addEventListener("click", ()=>{

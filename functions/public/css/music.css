@@ -61,9 +61,12 @@
   border-bottom-right-radius: 25px;
 }
 
-.wrapper .tabs_wrap ul li:hover,
+.wrapper .tabs_wrap ul li:hover{
+  background: #81c56e;
+  color: #fff; 
+}
 .wrapper .tabs_wrap ul li.active{
-  background: #7fc469;
+  background: #c56e6e;
   color: #fff;
 }
 

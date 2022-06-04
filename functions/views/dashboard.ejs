@@ -24,6 +24,7 @@
   <!-- Vendor stylesheets  -->
   <link rel="stylesheet" href="./public/css/main.css">
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+  <link type="text/css" rel="stylesheet" href="./public/css/music.css" />
   <!-- Custom stylesheet -->
   <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
@@ -33,6 +34,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';" onload="onLoad();">
@@ -129,12 +131,26 @@
     </div>
 
     <div class="collapse" id="collapseTimer">
-        <div class="progress" style="height: 40px;">
+
+      <div class="row position-relative justify-content-center">
+
+        <div class="progress" style="height: 40px; width: 50%;">
             <div class="progress-bar progress-bar-striped active" role="progressbar"
-            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%;">
+            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%;">
             40%
             </div>
         </div>
+        
+        <div class="wrapper">
+          <div class="tabs_wrap">
+            <ul>
+              <li data-tabs="active" class="active">Active</li>
+              <li data-tabs="calm">Calm</li>
+              <li data-tabs="pause">Pause</li>
+            </ul>
+          </div>
+        </div>
+      </div>  
     </div>
 
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -217,7 +233,9 @@
       sessionStorage.setItem("_session", "");
     }
   </script>
-  <script src="./public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="./public/js/music.js"></script>
+<script src="./public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

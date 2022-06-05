@@ -43,7 +43,7 @@ $(function () {
         "Jordan Schor - Home",
         "Martin Garrix - Proxy"
       ],
-      albumArtworks = ["_0","_1", "_2", "_3", "_4", "_5"],
+      albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
       trackUrl = [
         "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/2.mp3",
         "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/1.mp3",

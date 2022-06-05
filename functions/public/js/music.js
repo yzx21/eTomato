@@ -110,6 +110,10 @@ $(function () {
       hideHover();
     }
   
+    function playNextSong() {
+      selectTrack(1);
+    }
+
     function updateCurrTime() {
       nTime = new Date();
       nTime = nTime.getTime();
@@ -173,7 +177,6 @@ $(function () {
     function selectTrack(flag) {
       if (flag == 0 || flag == 1) ++currIndex;
       else --currIndex;
-  
       if (currIndex > -1 && currIndex < albumArtworks.length) {
         if (flag == 0) i.attr("class", "fa fa-play");
         else {
@@ -237,15 +240,20 @@ $(function () {
       sArea.on("click", playFromClickedPos);
   
       $(audio).on("timeupdate", updateCurrTime);
+      $(audio).on("onended", playNextSong);
   
       playPreviousTrackButton.on("click", function () {
         selectTrack(-1);
       });
+
       playNextTrackButton.on("click", function () {
         selectTrack(1);
       });
+
     }
   
     initPlayer();
+
+    playPause();
   });
   

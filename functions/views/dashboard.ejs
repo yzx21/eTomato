@@ -35,6 +35,9 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
 
+   <!-- include summernote css/js -->
+  <link href="./public/summernote/summernote.min.css" rel="stylesheet">
+
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';" onload="onLoad();">
@@ -152,7 +155,29 @@
         <br>
         <br>
 
-        <!-- Tracks used in this music/audio player application are free to use. I downloaded them from Soundcloud and NCS websites. I am not the owner of these tracks. -->
+        <div id="summernote" class="position-relative justify-content-center"></div>
+        <script>
+          $(document).ready(function() {
+              $('#summernote').summernote({
+                placeholder: 'What do you want to remember in this tomato session?',
+                tabsize: 2,
+                toolbar: [
+                  // [groupName, [list of button]]
+                  ['style', ['bold', 'italic', 'underline', 'clear']],
+                  ['fontsize', ['fontsize']],
+                  ['color', ['color']],
+                  ['para', ['ul', 'ol', 'paragraph']]
+                ],
+                height: 220,
+                focus: true,
+              });
+          });
+        </script>
+
+        <br>
+        <br>
+        <br>
+        <br>
 
         <div id="app-cover">
           <div id="player">
@@ -268,6 +293,9 @@
       var snd = new Audio("./public/sounds/start_clicked.mp3");
       snd.play();
       firebase.analytics().logEvent('startTomato');
+      $('html, body').animate({
+        scrollTop: $('footer').offset().top
+      }, 'slow');
     }
 
     function logout() {
@@ -284,6 +312,8 @@
 
 <script src="./public/js/music.js"></script>
 <script src="./public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="./public/summernote/summernote.min.js"></script>
+
 </body>
 
 </html>

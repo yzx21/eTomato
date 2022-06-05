@@ -43,7 +43,7 @@ $(function () {
         "Jordan Schor - Home",
         "Martin Garrix - Proxy"
       ],
-      albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
+      albumArtworks = ["_0","_1", "_2", "_3", "_4", "_5"],
       trackUrl = [
         "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/2.mp3",
         "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/1.mp3",
@@ -240,7 +240,8 @@ $(function () {
       sArea.on("click", playFromClickedPos);
   
       $(audio).on("timeupdate", updateCurrTime);
-      $(audio).on("onended", playNextSong);
+
+      $(audio).on("ended", playNextSong);
   
       playPreviousTrackButton.on("click", function () {
         selectTrack(-1);

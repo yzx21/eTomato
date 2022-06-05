@@ -254,6 +254,5 @@ $(function () {
   
     initPlayer();
 
-    playPause();
   });
   

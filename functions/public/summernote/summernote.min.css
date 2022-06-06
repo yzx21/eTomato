@@ -577,7 +577,8 @@
 }
 
 .note-toolbar {
-	position: relative
+	position: relative;
+	background-color: #d6d6de;
 }
 
 .note-editor .note-toolbar,

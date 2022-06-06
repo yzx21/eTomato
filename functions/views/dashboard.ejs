@@ -137,14 +137,23 @@
       
 
       <div class="wrapper">
-        <div class="circles-container">
-          <div class="circlebar" data-circle-startTime=0 data-circle-dialWidth=10 data-circle-size="100px" data-circle-maxValue="1500" data-circle-skin="purple">
-             <div class="loader-bg">
-                 <div class="text">00:00</div>
-             </div>
-         </div>
-        </div> 
-
+        <div class="row position-relative justify-content-center" style="width: 50%">
+          <div class="col" style="margin-right: 0px;>
+            <input list="hosting-plan" type="text">
+            <datalist id="hosting-plan">
+                <option value="small"/>
+                <option value="medium"/>
+                <option value="large"/>
+            </datalist>
+          </div>
+          <div class="col" style="margin-left: 0px;">
+            <div class="circlebar" data-circle-startTime=0 data-circle-dialWidth=10 data-circle-size="100px" data-circle-maxValue="1500" data-circle-skin="purple">
+                <div class="loader-bg">
+                    <div class="text">00:00</div>
+                </div>
+            </div>
+          </div>
+        </div>
         <br>
         <br>
         <br>

@@ -5,6 +5,8 @@
     box-sizing: border-box;
     width: 150px;
     height: 150px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 .loader-bg {
     width: 100%;

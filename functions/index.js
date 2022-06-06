@@ -86,6 +86,17 @@ app.post("/sessionLogin", (req, res) => {
         });
 });
 
+app.get("/index", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.render("index");
+        return;
+    }
+    res.render("dashboard");
+});
+
 app.get("/", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     try {

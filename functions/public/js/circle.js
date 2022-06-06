@@ -69,6 +69,10 @@ function Circlebar(prefs) {
                 that.element.removeClass('circle-loaded-50').addClass('circle-loaded-75');
             }
         }
+
+        if(progress == 100) {
+            alert("Congrats, you've achieved another Tomato!")
+        }
     };
     this.textFilter = function() {
         var percentage = 0,
@@ -83,7 +87,7 @@ function Circlebar(prefs) {
                     text[0].dataset.value = that.value;
                     date = new Date(null);
                     date.setSeconds(that.value); // specify value for seconds here
-                    text.html(date.toISOString().substr(11, 8));
+                    text.html(date.toISOString().substr(14, 5));
                 } else {
                     clearInterval(that.timer);
                 }

@@ -91,10 +91,10 @@ app.get("/index", async (req, res) => {
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.render("index");
+        res.redirect("index");
         return;
     }
-    res.render("dashboard");
+    res.redirect("/");
 });
 
 app.get("/", async (req, res) => {

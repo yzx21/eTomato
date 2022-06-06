@@ -19,25 +19,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Plugin'stylesheets  -->
+  <link rel="stylesheet" type="text/css" href="./public/css/circle.css">
+  <link rel="stylesheet" type="text/css" href="./public/css/demo.css">
+  <link rel="stylesheet" type="text/css" href="./public/css/simplecircle.css">
   <link rel="stylesheet" href="./public/plugins/aos/aos.min.css">
-  <!-- Vendor stylesheets  -->
   <link rel="stylesheet" href="./public/css/main.css">
-  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
-  <link type="text/css" rel="stylesheet" href="./public/css/music.css" />
-  <!-- Custom stylesheet -->
-  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css">
+  <link type="text/css" rel="stylesheet" href="./public/css/music.css">
+  <link href="./public/summernote/summernote.min.css" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
-
-   <!-- include summernote css/js -->
-  <link href="./public/summernote/summernote.min.css" rel="stylesheet">
-
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';" onload="onLoad();">
@@ -75,7 +71,7 @@
               <ul class="site-menu-main">
                 <li class="nav-item">
                 <a href="#" class="nav-link-item"><img alt="History" src="./public/image/button_history.png"
-                    width=102" height="30"></a>
+                    width="102" height="30"></a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link-item" data-toggle="modal" data-target="#logoutModal"><img alt="Logout" src="./public/image/button_logout.png"
@@ -141,14 +137,13 @@
       
 
       <div class="wrapper">
-        <div class="row position-relative justify-content-center">
-          <div class="progress" style="height: 40px; width: 50%;">
-            <div class="progress-bar progress-bar-striped" role="progressbar"
-            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%;">
-            50%
-            </div>
-          </div>
-        </div>
+        <div class="circles-container">
+          <div class="circlebar" data-circle-startTime=0 data-circle-dialWidth=10 data-circle-size="250px" data-circle-maxValue="1500">
+             <div class="loader-bg">
+                 <div class="text">00:00</div>
+             </div>
+         </div>
+        </div> 
 
         <br>
         <br>
@@ -315,6 +310,8 @@
 <script src="./public/js/music.js"></script>
 <script src="./public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="./public/summernote/summernote.min.js"></script>
+<script src="./public/js/circle.js"></script>
+<script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 
 </body>
 

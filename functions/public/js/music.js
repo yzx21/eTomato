@@ -87,6 +87,7 @@ $(function () {
       ],
       albumArtworks = ["_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", "_10", "_11", "_12", "_13", "_14", "_15", "_16", "_17","_18", "_19", "_20", "_21", "_22", "_23", "_24", "_25", "_26"],
       trackUrl = [
+        "https://docs.google.com/uc?export=download&id=1GspoY9gvWMVsoclq_TRyKlNfrGyzFQNI",
         "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.mp3?alt=media&token=7181f49a-232e-4fe9-b4ec-93c037e45f5f",
         "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Youth_Is_Wasted_On_The_Young_Chez%20Remix_Tellow.mp3?alt=media&token=a9bb679f-079f-4aa5-a71c-ec662ff9ab3c",
         "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_The_Hours_dreem.mp3?alt=media&token=287796a5-fc7e-4d99-8608-903142367c2b",

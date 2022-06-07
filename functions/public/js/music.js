@@ -30,6 +30,27 @@ $(function () {
       buffInterval = null,
       tFlag = false,
       albums = [
+        "A Subtle Reflection",
+        "Youth is waster on the young",
+        "The Hours",
+        "Forest",
+        "Singing Swan",
+        "Silver Rain",
+        "Satellite of Love",
+        "New Jade",
+        "Neutra",
+        "Let There Be Rain",
+        "Late Arrivals",
+        "Lakes",
+        "They Dream By Day",
+        "Dreaming Wide Awake",
+        "Far Orange",
+        "Between Illusions",
+        "Baby Idk",
+        "Avinam",
+        "Alike",
+        "Abstractions",
+        "100 Times",
         "Dawn",
         "Me & You",
         "Electro Boy",
@@ -37,14 +58,56 @@ $(function () {
         "Proxy (Original Mix)"
       ],
       trackNames = [
+        "Daniel Kaede - A Subtle Reflection",
+        "Chez Remis Tellow - Youth is waster on the young",
+        "Dreem - The Hours",
+        "Arden Forest - Forest",
+        "Aleph One - Singing Swan",
+        "Silver Rain  - Emil Axelsson",
+        "Brendon Moeller - Satellite of Love",
+        "Dreem - New Jade",
+        "CHELLE IVES - Neutra",
+        "Silver Maple - Let There Be Rain",
+        "Lonov - Late Arrivals",
+        "Harbours & Oceans - Lakes",
+        "They Dream By Day - Krotos",
+        "King Sis feat. Jobii - Dreaming Wide Awake",
+        "Far Orange - Copycat",
+        "Rikard From - Between Illusions",
+        "RAMBUTAN - Baby Idk",
+        "Valante - Avinam",
+        "Jones Meadow - Alike",
+        "Aleph One - Abstractions",
+        "Jones Meadow - 100 Times",
         "Skylike - Dawn",
         "Alex Skrindo - Me & You",
         "Kaaze - Electro Boy",
         "Jordan Schor - Home",
         "Martin Garrix - Proxy"
       ],
-      albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
+      albumArtworks = ["_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", "_10", "_11", "_12", "_13", "_14", "_15", "_16", "_17","_18", "_19", "_20", "_21", "_22", "_23", "_24", "_25", "_26"],
       trackUrl = [
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.mp3?alt=media&token=7181f49a-232e-4fe9-b4ec-93c037e45f5f",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Youth_Is_Wasted_On_The_Young_Chez%20Remix_Tellow.mp3?alt=media&token=a9bb679f-079f-4aa5-a71c-ec662ff9ab3c",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_The_Hours_dreem.mp3?alt=media&token=287796a5-fc7e-4d99-8608-903142367c2b",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Spirals_Arden_Forest.mp3?alt=media&token=8e58bb34-20ab-42c4-bb1f-562dba014571",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Singing_Swan_Aleph_One.mp3?alt=media&token=1d4dbfe3-9324-4239-94c1-4732b75ce1ff",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Silver_Rain_Emil_Axelsson.mp3?alt=media&token=dd56bf60-2a6e-4337-bcbe-0996550a11de",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Satellite_of_Love_Brendon_Moeller.mp3?alt=media&token=d386fb0c-237d-4a76-8f89-a81ef7708c21",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_New_Jade_dreem.mp3?alt=media&token=d9d062e6-ab5d-4e9e-9d0b-b5bf335abbc3",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Neutra_Chelle_Ives.mp3?alt=media&token=0e53349e-fda0-4640-bb1b-15d134d09781",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Let_There_Be_Rain_Silver_Maple.mp3?alt=media&token=0cb1da13-983a-49ac-967e-2c479a59eb4c",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Late_Arrivals_Lonov.mp3?alt=media&token=eca7b9c3-575e-471a-9f63-f56525d10838",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Lakes_Harbours_Oceans.mp3?alt=media&token=735bfb81-3839-419b-b791-bd428f086564",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Krotos_They_Dream_By_Day.mp3?alt=media&token=4234478f-ef5c-4bea-9040-b2865b8a2310",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Dreaming_Wide_Awake_King_Sis.mp3?alt=media&token=99219e27-6e23-41e8-b17e-8f6ad4477916",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Copycat_Far_Orange.mp3?alt=media&token=e6836423-beb8-4d4c-b5ca-05d4d4e87ecd",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Between_Illusions_Rikard_From.mp3?alt=media&token=1adb5b2a-cb0c-4b05-bc7e-242bf904ca42",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Baby_Idk_Rambutan.mp3?alt=media&token=44417e87-5aed-4bfa-a6b0-ae7054027f7b",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Avinam_Valante.mp3?alt=media&token=873104dc-a06a-410a-b299-7598518812c8",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Alike_Jones_Meadow.mp3?alt=media&token=e496d1ab-d466-4163-b85d-bb7b48af4096",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Abstractions_Aleph_One.mp3?alt=media&token=284567d7-fb25-4433-bb29-4d883c6db1d2",
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_100%20Times_Jones_Meadow.mp3?alt=media&token=ca0cf014-fd42-4e9c-bf15-cfd0f8f4be70",
         "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/2.mp3",
         "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/1.mp3",
         "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/3.mp3",
@@ -110,8 +173,55 @@ $(function () {
       hideHover();
     }
   
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+
     function playNextSong() {
-      selectTrack(1);
+      currIndex = getRandomInt(26);
+      if (currIndex > -1 && currIndex < albumArtworks.length) {
+        if (flag == 0) i.attr("class", "fa fa-play");
+        else {
+          albumArt.removeClass("buffering");
+          i.attr("class", "fa fa-pause");
+        }
+  
+        seekBar.width(0);
+        trackTime.removeClass("active");
+        tProgress.text("00:00");
+        tTime.text("00:00");
+  
+        currAlbum = albums[currIndex];
+        currTrackName = trackNames[currIndex];
+        currArtwork = albumArtworks[currIndex];
+  
+        audio.src = trackUrl[currIndex];
+  
+        nTime = 0;
+        bTime = new Date();
+        bTime = bTime.getTime();
+  
+        if (flag != 0) {
+          audio.play();
+          playerTrack.addClass("active");
+          albumArt.addClass("active");
+  
+          clearInterval(buffInterval);
+          checkBuffering();
+        }
+  
+        albumName.text(currAlbum);
+        trackName.text(currTrackName);
+        albumArt.find("img.active").removeClass("active");
+        $("#" + currArtwork).addClass("active");
+  
+        bgArtworkUrl = $("#" + currArtwork).attr("src");
+  
+        bgArtwork.css({ "background-image": "url(" + bgArtworkUrl + ")" });
+      } else {
+        if (flag == 0 || flag == 1) --currIndex;
+        else ++currIndex;
+      }
     }
 
     function updateCurrTime() {

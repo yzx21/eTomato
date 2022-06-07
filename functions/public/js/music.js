@@ -179,6 +179,7 @@ $(function () {
 
     function playNextSong() {
       currIndex = getRandomInt(26);
+      var flag = 1;
       if (currIndex == albumArtworks.length) currIndex = 0;
       if (currIndex > -1 && currIndex < albumArtworks.length) {
         if (flag == 0) i.attr("class", "fa fa-play");

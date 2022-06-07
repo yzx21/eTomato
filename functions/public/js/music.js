@@ -99,28 +99,77 @@ $(function () {
         "https://docs.google.com/uc?export=download&id=1hoMfnBpgrUCPCccOGAMbDiCYOxyeU02G",
         // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Spirals_Arden_Forest.mp3?alt=media&token=8e58bb34-20ab-42c4-bb1f-562dba014571",
 
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Singing_Swan_Aleph_One.mp3?alt=media&token=1d4dbfe3-9324-4239-94c1-4732b75ce1ff",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Silver_Rain_Emil_Axelsson.mp3?alt=media&token=dd56bf60-2a6e-4337-bcbe-0996550a11de",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Satellite_of_Love_Brendon_Moeller.mp3?alt=media&token=d386fb0c-237d-4a76-8f89-a81ef7708c21",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_New_Jade_dreem.mp3?alt=media&token=d9d062e6-ab5d-4e9e-9d0b-b5bf335abbc3",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Neutra_Chelle_Ives.mp3?alt=media&token=0e53349e-fda0-4640-bb1b-15d134d09781",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Let_There_Be_Rain_Silver_Maple.mp3?alt=media&token=0cb1da13-983a-49ac-967e-2c479a59eb4c",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Late_Arrivals_Lonov.mp3?alt=media&token=eca7b9c3-575e-471a-9f63-f56525d10838",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Lakes_Harbours_Oceans.mp3?alt=media&token=735bfb81-3839-419b-b791-bd428f086564",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Krotos_They_Dream_By_Day.mp3?alt=media&token=4234478f-ef5c-4bea-9040-b2865b8a2310",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Dreaming_Wide_Awake_King_Sis.mp3?alt=media&token=99219e27-6e23-41e8-b17e-8f6ad4477916",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Copycat_Far_Orange.mp3?alt=media&token=e6836423-beb8-4d4c-b5ca-05d4d4e87ecd",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Between_Illusions_Rikard_From.mp3?alt=media&token=1adb5b2a-cb0c-4b05-bc7e-242bf904ca42",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Baby_Idk_Rambutan.mp3?alt=media&token=44417e87-5aed-4bfa-a6b0-ae7054027f7b",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Avinam_Valante.mp3?alt=media&token=873104dc-a06a-410a-b299-7598518812c8",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Alike_Jones_Meadow.mp3?alt=media&token=e496d1ab-d466-4163-b85d-bb7b48af4096",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Abstractions_Aleph_One.mp3?alt=media&token=284567d7-fb25-4433-bb29-4d883c6db1d2",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_100%20Times_Jones_Meadow.mp3?alt=media&token=ca0cf014-fd42-4e9c-bf15-cfd0f8f4be70",
-        "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/2.mp3",
-        "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/1.mp3",
-        "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/3.mp3",
-        "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/4.mp3",
-        "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/5.mp3"
+        "https://docs.google.com/uc?export=download&id=1iORRk0FiRA1CHVHuTAvAyQHPmEY3OoHL",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Singing_Swan_Aleph_One.mp3?alt=media&token=1d4dbfe3-9324-4239-94c1-4732b75ce1ff",
+
+        "https://docs.google.com/uc?export=download&id=1vBx3ob9QLnAMQUToaZRdU0KOJWKcobAc",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Silver_Rain_Emil_Axelsson.mp3?alt=media&token=dd56bf60-2a6e-4337-bcbe-0996550a11de",
+
+        "https://docs.google.com/uc?export=download&id=1qh8fxQFgyBBjeQCfliS5IkVO2LI317rx",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Satellite_of_Love_Brendon_Moeller.mp3?alt=media&token=d386fb0c-237d-4a76-8f89-a81ef7708c21",
+
+        "https://docs.google.com/uc?export=download&id=1bZfO6W06Q7RUNO-uTptWEOuhrg446odF",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_New_Jade_dreem.mp3?alt=media&token=d9d062e6-ab5d-4e9e-9d0b-b5bf335abbc3",
+
+        "https://docs.google.com/uc?export=download&id=1mK1V41WLAIQ_TT9eYinb8AtQX6lbBzXg",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Neutra_Chelle_Ives.mp3?alt=media&token=0e53349e-fda0-4640-bb1b-15d134d09781",
+
+        "https://docs.google.com/uc?export=download&id=1IhOkhlLQnGWF-Ce7GaiurRHM_Ujp5L1q",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Let_There_Be_Rain_Silver_Maple.mp3?alt=media&token=0cb1da13-983a-49ac-967e-2c479a59eb4c",
+
+        "https://docs.google.com/uc?export=download&id=1bspd9GVKaTMKOG5YL5Xod6dda4Lv6Xav",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Late_Arrivals_Lonov.mp3?alt=media&token=eca7b9c3-575e-471a-9f63-f56525d10838",
+
+        "https://docs.google.com/uc?export=download&id=19hBZ49aIHXmGlm0aM8-5rlwRv2st5V8m",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Lakes_Harbours_Oceans.mp3?alt=media&token=735bfb81-3839-419b-b791-bd428f086564",
+
+        "https://docs.google.com/uc?export=download&id=1JdDKW4AsZJn2ahvVmZ2rOU9tQG2rqxLA",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Krotos_They_Dream_By_Day.mp3?alt=media&token=4234478f-ef5c-4bea-9040-b2865b8a2310",
+
+        "https://docs.google.com/uc?export=download&id=17klvCVAFU-k3kdFNxGFenDTHp9ihprGh",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Dreaming_Wide_Awake_King_Sis.mp3?alt=media&token=99219e27-6e23-41e8-b17e-8f6ad4477916",
+
+        "https://docs.google.com/uc?export=download&id=1BxVAHqmW83P2hvDqLJdPKU9jH1gVXnOh",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Copycat_Far_Orange.mp3?alt=media&token=e6836423-beb8-4d4c-b5ca-05d4d4e87ecd",
+
+        "https://docs.google.com/uc?export=download&id=1KKmZUAR-3kteW9BBcCZY2bal1kXX-D9v",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Between_Illusions_Rikard_From.mp3?alt=media&token=1adb5b2a-cb0c-4b05-bc7e-242bf904ca42",
+
+        "https://docs.google.com/uc?export=download&id=1U5RYYoFAllCS2PiinuWMqLuHIb15xn1W",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Baby_Idk_Rambutan.mp3?alt=media&token=44417e87-5aed-4bfa-a6b0-ae7054027f7b",
+
+        "https://docs.google.com/uc?export=download&id=1Poh6p5vb9emWe3Pljsy9eZL4iUy-tDzB",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Avinam_Valante.mp3?alt=media&token=873104dc-a06a-410a-b299-7598518812c8",
+
+        "https://docs.google.com/uc?export=download&id=1VmGXkEQC-h1hoDSOtFMTifpHZmz1GkxE",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Alike_Jones_Meadow.mp3?alt=media&token=e496d1ab-d466-4163-b85d-bb7b48af4096",
+
+        "https://docs.google.com/uc?export=download&id=18d17nC1-XDROFiq4Uc9ZFkWhWb5RShDw",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Abstractions_Aleph_One.mp3?alt=media&token=284567d7-fb25-4433-bb29-4d883c6db1d2",
+
+        "https://docs.google.com/uc?export=download&id=1zuoNWVYDzv_FCKhvflPI0ODtOAUv0FSr",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_100%20Times_Jones_Meadow.mp3?alt=media&token=ca0cf014-fd42-4e9c-bf15-cfd0f8f4be70",
+
+        "https://docs.google.com/uc?export=download&id=1qXspHiQU1-bR0uwVSmFT5Nw9S8YcsoBF",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fmusic_2.mp3?alt=media&token=388127dc-bc9b-4e59-889d-c7549a5b6068",
+        // "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/2.mp3",
+
+
+        "https://docs.google.com/uc?export=download&id=1HWWge6UTf27qja-eBJ0Ams02IWOo002S",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F1.mp3?alt=media&token=2169e251-432c-48a9-b313-d0928a6f8fc9",
+        // "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/1.mp3",
+
+        "https://docs.google.com/uc?export=download&id=1hRyXSYIvzAHs7L_1sTFOfzywafDf2Ed8",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F3.mp3?alt=media&token=4490712b-97c0-47fd-a82a-b59f85883e83",
+        // "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/3.mp3",
+
+        "https://docs.google.com/uc?export=download&id=1HOAg_nIoaZgrnGbQcDE5mHpT9GdaDeSD",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F4.mp3?alt=media&token=b137d3e7-f164-4020-b62f-f6a2cd8c99e2",
+        // "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/4.mp3",
+
+        "https://docs.google.com/uc?export=download&id=1ljjBaU4DIADKNtb8vX_9DC-kuqF3F6si",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F5.mp3?alt=media&token=0a93b45c-6d92-4e58-96df-fa48203b66d8",
+        // "https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/5.mp3"
       ],
       playPreviousTrackButton = $("#play-previous"),
       playNextTrackButton = $("#play-next"),

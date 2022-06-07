@@ -88,10 +88,17 @@ $(function () {
       albumArtworks = ["_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", "_10", "_11", "_12", "_13", "_14", "_15", "_16", "_17","_18", "_19", "_20", "_21", "_22", "_23", "_24", "_25", "_26"],
       trackUrl = [
         "https://docs.google.com/uc?export=download&id=1GspoY9gvWMVsoclq_TRyKlNfrGyzFQNI",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.mp3?alt=media&token=7181f49a-232e-4fe9-b4ec-93c037e45f5f",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Youth_Is_Wasted_On_The_Young_Chez%20Remix_Tellow.mp3?alt=media&token=a9bb679f-079f-4aa5-a71c-ec662ff9ab3c",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_The_Hours_dreem.mp3?alt=media&token=287796a5-fc7e-4d99-8608-903142367c2b",
-        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Spirals_Arden_Forest.mp3?alt=media&token=8e58bb34-20ab-42c4-bb1f-562dba014571",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.mp3?alt=media&token=7181f49a-232e-4fe9-b4ec-93c037e45f5f",
+
+        "https://docs.google.com/uc?export=download&id=1zCUq2o5NCDMWkST9fGywYSc9O9cxqP2j",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Youth_Is_Wasted_On_The_Young_Chez%20Remix_Tellow.mp3?alt=media&token=a9bb679f-079f-4aa5-a71c-ec662ff9ab3c",
+        
+        "https://docs.google.com/uc?export=download&id=1oN35V9NXhQM9gG9eg0CHIJ5ONlqdQuaB",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_The_Hours_dreem.mp3?alt=media&token=287796a5-fc7e-4d99-8608-903142367c2b",
+
+        "https://docs.google.com/uc?export=download&id=1hoMfnBpgrUCPCccOGAMbDiCYOxyeU02G",
+        // "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Spirals_Arden_Forest.mp3?alt=media&token=8e58bb34-20ab-42c4-bb1f-562dba014571",
+
         "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Singing_Swan_Aleph_One.mp3?alt=media&token=1d4dbfe3-9324-4239-94c1-4732b75ce1ff",
         "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Silver_Rain_Emil_Axelsson.mp3?alt=media&token=dd56bf60-2a6e-4337-bcbe-0996550a11de",
         "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Satellite_of_Love_Brendon_Moeller.mp3?alt=media&token=d386fb0c-237d-4a76-8f89-a81ef7708c21",

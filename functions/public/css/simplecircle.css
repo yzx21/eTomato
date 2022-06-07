@@ -8,4 +8,5 @@
 }
 .loader-spinner {
   border-color: rgb(4, 199, 10);
+  border-width: 10px;
 }

@@ -1,3 +1,5 @@
+import {StopMusic} from "./music.js"
+
 $(document).ready(function() {
     var prefs = {
         element: ".circlebar"
@@ -72,6 +74,7 @@ function Circlebar(prefs) {
 
         if(progress == 100) {
             alert("Congrats, you've achieved another Tomato!")
+            StopMusic();
         }
     };
     this.textFilter = function() {
@@ -121,9 +124,13 @@ function Circlebar(prefs) {
     }
 }
 
-(function($) {
-    $.fn.Circlebar = function(prefs) {
-        prefs.element = this.selector;
-        new Circlebar(prefs);
-    };
-})(jQuery);
+export function StartProgress() {
+    (function($) {
+        $.fn.Circlebar = function(prefs) {
+            prefs.element = this.selector;
+            new Circlebar(prefs);
+        };
+    })(jQuery);
+}
+
+

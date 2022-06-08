@@ -119,7 +119,6 @@ function Circlebar(prefs) {
             setDeceleratingTimeout(0.1, 100);
         }
     }
-    this.textFilter();
     this.setValue = function(val) {
         text = that.element.find(".text");
         that.value = val;
@@ -127,15 +126,11 @@ function Circlebar(prefs) {
         text[0].dataset.value = that.value;
         text.html(that.value);
     }
+
+    var start_btn = document.getElementById("start_btn");
+    start_btn.addEventListener("click", this.textFilter);
 }
 
 export function StartProgress() {
-    (function($) {
-        $.fn.Circlebar = function(prefs) {
-            prefs.element = this.selector;
-            new Circlebar(prefs);
-        };
-    })(jQuery);
+    this.textFilter();
 }
-
-

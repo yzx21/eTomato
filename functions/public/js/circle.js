@@ -73,10 +73,13 @@ function Circlebar(prefs) {
         }
 
         if(progress == 100) {
-            stopMusic();
-            audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Marimba%20Scale%20Up%20-%20SFX%20Producer.mp3?alt=media&token=e252d172-85a6-45b6-a267-1a45f4a14499");
+            StopMusic();
+            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Marimba%20Scale%20Up%20-%20SFX%20Producer.mp3?alt=media&token=e252d172-85a6-45b6-a267-1a45f4a14499");
             audio.play();
-            alert("Congrats, you've achieved another Tomato!")
+            audio.addEventListener("ended", function(){
+                alert("Congrats, you've achieved another Tomato!")
+                audio.currentTime = 0;
+           });
         }
     };
     this.textFilter = function() {

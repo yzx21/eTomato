@@ -64,7 +64,7 @@
   position: absolute;
   top: 35px;
   width: 40px;
-  right: 40px;
+  right: 70px;
   height: 40px;
   padding: 0px;
 }
@@ -128,10 +128,17 @@
   border-radius: 5px;
 }
 
+#startBtnSec {
+  position: relative;
+  height: 30;
+  top: 35px;
+}
+
 #startBtn {
   position: relative;
-  left: 25%;
-  right: 25%;
+  left: 35%;
+  width: 30%;
+  height: 85%;
 }
 
 #checkboxLbl {

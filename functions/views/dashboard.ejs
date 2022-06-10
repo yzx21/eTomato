@@ -73,7 +73,11 @@
               <div class="text">00:00</div>
           </div>
       </div>
-      <button id="startBtn" type="button">Start</button>
+      <div id="startBtnSec">
+        <a id="start_btn" style="background-color: transparent; border-width: 0px;" role="button" aria-expanded="false" aria-controls="collapseTimer">
+          <img id="startBtn" alt="Start a tomato" src="./public/image/button_start.png" width="348" height="30" onmouseover="startOver();" onmouseout="startOut();" onclick="startTomato();" ondblclick="startTomato();">
+      </a>
+      </div>
     </div>
     <hr class="split">
     <div>
@@ -257,10 +261,6 @@
       var snd = new Audio("./public/sounds/start_clicked.mp3");
       snd.play();
       firebase.analytics().logEvent('startTomato');
-      $('html, body').animate({
-        scrollTop: $('footer').offset().top
-      }, 'slow');
-
       document.getElementById('play-pause-button').click();
     }
 

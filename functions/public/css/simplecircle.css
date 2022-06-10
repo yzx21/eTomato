@@ -5,6 +5,7 @@
 .text {
   color: rgb(135, 206, 235) !important;
   font-weight: bold;
+  font-size: 40px;
 }
 .loader-spinner {
   border-color: rgb(4, 199, 10);

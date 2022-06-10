@@ -65,25 +65,37 @@ app.use(session({
     cookie: { secure: true }
 }));
 
-app.post("/sessionLogin", (req, res) => {
-    const id_token = JSON.parse(req.body)["idToken"];
+app.post("/sessionLogin", async (req, res) => {
+    const idToken = JSON.parse(req.body)["idToken"];
+    const photoURL = JSON.parse(req.body)["photoURL"];
+    const displayName = JSON.parse(req.body)["displayName"];
+    const uid = JSON.parse(req.body)["uid"];
+    const email = JSON.parse(req.body)["email"];
+    const phoneNum = JSON.parse(req.body)["phoneNum"];
     const expiresIn = 1000 * 60 * 60 * 24 * 14;
-    admin.auth().createSessionCookie(id_token, { expiresIn })
-        .then(
-            (sessionCookie) => {
-                const options = { maxAge: expiresIn, httpOnly: true, secure: true };
-                res.cookie("__session", sessionCookie, options);
-                res.redirect("/");
-                return;
-            },
-            (error) => {
-                res.status(401).send("UNAUTHORIZED REQUEST!");
+    console.log(idToken)
+    console.log(photoURL)
+    console.log(displayName)
+    console.log(uid)
+    console.log(email)
+    console.log(phoneNum)
+    try {
+        var sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
+    } catch (err) {
+        res.status(401).send("UNAUTHORIZED REQUEST!");
                 console.log("create session cookie error: " + error);
-            }
-        )
-        .catch((error) => { 
-            console.log(error)
-        });
+        return;
+    }
+    const options = { maxAge: expiresIn, httpOnly: true, secure: true };
+    res.cookie("__session", sessionCookie, options);
+    var createNewUser = admin.database().ref("users/" + uid);
+    var updateDb = await createNewUser.set({
+        photoURL: photoURL ? photoURL : "",
+        displayName: displayName ? displayName : "",
+        email: email ? email : "",
+        phoneNum: phoneNum ? phoneNum : ""
+    })
+    res.redirect("/");
 });
 
 app.get("/index", async (req, res) => {
@@ -105,7 +117,12 @@ app.get("/", async (req, res) => {
         res.render("index");
         return;
     }
-    res.render("dashboard");
+    var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
+    res.render("dashboard", {
+        disPlayName: userRec.val()['displayName'],
+        profileUrl: userRec.val()['photoURL'],
+        email: userRec.val()['email'],
+    });
 });
 
 app.get("/logout", (req, res) => {

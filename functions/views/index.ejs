@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>eTomato </title>
-  <meta name="Pomodoro, Timer, online, eTomato" content="Pomodoro, Timer, online, eTomato">
+  <title>Online Pomodoro Timer - eTomato note, stats and music </title>
+  <meta name="description" content="eTomato is an online pomodoro timer integrated with notepad and lofi music - providing an efficient vibe to boost your study and work. See your study stats and evaluate your time spent. Check out fellow’s notes and inspire each other.">
   <link rel="shortcut icon" href="./public/image/tomato.png" type="image/x-icon">
   <!-- Bootstrap , fonts & icons  -->
   <link rel="stylesheet" href="./public/css/bootstrap.css">
@@ -264,6 +264,11 @@
           var token = credential.accessToken;
           // The signed-in user info.
           var user = result.user;
+          var photoURL = user.photoURL;
+          var displayName = user.displayName;
+          var uid = user.uid;
+          var email = user.email;
+          var phoneNum = user.phoneNum;
           var headers = new Headers();
           headers.append('Content-Type', 'application/json');
           headers.append('Accept', 'application/json')
@@ -275,7 +280,13 @@
                   redirect: 'follow',
                   credentials: 'include', // Don't forget to specify this if you need cookies
                   header: headers,
-                  body: JSON.stringify({ idToken }),
+                  body: JSON.stringify({ 
+                    idToken, 
+                    photoURL, 
+                    displayName, 
+                    uid, 
+                    email, 
+                    phoneNum }),
                 })
                 .then(function () {
                   return firebase.auth().signOut();

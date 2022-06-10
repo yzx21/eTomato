@@ -23,7 +23,7 @@ function Circlebar(prefs) {
         that.counter = parseInt(attribs.circleCounter) || parseInt(prefs.counter) || 1000;
         that.dialWidth = parseInt(attribs.circleDialwidth) || parseInt(prefs.dialWidth) || 5;
         that.size = attribs.circleSize || prefs.size || "150px";
-        that.fontSize = attribs.circleFontsize || prefs.fontSize || "20px";
+        that.fontSize = attribs.circleFontsize || prefs.fontSize || "40px";
         that.fontColor = attribs.circleFontcolor || prefs.fontColor || "rgb(135, 206, 235)";
         that.skin = attribs.circleSkin || prefs.skin || " ";
         that.triggerPercentage = attribs.circleTriggerpercentage || prefs.triggerPercentage || false;

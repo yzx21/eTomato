@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>eTomato </title>
-  <meta name="Pomodoro, Timer, online, eTomato" content="Pomodoro, Timer, online, eTomato">
+  <title>Online Pomodoro Timer - eTomato note, stats and music </title>
+  <meta name="description" content="eTomato is an online pomodoro timer integrated with notepad and lofi music - providing an efficient vibe to boost your study and work. See your study stats and evaluate your time spent. Check out fellow’s notes and inspire each other.">
   <link rel="shortcut icon" href="./public/image/tomato.png" type="image/x-icon">
   <!-- Bootstrap , fonts & icons  -->
   <link rel="stylesheet" href="./public/css/bootstrap.css">
@@ -13,6 +14,7 @@
   <link rel="stylesheet" href="./public/fonts/icon-font/css/style.css">
   <link rel="stylesheet" href="./public/fonts/typography-font/typo.css">
   <link rel="stylesheet" href="./public/fonts/fontawesome-5/css/all.css">
+  <link rel="stylesheet" href="./public/css/scrolling_text.css">
   <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -37,232 +39,159 @@
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';" onload="onLoad();">
-  <div class="site-wrapper overflow-hidden position-relative">
-    <!-- Site Header -->
-    <!-- Preloader -->
-    <!-- <div id="loading">
-    <div class="preloader">
-     <img src="./image/preloader.gif" alt="preloader">
-   </div>
-   </div>    -->
-    <!--Site Header Area -->
-    <header class="site-header site-header--menu-right landing-14-menu site-header--absolute site-header--sticky">
-      <div class="container">
-        <nav class="navbar site-navbar">
-          <!-- Brand Logo-->
-          <div class="brand-logo">
-            <a href="#">
-              <!-- light version logo (logo must be black)-->
-              <img src="./public/image/logo/logo.png" alt="" class="light-version-logo" width="270" height="59">
-              <!-- Dark version logo (logo must be White)-->
-              <img src="./public/image/logo/logo.png" alt="" class="dark-version-logo" width="270" height="59">
-            </a>
-          </div>
-          <div class="menu-block-wrapper">
-            <div class="menu-overlay"></div>
-            <nav class="menu-block" id="append-menu-header">
-              <div class="mobile-menu-head">
-                <div class="go-back">
-                  <i class="fa fa-angle-left"></i>
-                </div>
-                <div class="current-menu-title"></div>
-                <div class="mobile-menu-close">&times;</div>
-              </div>
-              <ul class="site-menu-main">
-                <li class="nav-item">
-                <a href="#" class="nav-link-item"><img alt="History" src="./public/image/button_history.png"
-                    width="102" height="30"></a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link-item" data-toggle="modal" data-target="#logoutModal"><img alt="Logout" src="./public/image/button_logout.png"
-                    width="68" height="30"></a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <!-- mobile menu trigger -->
-          <div class="mobile-menu-trigger">
-            <span></span>
-          </div>
-          <!--/.Mobile Menu Hamburger Ends-->
-        </nav>
-      </div>
-    </header>
-    <!-- navbar- -->
-    <!-- Hero Area -->
-
-    <div class="hero-area-l-14 position-relative z-index-1 overflow-hidden" style="text-align: center;">
-      <div class="container">
-        <div class="row position-relative justify-content-center">
-          <div class="clock" data-aos="fade-left" style="font-family:Futura; text-shadow: 4px 4px #000000; font-size: 120;">
-            <div class="hours">
-              <div class="first">
-                <div class="number">0</div>
-              </div>
-              <div class="second">
-                <div class="number">0</div>
-              </div>
-            </div>
-            <div class="tick">:</div>
-            <div class="minutes">
-              <div class="first">
-                <div class="number">0</div>
-              </div>
-              <div class="second">
-                <div class="number">0</div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-xl-7 col-lg-5 col-md-8" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
-            <div>
-              <br>
-              <p style="font-family:AppleGothic; font-size: 1.25rem; text-align:center;">Actions speak louder than words!</p>
-              <br>
-              <a style="background-color: transparent; border-width: 0px;" role="button" aria-expanded="false" aria-controls="collapseTimer">
-                  <img id="startBtn" alt="Start a tomato" src="./public/image/button_start.png" width="348" height="96" onmouseover="startOver();" onmouseout="startOut();" onclick="startTomato();" ondblclick="startTomato();">
-              </a>
-            </div>
-          </div>
+  <div id="header">
+    <div class="row position-relative justify-content-center">
+      <div class="float-container">
+        <div class="float-child" id="title-icon">
+          <img src="./public/image/tomato.png" alt="">
         </div>
+        <div class="float-child" id="title-text">eTomato</div>
       </div>
-      <div class="bg-shape-14"></div>
+
+      <div id="taglines">
+        <p>pomodoro timer | study stats | notes | lofi music</p>
+      </div>
+
     </div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <div class="wrapper">
-        <div class="row position-relative justify-content-center" style="width: 50%; margin-left: 25%;">
-          <div class="row justify-content-center">
-            <div class="circlebar" data-circle-startTime=0 data-circle-dialWidth=20 data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
-                <div class="loader-bg">
-                    <div class="text">00:00</div>
-                </div>
+
+    <div class="dropdown" id="settings">
+      <a href="#" id="dropdownMenuButton" data-toggle="dropdown">
+        <img id="settingImg" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Stats</a>
+        <a class="dropdown-item" href="#">Logout</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="left-side">
+    <div class="row justify-content-center">
+      <div class="circlebar" data-circle-startTime=0 data-circle-dialWidth=20 data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
+          <div class="loader-bg">
+              <div class="text">00:00</div>
+          </div>
+      </div>
+      <button id="startBtn" type="button">Start</button>
+    </div>
+    <hr class="split">
+    <div>
+      Today's tomatos:
+    </div>
+  </div>
+
+  <div id="right-side">
+    <div class="row position-relative justify-content-center">
+      
+      <div id="app-cover">
+        <div id="player">
+          <div id="player-track">
+            <div id="album-name"></div>
+            <div id="track-name"></div>
+            <div id="track-time">
+              <div id="current-time"></div>
+              <div id="track-length"></div>
+            </div>
+            <div id="s-area">
+              <div id="ins-time"></div>
+              <div id="s-hover"></div>
+              <div id="seek-bar"></div>
             </div>
           </div>
-
-          <marquee behavior="scroll" direction="left">
-            <span style="color:#70db70;margin-right:200px">Make it work, Make it worth.</span>
-            <span style="color:#7084db;margin-right:200px">Be willing to change, to learn, to grow.</span>
-            <span style="color:#80db70;margin-right:200px">Do the right thing.</span>
-            <span style="color:#bd38bf;margin-right:200px">The secret of getting ahead is getting started.</span>
-            <span style="color:#a9db70;margin-right:200px">Make each day your masterpiece.</span>
-            <span style="color:#d2db70;margin-right:200px">Think of many things, do one.</span>
-            <span style="color:#70dbcd;margin-right:200px">One day or day one. You decide.</span>
-            <span style="color:#70c7db;margin-right:200px">No pressure. No diamonds.</span>
-            <span style="color:#db70d4;margin-right:200px">Stay hungry. Stay foolish.</span>
-            <span style="color:#70db70;margin-right:200px">Wherever you go, go with all your heart.</span>
-            <span style="color:#dbad70;margin-right:200px">Keep going. Be all in.</span>
-            <span style="color:#70db70;margin-right:200px">If you can dream it, you can do it.</span>
-            <span style="color:#70d0db;margin-right:200px">The best way out is always through.</span>
-            </marquee>
-
-          <div class="row" style="padding-left: 0px; padding-right: 0px;">
-            <br>
-            <input list="hosting-plan" placeholder="Title" type="text">
-            <datalist id="hosting-plan">
-                <option value="Reading"/>
-                <option value="Working"/>
-                <option value="Workout"/>
-            </datalist>
-          </div>
-        </div>
-        <div id="summernote" class="position-relative justify-content-center"></div>
-        <script>
-          $(document).ready(function() {
-              $('#summernote').summernote({
-                placeholder: 'Ralph Ellison’s The Invisible Man: An extremely powerful story of a young Southern Negro ... ',
-                tabsize: 2,
-                toolbar: [
-                  ['style', ['bold', 'italic', 'underline', 'clear']],
-                  ['para', ['ul', 'ol']]
-                ],
-                height: 220,
-                focus: true,
-              });
-          });
-        </script>
-        <br>
-        <div class="row position-relative justify-content-center" style="width: 50%; margin-left: 65%;">
-          <div class="justify-content-center">
-            <button type="button" class="btn btn-primary btn-sm">Save</button>
-            <button type="button" class="btn btn-primary btn-sm">Publish</button>
-          </div>
-        </div>
-        
-        <br>
-        <br>
-
-        <div id="app-cover">
-          <div id="player">
-            <div id="player-track">
-              <div id="album-name"></div>
-              <div id="track-name"></div>
-              <div id="track-time">
-                <div id="current-time"></div>
-                <div id="track-length"></div>
-              </div>
-              <div id="s-area">
-                <div id="ins-time"></div>
-                <div id="s-hover"></div>
-                <div id="seek-bar"></div>
-              </div>
+          <div id="player-content">
+            <div id="album-art">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.jpeg?alt=media&token=60eed0ce-c372-4e69-bff5-0c5ee0bcb589" class="active" id="_1"> 
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Youth_Is_Wasted_On_The_Young_Chez%20Remix_Tellow.jpeg?alt=media&token=32fd9a79-e9aa-4490-9794-9773485f5d25" class="active" id="_2">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_The_Hours_dreem.jpeg?alt=media&token=79d32fdf-481d-4049-9e04-4eb13ddc204d" class="active" id="_3">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Spirals_Arden_Forest.jpeg?alt=media&token=76eee0d8-cafe-4e32-ad11-98c66bd8326e" class="active" id="_4">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Singing_Swan_Aleph_One.jpeg?alt=media&token=e11b9027-adfb-49a5-878d-f4f42f0b8d92" class="active" id="_5">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Silver_Rain_Emil_Axelsson.jpeg?alt=media&token=d2746de3-eebf-4177-942e-3acf6a5b385a" class="active" id="_6">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Satellite_of_Love_Brendon_Moeller.jpeg?alt=media&token=20f956a6-3bd1-492b-8c79-ea8848a2723e" class="active" id="_7">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_New_Jade_dreem.jpeg?alt=media&token=33607f99-5595-4fee-a8bf-b302a7225cb6" class="active" id="_8">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Neutra_Chelle_Ives.jpeg?alt=media&token=84669922-c237-4360-afef-bd3f72706773" class="active" id="_9">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Let_There_Be_Rain_Silver_Maple.jpeg?alt=media&token=789062a8-463e-40bb-ac05-bf60defeb0a2" class="active" id="_10">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Late_Arrivals_Lonov.jpeg?alt=media&token=fd73bd6c-11f1-4d39-b0fe-726ec39d26a5" class="active" id="_11">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Lakes_Harbours_Oceans.jpeg?alt=media&token=4cd8eee3-3d65-4bb7-ba89-ac70d50cc055" class="active" id="_12"> 
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Krotos_They_Dream_By_Day.jpeg?alt=media&token=7c8cc492-6879-44a0-b141-288beb60f720" class="active" id="_13">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Dreaming_Wide_Awake_King_Sis.jpeg?alt=media&token=bb2fabc1-edc0-4580-888b-539e2423b3d5" class="active" id="_14">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Copycat_Far_Orange.jpeg?alt=media&token=06dc4d42-caba-4822-8fcf-5374a5977226" class="active" id="_15">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Between_Illusions_Rikard_From.jpeg?alt=media&token=b342c953-932e-4e2e-aeb3-0878cc5d60d0" class="active" id="_16">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Baby_Idk_Rambutan.jpeg?alt=media&token=39785b51-9fc3-4b37-a23f-df73dcc84940" class="active" id="_17">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Avinam_Valante.jpeg?alt=media&token=183a9647-f304-485d-8422-c1a57ccd83a0" class="active" id="_18">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Alike_Jones_Meadow.jpeg?alt=media&token=56ad6c86-588d-493a-ad7d-a4f8c314a9e8" class="active" id="_19">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Abstractions_Aleph_One.jpeg?alt=media&token=8576a2cd-d593-42cc-bb3b-08fefd923518" class="active" id="_20">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_100_Times_Jones_Meadow.jpeg?alt=media&token=3506ed8f-e264-45e0-96c7-5837095261cb" class="active" id="_21">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_1.jpeg?alt=media&token=1bb7b4f7-f7aa-43c4-b6e7-8003fb40d8ec" class="active" id="_22">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_2.jpeg?alt=media&token=931388e5-a928-45b6-8db4-5f966559e512" id="_23">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_3.jpeg?alt=media&token=7d0fcad3-305e-47dc-a1e9-4aca3b0f43ef" id="_24">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_4.jpeg?alt=media&token=13826994-10ba-47f5-b3cf-668a9f544738" id="_25">
+              <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_5.jpeg?alt=media&token=230fd83b-5cc7-4518-b0d4-a050813f60c2" id="_26">
+              <div id="buffer-box">Buffering ...</div>
             </div>
-            <div id="player-content">
-              <div id="album-art">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.jpeg?alt=media&token=60eed0ce-c372-4e69-bff5-0c5ee0bcb589" class="active" id="_1">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Youth_Is_Wasted_On_The_Young_Chez%20Remix_Tellow.jpeg?alt=media&token=32fd9a79-e9aa-4490-9794-9773485f5d25" class="active" id="_2">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_The_Hours_dreem.jpeg?alt=media&token=79d32fdf-481d-4049-9e04-4eb13ddc204d" class="active" id="_3">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Spirals_Arden_Forest.jpeg?alt=media&token=76eee0d8-cafe-4e32-ad11-98c66bd8326e" class="active" id="_4">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Singing_Swan_Aleph_One.jpeg?alt=media&token=e11b9027-adfb-49a5-878d-f4f42f0b8d92" class="active" id="_5">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Silver_Rain_Emil_Axelsson.jpeg?alt=media&token=d2746de3-eebf-4177-942e-3acf6a5b385a" class="active" id="_6">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Satellite_of_Love_Brendon_Moeller.jpeg?alt=media&token=20f956a6-3bd1-492b-8c79-ea8848a2723e" class="active" id="_7">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_New_Jade_dreem.jpeg?alt=media&token=33607f99-5595-4fee-a8bf-b302a7225cb6" class="active" id="_8">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Neutra_Chelle_Ives.jpeg?alt=media&token=84669922-c237-4360-afef-bd3f72706773" class="active" id="_9">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Let_There_Be_Rain_Silver_Maple.jpeg?alt=media&token=789062a8-463e-40bb-ac05-bf60defeb0a2" class="active" id="_10">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Late_Arrivals_Lonov.jpeg?alt=media&token=fd73bd6c-11f1-4d39-b0fe-726ec39d26a5" class="active" id="_11">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Lakes_Harbours_Oceans.jpeg?alt=media&token=4cd8eee3-3d65-4bb7-ba89-ac70d50cc055" class="active" id="_12"> 
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Krotos_They_Dream_By_Day.jpeg?alt=media&token=7c8cc492-6879-44a0-b141-288beb60f720" class="active" id="_13">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Dreaming_Wide_Awake_King_Sis.jpeg?alt=media&token=bb2fabc1-edc0-4580-888b-539e2423b3d5" class="active" id="_14">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Copycat_Far_Orange.jpeg?alt=media&token=06dc4d42-caba-4822-8fcf-5374a5977226" class="active" id="_15">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Between_Illusions_Rikard_From.jpeg?alt=media&token=b342c953-932e-4e2e-aeb3-0878cc5d60d0" class="active" id="_16">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Baby_Idk_Rambutan.jpeg?alt=media&token=39785b51-9fc3-4b37-a23f-df73dcc84940" class="active" id="_17">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Avinam_Valante.jpeg?alt=media&token=183a9647-f304-485d-8422-c1a57ccd83a0" class="active" id="_18">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Alike_Jones_Meadow.jpeg?alt=media&token=56ad6c86-588d-493a-ad7d-a4f8c314a9e8" class="active" id="_19">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Abstractions_Aleph_One.jpeg?alt=media&token=8576a2cd-d593-42cc-bb3b-08fefd923518" class="active" id="_20">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_100_Times_Jones_Meadow.jpeg?alt=media&token=3506ed8f-e264-45e0-96c7-5837095261cb" class="active" id="_21">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_1.jpeg?alt=media&token=1bb7b4f7-f7aa-43c4-b6e7-8003fb40d8ec" class="active" id="_22">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_2.jpeg?alt=media&token=931388e5-a928-45b6-8db4-5f966559e512" id="_23">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_3.jpeg?alt=media&token=7d0fcad3-305e-47dc-a1e9-4aca3b0f43ef" id="_24">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_4.jpeg?alt=media&token=13826994-10ba-47f5-b3cf-668a9f544738" id="_25">
-                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_5.jpeg?alt=media&token=230fd83b-5cc7-4518-b0d4-a050813f60c2" id="_26">
-                <div id="buffer-box">Buffering ...</div>
+            <div id="player-controls">
+              <div class="control">
+                <div class="button" id="play-previous">
+                  <i class="fas fa-backward"></i>
+                </div>
               </div>
-              <div id="player-controls">
-                <div class="control">
-                  <div class="button" id="play-previous">
-                    <i class="fas fa-backward"></i>
-                  </div>
+              <div class="control">
+                <div class="button" id="play-pause-button">
+                  <i class="fas fa-play"></i>
                 </div>
-                <div class="control">
-                  <div class="button" id="play-pause-button">
-                    <i class="fas fa-play"></i>
-                  </div>
-                </div>
-                <div class="control">
-                  <div class="button" id="play-next">
-                    <i class="fas fa-forward"></i>
-                  </div>
+              </div>
+              <div class="control">
+                <div class="button" id="play-next">
+                  <i class="fas fa-forward"></i>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>    
+  </div>
 
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+  <div id="middle">
+
+    <div class="row position-relative justify-content-center">
+
+      <input id="tomatoType" list="hosting-plan" placeholder="Give this tomato session a tag..." type="text">
+      <datalist id="hosting-plan">
+          <option value="Reading"/>
+          <option value="Working"/>
+          <option value="Workout"/>
+      </datalist>
+
+      <div id="summernote" class="position-relative justify-content-center"></div>
+      <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+              placeholder: 'Ralph Ellison’s The Invisible Man: An extremely powerful story of a young Southern Negro ... ',
+              tabsize: 2,
+              toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['para', ['ul', 'ol']]
+              ],
+              height: 220,
+              focus: true,
+            });
+        });
+      </script>
+
+      <div id="publishSection">
+        <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
+        <label id="checkboxLbl" for="publishCheckBox">Publish to global</label>
+
+        <button id="saveBtn" type="button">Save</button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">

@@ -301,8 +301,10 @@
 
 .note-editor {
 	position: relative;
-    width: 50%;
+    width: 60%;
     margin: auto;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .note-editor .note-dropzone {
@@ -331,7 +333,8 @@
 }
 
 .note-editor .note-editing-area {
-	position: relative
+	position: relative;
+	background-color: #FEFFFF;
 }
 
 .note-editor .note-editing-area .note-editable {
@@ -416,7 +419,8 @@
 
 .note-editor.note-airframe.fullscreen .note-resizebar,
 .note-editor.note-frame.fullscreen .note-resizebar {
-	display: none
+	display: none;
+	background-color: #FEFFFF;
 }
 
 .note-editor.note-airframe .note-status-output,
@@ -524,14 +528,16 @@
 	padding-top: 1px;
 	height: 9px;
 	width: 100%;
-	cursor: ns-resize
+	cursor: ns-resize;
+	background-color: #FEFFFF;
 }
 
 .note-editor.note-airframe .note-statusbar .note-resizebar .note-icon-bar,
 .note-editor.note-frame .note-statusbar .note-resizebar .note-icon-bar {
 	width: 20px;
 	margin: 1px auto;
-	border-top: 1px solid rgba(0, 0, 0, .2)
+	border-top: 1px solid rgba(0, 0, 0, .2);
+	background-color: #3ba8b6;
 }
 
 .note-editor.note-airframe .note-statusbar.locked .note-resizebar,
@@ -579,6 +585,7 @@
 	position: relative;
 	border:1px solid #eee;
 	height: 30px;
+	background-color: #FEFFFF;
 	/* note toolbar bg color */
 	/* background-color: #E4E4D8; */
 }
@@ -586,7 +593,7 @@
 .note-editor .note-toolbar,
 .note-popover .popover-content {
 	margin: 0;
-	padding: 0px 0px 0px 0px
+	padding: 0px 0px 0px 0px;
 }
 
 .note-editor .note-toolbar>.note-btn-group,

@@ -74,7 +74,7 @@ function Circlebar(prefs) {
 
         if(progress == 100) {
             StopMusic();
-            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Marimba%20Scale%20Up%20-%20SFX%20Producer.mp3?alt=media&token=e252d172-85a6-45b6-a267-1a45f4a14499");
+            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
             audio.play();
             audio.addEventListener("ended", function(){
                 alert("Congrats, you've achieved another Tomato!")

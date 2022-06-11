@@ -425,7 +425,7 @@ function initPlayer() {
   start_btn.addEventListener("click", function() {
     var start_btn = document.getElementById("startBtn");
     var btnVal = start_btn.alt;
-    if(btnVal == "start_a_tomato") {
+    if(btnVal == "stop_a_tomato") {
       if(audio.paused) {
         document.getElementById('play-pause-button').click();
       }

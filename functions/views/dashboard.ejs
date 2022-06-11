@@ -178,6 +178,9 @@
               ],
               height: 220,
               focus: true,
+            }).on("summernote.enter", function(we, e) {
+              $(this).summernote('pasteHTML', '<br>&VeryThinSpace;');
+              e.preventDefault();
             });
         });
       </script>
@@ -262,7 +265,6 @@
       var btnVal = document.getElementById("startBtn").alt;
       if(btnVal == "start_a_tomato") {
         firebase.analytics().logEvent('ClickStartBtn'); 
-        document.getElementById("startBtn").alt = "stop_a_tomato";
         document.getElementById("startBtn").alt = "stop_a_tomato";
       } else {
         firebase.analytics().logEvent('ClickStopBtn'); 

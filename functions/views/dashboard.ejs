@@ -74,7 +74,7 @@
       </div>
       <div id="startBtnSec">
         <a id="start_btn" style="background-color: transparent; border-width: 0px;" role="button" aria-expanded="false" aria-controls="collapseTimer">
-          <img id="startBtn" alt="start_a_tomato" src="./public/image/button_start.png" width="348" height="30" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();" ondblclick="ClickStartBtn();">
+          <img id="startBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" width="340" height="35" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();" ondblclick="ClickStartBtn();">
       </a>
       </div>
     </div>
@@ -248,18 +248,18 @@
     }
 
     function startOver() {
-      document.getElementById('startBtn').src = "./public/image/button_start_over.png";
+      document.getElementById('startBtn').src = "./public/image/start_tomato_hover.png";
       var snd = new Audio("./public/sounds/start_over.mp3");
       snd.play();
       firebase.analytics().logEvent('startOver');
     }
     function startOut() {
-      document.getElementById("startBtn").src = "./public/image/button_start.png";
+      document.getElementById("startBtn").src = "./public/image/start_tomato.png";
       firebase.analytics().logEvent('startOut');
     }
 
     function ClickStartBtn() {
-      document.getElementById("startBtn").src = "./public/image/button_start_pressed.png";
+      document.getElementById("startBtn").src = "./public/image/start_tomato_pressed.png";
       var snd = new Audio("./public/sounds/start_clicked.mp3");
       snd.play();
       var btnVal = document.getElementById("startBtn").alt;

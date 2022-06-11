@@ -23,7 +23,7 @@
     top: 0;
     right: 15px;
     left: 15px;
-    padding: 13px 22px 10px 184px;
+    padding: 13px 22px 10px 142px;
     background-color: #fff7f7;
     border-radius: 15px 15px 0 0;
     transition: 0.3s ease top;
@@ -244,7 +244,7 @@
   .control {
     width: 33.333%;
     float: left;
-    padding: 12px 0;
+    padding: 10%;
   }
   
   .button {

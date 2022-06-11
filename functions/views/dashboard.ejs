@@ -28,6 +28,7 @@
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css">
   <link type="text/css" rel="stylesheet" href="./public/css/music.css">
   <link href="./public/summernote/summernote.min.css" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="./public/toast/themes/toasteur-default.min.css">
   <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -62,7 +63,6 @@
         <a class="dropdown-item" href="#">Logout</a>
       </div>
     </div>
-
   </div>
 
   <div id="left-side">
@@ -266,6 +266,16 @@
       if(btnVal == "start_a_tomato") {
         firebase.analytics().logEvent('ClickStartBtn'); 
         document.getElementById("startBtn").alt = "stop_a_tomato";
+        $.ajax({
+              url: "./startSession",
+              type: "POST",
+              success: function (result) {
+                new Toasteur().success("Tomato started", 'Enjoy your time!', () => {});
+              },
+             error: function (error) {
+              new Toasteur().error(error.responseText, 'Error!', () => {});
+              },
+            });
       } else {
         firebase.analytics().logEvent('ClickStopBtn'); 
       }
@@ -285,6 +295,7 @@
 
 <script type="module" src="./public/js/music.js"></script>
 <script src="./public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="./public/toast/toasteur.min.js"></script>
 <script src="./public/summernote/summernote.min.js"></script>
 <script type="module" src="./public/js/circle.js"></script>
 <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>

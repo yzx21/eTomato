@@ -73,12 +73,6 @@ app.post("/sessionLogin", async (req, res) => {
     const email = JSON.parse(req.body)["email"];
     const phoneNum = JSON.parse(req.body)["phoneNum"];
     const expiresIn = 1000 * 60 * 60 * 24 * 14;
-    console.log(idToken)
-    console.log(photoURL)
-    console.log(displayName)
-    console.log(uid)
-    console.log(email)
-    console.log(phoneNum)
     try {
         var sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
     } catch (err) {
@@ -123,6 +117,40 @@ app.get("/", async (req, res) => {
         profileUrl: userRec.val()['photoURL'],
         email: userRec.val()['email'],
     });
+});
+
+function isTomatoOngoing(tomato) {
+    var nowSec = Date.now();
+    if(tomato['duration']) {
+        return true;
+    }
+    if(nowSec - tomato['startTimeSec'] > 1500) {
+        return true;
+    }
+    return false;
+}
+
+app.post("/startSession", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.send("something went wrong");
+        return;
+    }
+    var tomatosSet = await admin.database().ref('users').child(userSnap.uid).child("tomatos").limitToLast(1).once('value');
+    tomatosSet = tomatosSet.val();
+    if(tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+        res.status(500).send("something went wrong, please try again!");
+    }
+    else {
+        var tomatosSnap = admin.database().ref('users').child(userSnap.uid).child("tomatos");
+        tomatosSnap.push({
+            startTimeSec: Date.now()
+        }) 
+        res.send();
+    }
 });
 
 app.get("/logout", (req, res) => {

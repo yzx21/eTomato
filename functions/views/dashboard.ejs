@@ -74,7 +74,7 @@
       </div>
       <div id="startBtnSec">
         <a id="start_btn" style="background-color: transparent; border-width: 0px;" role="button" aria-expanded="false" aria-controls="collapseTimer">
-          <img id="startBtn" alt="Start a tomato" src="./public/image/button_start.png" width="348" height="30" onmouseover="startOver();" onmouseout="startOut();" onclick="startTomato();" ondblclick="startTomato();">
+          <img id="startBtn" alt="start_a_tomato" src="./public/image/button_start.png" width="348" height="30" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();" ondblclick="ClickStartBtn();">
       </a>
       </div>
     </div>
@@ -255,12 +255,18 @@
       firebase.analytics().logEvent('startOut');
     }
 
-    function startTomato() {
+    function ClickStartBtn() {
       document.getElementById("startBtn").src = "./public/image/button_start_pressed.png";
       var snd = new Audio("./public/sounds/start_clicked.mp3");
       snd.play();
-      firebase.analytics().logEvent('startTomato');
-      document.getElementById('play-pause-button').click();
+      var btnVal = document.getElementById("startBtn").alt;
+      if(btnVal == "start_a_tomato") {
+        firebase.analytics().logEvent('ClickStartBtn'); 
+        document.getElementById("startBtn").alt = "stop_a_tomato";
+        document.getElementById("startBtn").alt = "stop_a_tomato";
+      } else {
+        firebase.analytics().logEvent('ClickStopBtn'); 
+      }
     }
 
     function logout() {

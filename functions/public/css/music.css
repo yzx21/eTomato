@@ -55,10 +55,14 @@
   
   #current-time {
     float: left;
+    position: relative;
+    bottom: 20px;
   }
   
   #track-length {
     float: right;
+    position: relative;
+    bottom: 20px;
   }
   
   #current-time,

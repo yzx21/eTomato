@@ -248,14 +248,26 @@
     }
 
     function startOver() {
-      document.getElementById('startBtn').src = "./public/image/start_tomato_hover.png";
       var snd = new Audio("./public/sounds/start_over.mp3");
       snd.play();
-      firebase.analytics().logEvent('startOver');
+      var btnVal = document.getElementById("startBtn").alt;
+      if(btnVal == "start_a_tomato") {
+        document.getElementById('startBtn').src = "./public/image/start_tomato_hover.png";
+        firebase.analytics().logEvent('startOver');
+      } else {
+        document.getElementById('startBtn').src = "./public/image/stop_tomato_hover.png";
+        firebase.analytics().logEvent('stopOver');
+      }
     }
     function startOut() {
-      document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-      firebase.analytics().logEvent('startOut');
+      var btnVal = document.getElementById("startBtn").alt;
+      if(btnVal == "start_a_tomato") {
+        document.getElementById("startBtn").src = "./public/image/start_tomato.png";
+        firebase.analytics().logEvent('startOut');
+      } else {
+        document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
+        firebase.analytics().logEvent('stopOut');
+      }
     }
 
     function ClickStartBtn() {
@@ -265,15 +277,16 @@
       var btnVal = document.getElementById("startBtn").alt;
       if(btnVal == "start_a_tomato") {
         firebase.analytics().logEvent('ClickStartBtn'); 
-        document.getElementById("startBtn").alt = "stop_a_tomato";
         $.ajax({
               url: "./startSession",
               type: "POST",
               success: function (result) {
                 new Toasteur().success("Tomato started", 'Enjoy your time!', () => {});
+                document.getElementById("startBtn").alt = "stop_a_tomato";
+                document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
               },
              error: function (error) {
-              new Toasteur().error(error.responseText, 'Error!', () => {});
+                new Toasteur().error(error.responseText, 'Error!', () => {});
               },
             });
       } else {

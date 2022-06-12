@@ -130,6 +130,12 @@ function isTomatoOngoing(tomato) {
     return false;
 }
 
+async function getLastestTomato(uid) {
+    var tomatosSet = await admin.database().ref('users').child(uid).child("tomatos").limitToLast(1).once('value');
+    tomatosSet = tomatosSet.val();
+    return tomatosSet;
+}
+
 app.post("/startSession", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     var db = admin.database();
@@ -139,8 +145,7 @@ app.post("/startSession", async (req, res) => {
         res.send("something went wrong");
         return;
     }
-    var tomatosSet = await admin.database().ref('users').child(userSnap.uid).child("tomatos").limitToLast(1).once('value');
-    tomatosSet = tomatosSet.val();
+    tomatosSet = await getLastestTomato(userSnap.uid);
     if(tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         res.status(500).send("something went wrong, please try again!");
     }

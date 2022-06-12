@@ -8,7 +8,8 @@
   <meta name="description" content="eTomato is an online pomodoro timer integrated with notepad and lofi music - providing an efficient vibe to boost your study and work. See your study stats and evaluate your time spent. Check out fellow’s notes and inspire each other.">
   <link rel="shortcut icon" href="./public/image/tomato.png" type="image/x-icon">
   <!-- Bootstrap , fonts & icons  -->
-  <link rel="stylesheet" href="./public/css/bootstrap.css">
+  <!-- <link rel="stylesheet" href="./public/css/bootstrap.css"> -->
+  <link rel="stylesheet" href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
   <link rel="stylesheet" href="./public/css/clock.css">
   <link rel="stylesheet" href="./public/fonts/icon-font/css/style.css">
   <link rel="stylesheet" href="./public/fonts/typography-font/typo.css">
@@ -35,8 +36,9 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
-  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-</head>
+  <!-- <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script> -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+ </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';" onload="onLoad();">
   <div id="header">
@@ -60,10 +62,27 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="#">Stats</a>
-        <a class="dropdown-item" href="#">Logout</a>
+        <a class="dropdown-item" href="#logoutModal" data-toggle="modal">Logout</a>
       </div>
     </div>
   </div>
+
+  <!-- Modal HTML -->
+  <div id="logoutModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0">   
+            <div class="modal-body p-0">
+                <div class="card border-0 p-sm-3 p-2 justify-content-center">
+                    <div class="card-header pb-0 bg-white border-0 "><div class="row"><div class="col ml-auto"><button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button></div> </div>
+                    <p class="font-weight-bold mb-2"> Are you sure you wanna delete this ?</p><p class="text-muted "> This change will reflect in your portal after an hour.</p>     </div>
+                    <div class="card-body px-sm-4 mb-2 pt-1 pb-0"> 
+                        <div class="row justify-content-end no-gutters"><div class="col-auto"><button type="button" class="btn btn-light text-muted" data-dismiss="modal">Cancel</button></div><div class="col-auto"><button type="button" class="btn btn-danger px-4" data-dismiss="modal">Delete</button></div></div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+  </div>   
 
   <div id="left-side">
     <div class="row justify-content-center">
@@ -74,7 +93,6 @@
               <% } else { %>
                 <div class="text">00:00</div>
               <% }%>
-              
           </div>
       </div>
       <div id="startBtnSec">
@@ -317,11 +335,12 @@
   </script>
 
 <script type="module" src="./public/js/music.js"></script>
-<script src="./public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="./public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 <script src="./public/toast/toasteur.min.js"></script>
 <script src="./public/summernote/summernote.min.js"></script>
 <script type="module" src="./public/js/circle.js"></script>
 <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
 
 </body>
 

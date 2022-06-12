@@ -5,10 +5,9 @@
   #app-cover {
     position: relative;
     top: 100px;
-    right: 0;
     left: 0;
-    width: 400px;
-    height: 100px;
+    width: 85%;
+    aspect-ratio: 4.3;
     margin: -4px auto;
   }
  
@@ -23,32 +22,35 @@
     top: 0;
     right: 15px;
     left: 15px;
-    padding: 13px 22px 10px 142px;
+    padding: 5px 5px 5px 37%;
     background-color: #fff7f7;
     border-radius: 15px 15px 0 0;
     transition: 0.3s ease top;
     z-index: 1;
-    height: 99px;
+    height: 100%; 
   }
   
   #player-track.active {
-    top: -92px;
+    top: -100%;
   }
   
   #album-name {
     color: #54576f;
-    font-size: 17px;
+    font-size: 0.8vw;
     font-weight: bold;
+    height: 20%;
+    top: 0%;
   }
   
   #track-name {
     color: #acaebd;
-    font-size: 13px;
+    font-size: 0.7vw;
     margin: 2px 0 13px 0;
+    height: 10%;
   }
   
   #track-time {
-    height: 12px;
+    height: 20%;
     margin-bottom: 3px;
     overflow: hidden;
   }
@@ -57,12 +59,14 @@
     float: left;
     position: relative;
     bottom: 20px;
+    top: 0;
   }
   
   #track-length {
     float: right;
     position: relative;
     bottom: 20px;
+    top: 0;
   }
   
   #current-time,
@@ -82,7 +86,7 @@
   
   #s-area,
   #seek-bar {
-    position: absolute;
+    position: relative;
     height: 4px;
     border-radius: 4px;
   }
@@ -141,9 +145,9 @@
   #album-art {
     position: absolute;
     top: -40px;
-    width: 115px;
-    height: 115px;
-    margin-left: 40px;
+    width: 25%;
+    aspect-ratio:1 /1;
+    margin-left: 10%;
     transform: rotateZ(0);
     transition: 0.3s ease all;
     border-radius: 50%;
@@ -240,7 +244,7 @@
   #player-controls {
     width: 60%;
     height: 100%;
-    margin: 0 5px 0 141px;
+    margin: 0 13% 0 141px;
     float: right;
     overflow: hidden;
   }
@@ -253,9 +257,9 @@
   
   .button {
     left: 0;
-    width: 50px;
-    height: 50px;
-    padding-top: 15px;
+    height: 100%;
+    width: 3vw;
+    padding-top: 10%;
     background-color: #fff;
     border-radius: 6px;
     cursor: pointer;
@@ -264,7 +268,7 @@
   .button i {
     display: block;
     color: #d6dee7;
-    font-size: 26px;
+    font-size: 2.5vw;
     text-align: center;
     line-height: 1;
   }

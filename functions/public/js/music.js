@@ -176,13 +176,22 @@ var playerTrack = $("#player-track"),
     audio, currAlbum, currTrackName, currArtwork;
 
 function playPause() {
-    setTimeout(function() {
+    setTimeout(function () {
         if (audio.paused) {
             playerTrack.addClass("active");
             albumArt.addClass("active");
             checkBuffering();
             i.attr("class", "fas fa-pause");
             audio.play();
+
+            $.ajax({
+                url: "./touchedMusicPlayBtn",
+                type: "POST",
+                dataType: "text",
+                data: {
+                    isMusicPlaying: true,
+                }
+            });
         } else {
             playerTrack.removeClass("active");
             albumArt.removeClass("active");
@@ -190,6 +199,15 @@ function playPause() {
             albumArt.removeClass("buffering");
             i.attr("class", "fas fa-play");
             audio.pause();
+
+            $.ajax({
+                url: "./touchedMusicPlayBtn",
+                type: "POST",
+                dataType: "text",
+                data: {
+                    isMusicPlaying: false,
+                }
+            });
         }
     }, 300);
 }
@@ -334,7 +352,7 @@ function updateCurrTime() {
 
 function checkBuffering() {
     clearInterval(buffInterval);
-    buffInterval = setInterval(function() {
+    buffInterval = setInterval(function () {
         if (nTime == 0 || bTime - nTime > 1000) albumArt.addClass("buffering");
         else albumArt.removeClass("buffering");
 
@@ -401,7 +419,7 @@ function initPlayer() {
 
     playPauseButton.on("click", playPause);
 
-    sArea.mousemove(function(event) {
+    sArea.mousemove(function (event) {
         showHover(event);
     });
 
@@ -413,27 +431,34 @@ function initPlayer() {
 
     $(audio).on("ended", playNextSong);
 
-    playPreviousTrackButton.on("click", function() {
+    playPreviousTrackButton.on("click", function () {
         selectTrack(-1);
     });
 
-    playNextTrackButton.on("click", function() {
+    playNextTrackButton.on("click", function () {
         selectTrack(1);
     });
 
     var start_btn = document.getElementById("startBtn");
-    start_btn.addEventListener("click", function() {
+    start_btn.addEventListener("click", function () {
         var start_btn = document.getElementById("startBtn");
         var btnVal = start_btn.alt;
         if (btnVal == "start_a_tomato") {
             if (audio.paused) {
                 document.getElementById('play-pause-button').click();
+                $.ajax({
+                    url: "./touchedMusicPlayBtn",
+                    type: "POST",
+                    dataType: "text",
+                    data: {
+                        isMusicPlaying: true,
+                    }
+                });
             }
         } else {
             StopMusic();
         }
     });
-
 }
 
 export function StopMusic() {

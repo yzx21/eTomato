@@ -113,12 +113,14 @@ app.get("/", async (req, res) => {
     }
     var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
     var isTomatoOn = false;
+    var isMusicPlaying = false;
     tomatosSet = await getLastestTomato(userSnap.uid);
     var durationSec = 0;
     if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         isTomatoOn = true;
         durationSec = Date.now() / 1000 - tomato['startTimeSec'];
+        isMusicPlaying = (tomato['isMusicPlaying'] === 'true');
     }
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
@@ -126,6 +128,7 @@ app.get("/", async (req, res) => {
         email: userRec.val()['email'],
         isTomatoOn: isTomatoOn,
         durationSec: durationSec,
+        isMusicPlaying, isMusicPlaying
     });
 });
 

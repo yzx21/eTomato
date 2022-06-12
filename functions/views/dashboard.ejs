@@ -70,7 +70,8 @@
             <a href="#" id="dropdownMenuButton" data-toggle="dropdown">
                 <img id="settingImg" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
             </a>
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Stats</a>
                 <a class="dropdown-item" href="#logoutModal" data-toggle="modal">Logout</a>
             </div>
@@ -188,9 +189,8 @@
     </div>
 
     <div id="right-side">
-        <div class="row position-relative
-                                        justify-content-center">
-            <div id="app-cover">
+        <div class="row position-relative justify-content-center">
+            <div id="app-cover" data-onload=<%=isMusicPlaying%>>
                 <div id="player">
                     <div id="player-track">
                         <div id="album-name"></div>
@@ -323,7 +323,6 @@
                 <button id="saveBtn" type="button">Save</button>
             </div>
         </div>
-
     </div>
 
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -377,9 +376,15 @@
             firebase.initializeApp(firebaseConfig);
         } catch {}
     </script>
+
     <script>
         function onLoad() {
             firebase.analytics().logEvent('onLoad');
+            var isMusicPlaying = (document.getElementById('app-cover').dataset.onload === "true");
+            if (isMusicPlaying) {
+                document.getElementById('play-pause-button').click();
+                var val = confirm("Welcome back to an ongoing tomato!");
+            }
         }
 
         function startOver() {

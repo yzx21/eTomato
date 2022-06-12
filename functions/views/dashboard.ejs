@@ -49,7 +49,6 @@
 <body data-theme-mode-panel-active data-theme="light" style="font-family:
         'Mazzard H';" onload="onLoad();">
 
-
     <div id="header">
         <div class="row position-relative justify-content-center">
             <div class="float-container">
@@ -108,7 +107,8 @@
                                         id="modalClose1">Cancel</button>
                                 </div>
                                 <div class="col-auto">
-                                    <button onclick="stopTomato()" type="button" class="btn btn-danger px-4"
+                                    <script type="module" src="./public/js/circle.js"></script>
+                                    <button onclick="StopTomato()" type="button" class="btn btn-danger px-4"
                                         data-dismiss="modal" id="modalClose2">Yes</button>
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
     <div id="left-side">
         <div class="row justify-content-center">
             <div class="circlebar" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20
-                data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
+                data-circle-size="200px" data-circle-maxValue="5" data-circle-skin="purple">
                 <div class="loader-bg">
                     <% if(isTomatoOn) { %>
                     <div class="text">Loading...</div>
@@ -447,21 +447,6 @@
                 });
             sessionStorage.setItem("_session", "");
         }
-
-        function stopTomato() {
-            $.ajax({
-                url: "./stopSession",
-                type: "POST",
-                success: function (result) {
-                    new Toasteur().success("Tomato stopped", 'Have a break now', () => {});
-                    document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
-                },
-                error: function (error) {
-                    new Toasteur().error(error.responseText, 'Error!', () => {});
-                    document.getElementById("startBtn").alt = "start_a_tomato";
-                },
-            });
-        }
     </script>
 
     <script>
@@ -480,7 +465,6 @@
 
     <script type="module" src="./public/js/music.js"></script>
     <script src="./public/summernote/summernote.min.js"></script>
-    <script type="module" src="./public/js/circle.js"></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 
     <script src="./public/toast/toasteur.min.js"></script>

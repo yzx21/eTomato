@@ -1,3 +1,4 @@
+
 var playerTrack = $("#player-track"),
     bgArtwork = $("#bg-artwork"),
     bgArtworkUrl,
@@ -456,7 +457,6 @@ function initPlayer() {
                 });
             }
         } else {
-            StopMusic();
         }
     });
 }

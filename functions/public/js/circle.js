@@ -10,6 +10,8 @@ $(document).ready(function () {
     });
 });
 
+var timer;
+
 function Circlebar(prefs) {
     this.element = $(prefs.element);
     this.element.append('<div class="spinner-holder-one animate-0-25-a"><div class="spinner-holder-two animate-0-25-b"><div class="loader-spinner" style=""></div></div></div><div class="spinner-holder-one animate-25-50-a"><div class="spinner-holder-two animate-25-50-b"><div class="loader-spinner"></div></div></div><div class="spinner-holder-one animate-50-75-a"><div class="spinner-holder-two animate-50-75-b"><div class="loader-spinner"></div></div></div><div class="spinner-holder-one animate-75-100-a"><div class="spinner-holder-two animate-75-100-b"><div class="loader-spinner"></div></div></div>');
@@ -73,6 +75,7 @@ function Circlebar(prefs) {
         }
 
         if (progress == 100) {
+            StopTimer();
             StopMusic();
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
             audio.play();
@@ -80,6 +83,8 @@ function Circlebar(prefs) {
                 alert("Congrats, you've achieved another Tomato!")
                 audio.currentTime = 0;
             });
+            document.getElementById("startBtn").src = "./public/image/start_tomato.png";
+            document.getElementById("startBtn").alt = "start_a_tomato";
         }
     };
     this.textFilter = function () {
@@ -90,8 +95,8 @@ function Circlebar(prefs) {
                 date = 0,
                 text = that.element.find(".text");
             if (that.type == "timer") {
-                if (that.timer === undefined) {
-                    that.timer = setInterval(function () {
+                if (timer === undefined) {
+                    timer = setInterval(function () {
                         if (that.value < that.maxValue) {
                             that.value += parseInt(that.counter / 1000);
                             percentage = (that.value * 100) / that.maxValue;
@@ -101,8 +106,8 @@ function Circlebar(prefs) {
                             date.setSeconds(that.value); // specify value for seconds here
                             text.html(date.toISOString().substr(14, 5));
                         } else {
-                            clearInterval(that.timer);
-                            that.timer = undefined
+                            clearInterval(timer);
+                            timer = undefined
                         }
                     }, (that.counter));
                 }
@@ -137,8 +142,8 @@ function Circlebar(prefs) {
                 date = 0,
                 text = that.element.find(".text");
             if (that.type == "timer") {
-                if (that.timer === undefined) {
-                    that.timer = setInterval(function () {
+                if (timer === undefined) {
+                    timer = setInterval(function () {
                         if (that.value < that.maxValue) {
                             that.value += parseInt(that.counter / 1000);
                             percentage = (that.value * 100) / that.maxValue;
@@ -148,8 +153,8 @@ function Circlebar(prefs) {
                             date.setSeconds(that.value); // specify value for seconds here
                             text.html(date.toISOString().substr(14, 5));
                         } else {
-                            clearInterval(that.timer);
-                            that.timer = undefined
+                            clearInterval(timer);
+                            timer = undefined
                         }
                     }, (that.counter));
                 }
@@ -172,8 +177,8 @@ function Circlebar(prefs) {
                 setDeceleratingTimeout(0.1, 100);
             }
         } else {
-            clearInterval(that.timer);
-            that.timer = undefined;
+            clearInterval(timer);
+            timer = undefined;
         }
     }
 
@@ -192,6 +197,32 @@ function Circlebar(prefs) {
     }
 }
 
-export function StartProgress() {
-    this.textFilter();
+function StopTimer() {
+    clearInterval(timer);
+    timer = undefined
+}
+
+window.StopTomato = function () {
+    $.ajax({
+        url: "./stopSession",
+        type: "POST",
+        success: function (result) {
+            new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
+            StopTimer();
+            StopMusic();
+            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
+            audio.play();
+            audio.addEventListener("ended", function () {
+                alert("Congrats, you've achieved another Tomato!")
+                audio.currentTime = 0;
+            });
+
+            document.getElementById("startBtn").src = "./public/image/start_tomato.png";
+            document.getElementById("startBtn").alt = "start_a_tomato";
+        },
+        error: function (error) {
+            new Toasteur().error(error.responseText, 'Error!', () => { });
+            document.getElementById("startBtn").alt = "start_a_tomato";
+        },
+    });
 }

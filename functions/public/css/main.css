@@ -151,10 +151,11 @@
 hr {
   position: relative;
   color: #D9D9D9;
-  height: 2px;
-  left: 25%;
+  height: 1px;
   width:50%;
   top: 50px;
+  border-top: 0.5px solid #D9D9D9;
+  border-bottom: 0.5px solid #D9D9D9;
 }
 
 .float-container {

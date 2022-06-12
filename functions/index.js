@@ -77,7 +77,7 @@ app.post("/sessionLogin", async (req, res) => {
         var sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
     } catch (err) {
         res.status(401).send("UNAUTHORIZED REQUEST!");
-                console.log("create session cookie error: " + error);
+        console.log("create session cookie error: " + error);
         return;
     }
     const options = { maxAge: expiresIn, httpOnly: true, secure: true };
@@ -115,10 +115,10 @@ app.get("/", async (req, res) => {
     var isTomatoOn = false;
     tomatosSet = await getLastestTomato(userSnap.uid);
     var durationSec = 0;
-    if(tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+    if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         isTomatoOn = true;
-        durationSec =  Date.now() / 1000 - tomato['startTimeSec'] ;
+        durationSec = Date.now() / 1000 - tomato['startTimeSec'];
     }
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
@@ -131,10 +131,10 @@ app.get("/", async (req, res) => {
 
 function isTomatoOngoing(tomato) {
     var nowSec = Date.now() / 1000;
-    if(tomato['duration']) {
+    if (tomato['duration']) {
         return true;
     }
-    if(nowSec - tomato['startTimeSec'] <= 1500) {
+    if (nowSec - tomato['startTimeSec'] <= 1500) {
         return true;
     }
     return false;
@@ -156,17 +156,43 @@ app.post("/startSession", async (req, res) => {
         return;
     }
     tomatosSet = await getLastestTomato(userSnap.uid);
-    if(tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+    if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         res.status(500).send("something went wrong, please try again!");
     }
     else {
-        var tomatosSnap = admin.database().ref('users').child(userSnap.uid).child("tomatos");
+        var tomatosSnap = db.ref('users').child(userSnap.uid).child("tomatos");
         tomatosSnap.push({
             startTimeSec: Date.now() / 1000
-        }) 
+        })
         res.send();
     }
 });
+
+app.post("/stopSession", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.send("something went wrong");
+        return;
+    }
+    tomatosSet = await getLastestTomato(userSnap.uid);
+    if (!tomatosSet || !isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+        res.status(500).send("something went wrong, please try again!");
+    }
+    else {
+        var tomatoSnap = db.ref('users').child(userSnap.uid).child("tomatos").limitToLast(1);
+        var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
+        var latestTomatoDurationSnap = db.ref('users').child(userSnap.uid).child("tomatos").child(Object.keys(tomatosSet)[0]);
+        const duratioin = Date.now() / 1000 - tomato['startTimeSec']
+        latestTomatoDurationSnap.update({
+            duration: duratioin
+        })
+        res.send();
+    }
+});
+
 
 app.get("/logout", (req, res) => {
     res.clearCookie("__session");

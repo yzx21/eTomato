@@ -112,25 +112,29 @@ app.get("/", async (req, res) => {
         return;
     }
     var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
-    isTomatoOn = false;
+    var isTomatoOn = false;
     tomatosSet = await getLastestTomato(userSnap.uid);
+    var durationSec = 0;
     if(tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+        var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         isTomatoOn = true;
+        durationSec =  Date.now() / 1000 - tomato['startTimeSec'] ;
     }
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
         profileUrl: userRec.val()['photoURL'],
         email: userRec.val()['email'],
         isTomatoOn: isTomatoOn,
+        durationSec: durationSec,
     });
 });
 
 function isTomatoOngoing(tomato) {
-    var nowSec = Date.now();
+    var nowSec = Date.now() / 1000;
     if(tomato['duration']) {
         return true;
     }
-    if(nowSec - tomato['startTimeSec'] > 1500) {
+    if(nowSec - tomato['startTimeSec'] <= 1500) {
         return true;
     }
     return false;
@@ -158,7 +162,7 @@ app.post("/startSession", async (req, res) => {
     else {
         var tomatosSnap = admin.database().ref('users').child(userSnap.uid).child("tomatos");
         tomatosSnap.push({
-            startTimeSec: Date.now()
+            startTimeSec: Date.now() / 1000
         }) 
         res.send();
     }

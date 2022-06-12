@@ -83,40 +83,46 @@ function Circlebar(prefs) {
         }
     };
     this.textFilter = function() {
-        var percentage = 0,
-            date = 0,
-            text = that.element.find(".text");
-        if (that.type == "timer") {
-            that.timer = setInterval(function() {
-                if (that.value < that.maxValue) {
-                    that.value += parseInt(that.counter / 1000);
-                    percentage = (that.value * 100) / that.maxValue;
-                    that.renderProgress(percentage);
-                    text[0].dataset.value = that.value;
-                    date = new Date(null);
-                    date.setSeconds(that.value); // specify value for seconds here
-                    text.html(date.toISOString().substr(14, 5));
-                } else {
-                    clearInterval(that.timer);
-                }
-            }, (that.counter));
-        }
-        if (that.type == "progress") {
-            function setDeceleratingTimeout(factor, times) {
-                var internalCallback = function(counter) {
-                    return function() {
-                        if (that.value < that.maxValue && that.value < 100) {
-                            that.value += 1;
-                            that.renderProgress(that.value);
-                            text[0].dataset.value = that.value;
-                            text.html(Math.floor(that.value) + "%");
-                            setTimeout(internalCallback, ++counter * factor);
-                        }
+        var start_btn = document.getElementById("startBtn");
+        var btnVal = start_btn.alt;
+        if(btnVal == "stop_a_tomato") {
+            var percentage = 0,
+                date = 0,
+                text = that.element.find(".text");
+            if (that.type == "timer") {
+                that.timer = setInterval(function() {
+                    if (that.value < that.maxValue) {
+                        that.value += parseInt(that.counter / 1000);
+                        percentage = (that.value * 100) / that.maxValue;
+                        that.renderProgress(percentage);
+                        text[0].dataset.value = that.value;
+                        date = new Date(null);
+                        date.setSeconds(that.value); // specify value for seconds here
+                        text.html(date.toISOString().substr(14, 5));
+                    } else {
+                        clearInterval(that.timer);
                     }
-                }(times, 0);
-                setTimeout(internalCallback, factor);
-            };
-            setDeceleratingTimeout(0.1, 100);
+                }, (that.counter));
+            }
+            if (that.type == "progress") {
+                function setDeceleratingTimeout(factor, times) {
+                    var internalCallback = function(counter) {
+                        return function() {
+                            if (that.value < that.maxValue && that.value < 100) {
+                                that.value += 1;
+                                that.renderProgress(that.value);
+                                text[0].dataset.value = that.value;
+                                text.html(Math.floor(that.value) + "%");
+                                setTimeout(internalCallback, ++counter * factor);
+                            }
+                        }
+                    }(times, 0);
+                    setTimeout(internalCallback, factor);
+                };
+                setDeceleratingTimeout(0.1, 100);
+            }
+        } else {
+            clearInterval(that.timer); 
         }
     }
     this.setValue = function(val) {
@@ -127,8 +133,12 @@ function Circlebar(prefs) {
         text.html(that.value);
     }
 
-    var start_btn = document.getElementById("start_btn");
+    var start_btn = document.getElementById("startBtn");
     start_btn.addEventListener("click", this.textFilter);
+    this.textFilter();
+    // if() {
+    //     this.textFilter();
+    // }
 }
 
 export function StartProgress() {

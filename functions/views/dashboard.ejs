@@ -67,9 +67,9 @@
 
   <div id="left-side">
     <div class="row justify-content-center">
-      <div class="circlebar" data-circle-startTime=0 data-circle-dialWidth=20 data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
+      <div class="circlebar" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20 data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
           <div class="loader-bg">
-              <div class="text">00:00</div>
+              <div class="text">--:--</div>
           </div>
       </div>
       <div id="startBtnSec">
@@ -280,7 +280,7 @@
       snd.play();
       var btnVal = document.getElementById("startBtn").alt;
       if(btnVal == "start_a_tomato") {
-        firebase.analytics().logEvent('ClickStartBtn'); 
+        firebase.analytics().logEvent('ClickStartBtn');
         $.ajax({
               url: "./startSession",
               type: "POST",

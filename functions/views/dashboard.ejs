@@ -74,7 +74,11 @@
       </div>
       <div id="startBtnSec">
         <a id="start_btn" style="background-color: transparent; border-width: 0px;" role="button" aria-expanded="false" aria-controls="collapseTimer">
-          <img id="startBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" width="340" height="35" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();" ondblclick="ClickStartBtn();">
+          <% if(!isTomatoOn) { %>
+            <img id="startBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" width="340" height="35" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();" ondblclick="ClickStartBtn();">
+          <% } else { %> 
+            <img id="startBtn" alt="stop_a_tomato" src="./public/image/stop_tomato.png" width="340" height="35" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();" ondblclick="ClickStartBtn();">
+          <% } %>
       </a>
       </div>
     </div>

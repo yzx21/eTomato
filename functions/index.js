@@ -112,10 +112,16 @@ app.get("/", async (req, res) => {
         return;
     }
     var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
+    isTomatoOn = false;
+    tomatosSet = await getLastestTomato(userSnap.uid);
+    if(tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+        isTomatoOn = true;
+    }
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
         profileUrl: userRec.val()['photoURL'],
         email: userRec.val()['email'],
+        isTomatoOn: isTomatoOn,
     });
 });
 

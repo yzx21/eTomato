@@ -131,8 +131,8 @@ app.get("/", async (req, res) => {
 
 function isTomatoOngoing(tomato) {
     var nowSec = Date.now() / 1000;
-    if (tomato['duration']) {
-        return true;
+    if (tomato['duration'] != undefined) {
+        return false;
     }
     if (nowSec - tomato['startTimeSec'] <= 1500) {
         return true;

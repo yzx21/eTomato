@@ -34,7 +34,7 @@
   z-index: 1;
   left: 0%;
   top: 0%;
-  width: 25%;
+  width:320px;
   height: 100%;
   background-color: hsl(227, 10%, 10%);
   padding-top: 150px;
@@ -44,7 +44,7 @@
   z-index: 1;
   right: 0%;
   top: 0%;
-  width: 25%;
+  width: 320px;
   height: 100%;
   background-color: hsl(227, 10%, 10%);
   padding-top: 150px;
@@ -52,10 +52,10 @@
 #middle {
   position: absolute;
   z-index: 1;
-  left: 25%;
   top: 0%;
-  width: 50%;
   height: 300%;
+  left: 320px;
+  width: calc(100% - 640px);
   background-color: hsl(227, 10%, 10%);
   padding-top: 150px;
 }
@@ -131,15 +131,15 @@
 
 #startBtnSec {
   position: relative;
-  height: 30;
+  height: 45;
   top: 35px;
 }
 
 #startBtn {
   position: relative;
-  left: 35%;
-  width: 30%;
-  height: 85%;
+  left: 27.5%;
+  width: 45%;
+  height: 89%;
 }
 
 #checkboxLbl {

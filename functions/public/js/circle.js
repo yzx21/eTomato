@@ -1,10 +1,10 @@
-import {StopMusic} from "./music.js"
+import { StopMusic } from "./music.js"
 
-$(document).ready(function() {
+$(document).ready(function () {
     var prefs = {
         element: ".circlebar"
     };
-    $('.circlebar').each(function() {
+    $('.circlebar').each(function () {
         prefs.element = $(this);
         new Circlebar(prefs);
     });
@@ -17,7 +17,7 @@ function Circlebar(prefs) {
     // var attribs = this.element.find("div")[0].parentNode.dataset;
     var attribs = this.element[0].dataset,
         that = this;
-    this.initialise = function() {
+    this.initialise = function () {
         that.value = parseInt(attribs.circleStarttime) || parseInt(prefs.startTime) || 0;
         that.maxValue = parseInt(attribs.circleMaxvalue) || parseInt(prefs.maxValue) || 60;
         that.counter = parseInt(attribs.circleCounter) || parseInt(prefs.counter) || 1000;
@@ -38,7 +38,7 @@ function Circlebar(prefs) {
             .css({ "font-size": that.fontSize, "color": that.fontColor });
     };
     this.initialise();
-    this.renderProgress = function(progress) {
+    this.renderProgress = function (progress) {
         progress = Math.floor(progress);
         var angle = 0;
         if (progress < 25) {
@@ -72,25 +72,26 @@ function Circlebar(prefs) {
             }
         }
 
-        if(progress == 100) {
+        if (progress == 100) {
             StopMusic();
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
             audio.play();
-            audio.addEventListener("ended", function(){
+            audio.addEventListener("ended", function () {
                 alert("Congrats, you've achieved another Tomato!")
                 audio.currentTime = 0;
-           });
+            });
         }
     };
-    this.textFilter = function() {
+    this.textFilter = function () {
         var start_btn = document.getElementById("startBtn");
         var btnVal = start_btn.alt;
-        if(btnVal == "stop_a_tomato") {
+        if (btnVal == "stop_a_tomato") {
+            if (that.timer != undefined) return;
             var percentage = 0,
                 date = 0,
                 text = that.element.find(".text");
             if (that.type == "timer") {
-                that.timer = setInterval(function() {
+                that.timer = setInterval(function () {
                     if (that.value < that.maxValue) {
                         that.value += parseInt(that.counter / 1000);
                         percentage = (that.value * 100) / that.maxValue;
@@ -106,8 +107,8 @@ function Circlebar(prefs) {
             }
             if (that.type == "progress") {
                 function setDeceleratingTimeout(factor, times) {
-                    var internalCallback = function(counter) {
-                        return function() {
+                    var internalCallback = function (counter) {
+                        return function () {
                             if (that.value < that.maxValue && that.value < 100) {
                                 that.value += 1;
                                 that.renderProgress(that.value);
@@ -122,10 +123,10 @@ function Circlebar(prefs) {
                 setDeceleratingTimeout(0.1, 100);
             }
         } else {
-            clearInterval(that.timer); 
+            clearInterval(that.timer);
         }
     }
-    this.setValue = function(val) {
+    this.setValue = function (val) {
         text = that.element.find(".text");
         that.value = val;
         that.renderProgress(that.value);
@@ -135,7 +136,7 @@ function Circlebar(prefs) {
 
     var start_btn = document.getElementById("startBtn");
     start_btn.addEventListener("click", this.textFilter);
-    if(that.value) {
+    if (that.value) {
         this.textFilter();
     }
 }

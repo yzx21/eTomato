@@ -193,6 +193,32 @@ app.post("/stopSession", async (req, res) => {
     }
 });
 
+app.post("/touchedMusicPlayBtn", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.send("something went wrong");
+        return;
+    }
+    tomatosSet = await getLastestTomato(userSnap.uid);
+    if (!tomatosSet || !isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+        res.send();
+        return;
+    }
+    else {
+        var tomatoSnap = db.ref('users').child(userSnap.uid).child("tomatos").limitToLast(1);
+        var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
+        var latestTomatoDurationSnap = db.ref('users').child(userSnap.uid).child("tomatos").child(Object.keys(tomatosSet)[0]);
+        const duratioin = Date.now() / 1000 - tomato['startTimeSec']
+        latestTomatoDurationSnap.update({
+            duration: duratioin
+        })
+        res.send();
+        return;
+    }
+});
 
 app.get("/logout", (req, res) => {
     res.clearCookie("__session");

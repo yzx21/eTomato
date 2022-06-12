@@ -181,15 +181,23 @@
                     <% } %>
                 </a>
             </div>
+            <% if {noteProcessed) { %>
             <div id="processNotesSec" style="display:none;">
                 <lable id="processNotesLbl">*Please process the notes*</lable>
             </div>
+            <% } else { %>
+            <div id="processNotesSec" style="display:table-row;">
+                <lable id="processNotesLbl">*Please process the notes*</lable>
+            </div>
+            <% } %>
         </div>
 
 
         <hr class="split">
-        <div>
-            Today's tomatos:
+
+        <div id="todaySummarySec">
+            <lable id="todayTomatoLbl">Today's tomatos</lable>
+
         </div>
     </div>
 
@@ -321,13 +329,23 @@
                     });
                 });
             </script>
-            <div id="publishSection" style="display: none;"=>
+            <% if {noteProcessed) { %>
+            <div id="publishSection" style="display:none;"=>
                 <button id="disgardBtn" type="button">Disgard</button>
                 <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label>
                 <button id="saveBtn" type="button">Save</button>
             </div>
+            <% } else { %>
+            <div id="publishSection" style="display:table-row;"=>
+                <button id="disgardBtn" type="button">Disgard</button>
+                <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
+                <label id="checkboxLbl" for="publishCheckBox">Publish
+                    to global</label>
+                <button id="saveBtn" type="button">Save</button>
+            </div>
+            <% } %>
         </div>
     </div>
 

@@ -85,6 +85,8 @@ function Circlebar(prefs) {
             });
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
+            document.getElementById("publishSection").style.display = "table-row";
+            document.getElementById("processNotesSec").style.display = "table-row";
         }
     };
     this.textFilter = function () {
@@ -219,6 +221,8 @@ window.StopTomato = function () {
 
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
+            document.getElementById("publishSection").style.display = "table-row";
+            document.getElementById("processNotesSec").style.display = "table-row";
         },
         error: function (error) {
             new Toasteur().error(error.responseText, 'Error!', () => { });

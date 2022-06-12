@@ -135,10 +135,9 @@ function Circlebar(prefs) {
 
     var start_btn = document.getElementById("startBtn");
     start_btn.addEventListener("click", this.textFilter);
-    this.textFilter();
-    // if() {
-    //     this.textFilter();
-    // }
+    if(that.value) {
+        this.textFilter();
+    }
 }
 
 export function StartProgress() {

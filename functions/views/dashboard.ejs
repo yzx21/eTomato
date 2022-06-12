@@ -69,7 +69,12 @@
     <div class="row justify-content-center">
       <div class="circlebar" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20 data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
           <div class="loader-bg">
-              <div class="text">--:--</div>
+              <% if(isTomatoOn) { %>
+                <div class="text">Loading...</div>
+              <% } else { %>
+                <div class="text">00:00</div>
+              <% }%>
+              
           </div>
       </div>
       <div id="startBtnSec">
@@ -280,17 +285,18 @@
       snd.play();
       var btnVal = document.getElementById("startBtn").alt;
       if(btnVal == "start_a_tomato") {
+        document.getElementById("startBtn").alt = "stop_a_tomato";
         firebase.analytics().logEvent('ClickStartBtn');
         $.ajax({
               url: "./startSession",
               type: "POST",
               success: function (result) {
                 new Toasteur().success("Tomato started", 'Enjoy your time!', () => {});
-                document.getElementById("startBtn").alt = "stop_a_tomato";
                 document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
               },
              error: function (error) {
                 new Toasteur().error(error.responseText, 'Error!', () => {});
+                document.getElementById("startBtn").alt = "start_a_tomato";
               },
             });
       } else {

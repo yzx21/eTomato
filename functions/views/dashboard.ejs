@@ -183,11 +183,11 @@
             </div>
             <% if (noteProcessed) { %>
             <div id="processNotesSec" style="display:none;">
-                <lable id="processNotesLbl">*Please process the notes*</lable>
+                <lable id="processNotesLbl">*Please process the notes for the previous session*</lable>
             </div>
             <% } else { %>
             <div id="processNotesSec" style="display:table-row;">
-                <lable id="processNotesLbl">*Please process the notes*</lable>
+                <lable id="processNotesLbl">*Please process the notes for the previous session*</lable>
             </div>
             <% } %>
         </div>
@@ -436,6 +436,11 @@
         }
 
         function ClickStartBtn() {
+            if (document.getElementById("processNotesSec").style.display !== "none") {
+                $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                return;
+            }
             document.getElementById("startBtn").src = "./public/image/start_tomato_pressed.png";
             var snd = new Audio("./public/sounds/start_clicked.mp3");
             snd.play();

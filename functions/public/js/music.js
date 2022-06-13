@@ -442,6 +442,11 @@ function initPlayer() {
 
     var start_btn = document.getElementById("startBtn");
     start_btn.addEventListener("click", function () {
+        if (document.getElementById("processNotesSec").style.display !== "none") {
+            $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+            $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+            return;
+        }
         var start_btn = document.getElementById("startBtn");
         var btnVal = start_btn.alt;
         if (btnVal == "start_a_tomato") {

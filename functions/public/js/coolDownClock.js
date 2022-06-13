@@ -2,9 +2,9 @@ import { StopMusic } from "./music.js"
 
 $(document).ready(function () {
     var prefs = {
-        element: ".circlebar"
+        element: ".circlebarCD"
     };
-    $('.circlebar').each(function () {
+    $('.circlebarCD').each(function () {
         prefs.element = $(this);
         new Circlebar(prefs);
     });
@@ -77,17 +77,19 @@ function Circlebar(prefs) {
 
         if (progress == 100) {
             StopTimer();
-            StopMusic();
-            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
+            // $('#coolDownModal').on('hide.bs.modal', function () {
+            //     return true;
+            // });
+
+            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FCD_Completed.mp3?alt=media&token=7a520622-c205-4820-b76f-31390509ac31");
             audio.play();
             audio.addEventListener("ended", function () {
-                audio.currentTime = 0;
-                $('#coolDownModal').modal("show");
+                $('#coolDownModal').modal("hide");
+                $('#coolDownModal').off('click');
+                // $('#coolDownModal').on('hide.bs.modal', function () {
+                //     return false;
+                // });
             });
-            document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-            document.getElementById("startBtn").alt = "start_a_tomato";
-            document.getElementById("publishSection").style.display = "table-row";
-            document.getElementById("processNotesSec").style.display = "table-row";
         }
     };
     textFilter = function () {
@@ -235,4 +237,15 @@ window.StopTomato = function () {
             document.getElementById("startBtn").alt = "start_a_tomato";
         },
     });
+}
+
+
+window.StartCoolDown = function () {
+    textFilter();
+    // var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
+    // audio.play();
+    // audio.addEventListener("ended", function () {
+    //     alert("Cool down completed, focus now...")
+    //     audio.currentTime = 0;
+    // });
 }

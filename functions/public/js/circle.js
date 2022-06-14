@@ -83,6 +83,7 @@ function Circlebar(prefs) {
             audio.addEventListener("ended", function () {
                 audio.currentTime = 0;
                 $('#coolDownModal').modal("show");
+                StartCoolDown();
             });
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";

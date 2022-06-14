@@ -35,7 +35,6 @@
     <link type="text/css" rel="stylesheet" href="./public/css/music.css">
     <link href="./public/summernote/summernote.min.css" rel="stylesheet">
 
-
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -43,7 +42,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
-    <script src="./public/js/bootstrap.min.js"></script>
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family:
@@ -64,15 +62,13 @@
         </div>
 
 
-
         <div class="dropdown" id="settings">
-            <a href="#" id="dropdownMenuButton" data-toggle="dropdown">
+            <a href="#" id="dropdownMenuButton" data-bs-toggle="dropdown">
                 <img id="settingImg" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
             </a>
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Stats</a>
-                <a class="dropdown-item" href="#logoutModal" data-toggle="modal">Logout</a>
+                <a class="dropdown-item" href="#logoutModal" data-bs-toggle="modal">Logout</a>
             </div>
         </div>
 
@@ -80,75 +76,40 @@
 
 
     <!-- Modal stopTomato -->
-    <div id="stopTomatoModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content border-0">
-                <div class="modal-body p-0">
-                    <div class="card border-0 p-sm-3 p-2
-                            justify-content-center">
-                        <div class="card-header pb-0 bg-white border-0">
-                            <div class="row">
-                                <div class="col ml-auto">
-                                    <button type="button" class="close" id="modalClose" data-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <p class="font-weight-bold mb-2">Stop the
-                                current tomato?</p>
-                            <p class="text-muted"> Are you going to
-                                terminate this session?</p>
-                        </div>
-                        <div class="card-body px-sm-4 mb-2 pt-1 pb-0">
-                            <div class="row justify-content-end no-gutters">
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-light text-muted" data-dismiss="modal"
-                                        id="modalClose1">Cancel</button>
-                                </div>
-                                <div class="col-auto">
-                                    <script type="module" src="./public/js/circle.js"></script>
-                                    <button onclick="StopTomato()" type="button" class="btn btn-danger px-4"
-                                        data-dismiss="modal" id="modalClose2">Yes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="modal fade" id="stopTomatoModal" tabindex="-1" aria-labelledby="stopLableModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="stopLableModalLabel">Stop the current tomato?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you going to terminate this session? Terminated tomato are not going to be recorded.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <script type="module" src="./public/js/circle.js"></script>
+                    <button onclick="StopTomato()" type="button" class="btn btn-danger px-4" data-ds-dismiss="modal"
+                        id="modalClose2">Yes</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal HTML -->
-    <div id="logoutModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content border-0">
-                <div class="modal-body p-0">
-                    <div class="card border-0 p-sm-3 p-2
-                            justify-content-center">
-                        <div class="card-header pb-0 bg-white border-0">
-                            <div class="row">
-                                <div class="col ml-auto">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <p class="font-weight-bold mb-2">Logout</p>
-                            <p class="text-muted"> Are you going to logout?</p>
-                        </div>
-                        <div class="card-body px-sm-4 mb-2 pt-1 pb-0">
-                            <div class="row justify-content-end no-gutters">
-                                <div class="col-auto">
-                                    <button type="button" class="btn
-                                            btn-light text-muted" data-dismiss="modal">Cancel</button>
-                                </div>
-                                <div class="col-auto">
-                                    <button onclick="logout()" type="button" class="btn btn-danger px-4"
-                                        data-dismiss="modal">Logout</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you going to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" onclick="logout()" class="btn btn-primary">Logout</button>
                 </div>
             </div>
         </div>
@@ -157,7 +118,7 @@
     <div id="left-side">
         <div class="row justify-content-center">
             <div class="circlebar" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20
-                data-circle-size="200px" data-circle-maxValue="2" data-circle-skin="purple">
+                data-circle-size="200px" data-circle-maxValue="1" data-circle-skin="purple">
                 <div class="loader-bg">
                     <% if(isTomatoOn) { %>
                     <div class="text">Loading...</div>
@@ -349,56 +310,30 @@
         </div>
     </div>
 
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready
-                        to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select
-                    "Logout" below if
-                    you are ready to end
-                    your current
-                    session.</div>
-                <div class="modal-footer">
-                    <button class="btn
-                                                                btn-secondary" type="button"
-                        data-dismiss="modal">Cancel</button>
-                    <a class="btn
-                                                                btn-primary" onclick="logout()">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Modal -->
-    <div id="coolDownModal" class="modal hide" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+    <div id="coolDownModal" class="modal hide" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class=" modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="coolDownModalTitle">5 mins Break</h5>
                 </div>
                 <div class="modal-body">
-
                     <div>
                         <div class="circlebarCD" data-circle-startTime=1 data-circle-dialWidth=10
-                            data-circle-size="200px" data-circle-maxValue="14" data-circle-skin="blue">
+                            data-circle-size="200px" data-circle-maxValue="5" data-circle-skin="blue">
                             <div class="loader-bg">
                                 <div class="text">00:00</div>
                             </div>
                         </div>
                     </div>
-
-                    <div></div>
-
-                    <div></div>
-
-
+                    <hr>
+                    <p class="pos_center">You can <a href="#" class="tooltip-test" title="Tooltip">make better
+                            decisions</a> and <a href="#" class="tooltip-test" title="Tooltip">prevent decision
+                            fatigue</a> by taking a short
+                        break.</p>
+                    <p class="pos_center">Reward yourself during your breaks.</p>
+                    <p class="pos_center">🥨 🍨 🥑 😴 💅🏻 🎸 🎯 🐶 🐱</p>
                 </div>
 
             </div>
@@ -438,13 +373,6 @@
                 document.getElementById('play-pause-button').click();
                 var val = confirm("Welcome back to an ongoing tomato!");
             }
-            jQuery('#coolDownModal').on('shown.bs.modal', function () {
-                jQuery(this).data('bs.modal').options.backdrop = 'static';
-                jQuery(this).data('bs.modal').options.keyboard = false;
-            });
-            // $('#coolDownModal').on('hide.bs.modal', function () {
-            //     return false;
-            // });
         }
 
         function startOver() {
@@ -527,6 +455,8 @@
             })
         })
     </script>
+
+    <script type="module" src="./public/js/coolDownClock.js"></script>
     <script type="module" src="./public/js/coolDownClock.js"></script>
     <script type="module" src="./public/js/music.js"></script>
     <script src="./public/summernote/summernote.min.js"></script>

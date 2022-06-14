@@ -93,54 +93,43 @@ function Circlebar(prefs) {
         }
     };
     textFilter = function () {
-        if (document.getElementById("processNotesSec").style.display !== "none" && process !== 100) {
-            $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-            $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-            return;
+        var percentage = 0,
+            date = 0,
+            text = that.element.find(".text");
+        if (that.type == "timer") {
+            if (timer === undefined) {
+                timer = setInterval(function () {
+                    if (that.value < that.maxValue) {
+                        that.value += parseInt(that.counter / 1000);
+                        percentage = (that.value * 100) / that.maxValue;
+                        that.renderProgress(percentage);
+                        text[0].dataset.value = that.value;
+                        date = new Date(null);
+                        date.setSeconds(that.value); // specify value for seconds here
+                        text.html(date.toISOString().substr(14, 5));
+                    } else {
+                        clearInterval(timer);
+                        timer = undefined
+                    }
+                }, (that.counter));
+            }
         }
-        var start_btn = document.getElementById("startBtn");
-        var btnVal = start_btn.alt;
-        if (btnVal == "start_a_tomato") {
-            var percentage = 0,
-                date = 0,
-                text = that.element.find(".text");
-            if (that.type == "timer") {
-                if (timer === undefined) {
-                    timer = setInterval(function () {
-                        if (that.value < that.maxValue) {
-                            that.value += parseInt(that.counter / 1000);
-                            percentage = (that.value * 100) / that.maxValue;
-                            that.renderProgress(percentage);
+        if (that.type == "progress") {
+            function setDeceleratingTimeout(factor, times) {
+                var internalCallback = function (counter) {
+                    return function () {
+                        if (that.value < that.maxValue && that.value < 100) {
+                            that.value += 1;
+                            that.renderProgress(that.value);
                             text[0].dataset.value = that.value;
-                            date = new Date(null);
-                            date.setSeconds(that.value); // specify value for seconds here
-                            text.html(date.toISOString().substr(14, 5));
-                        } else {
-                            clearInterval(timer);
-                            timer = undefined
+                            text.html(Math.floor(that.value) + "%");
+                            setTimeout(internalCallback, ++counter * factor);
                         }
-                    }, (that.counter));
-                }
-            }
-            if (that.type == "progress") {
-                function setDeceleratingTimeout(factor, times) {
-                    var internalCallback = function (counter) {
-                        return function () {
-                            if (that.value < that.maxValue && that.value < 100) {
-                                that.value += 1;
-                                that.renderProgress(that.value);
-                                text[0].dataset.value = that.value;
-                                text.html(Math.floor(that.value) + "%");
-                                setTimeout(internalCallback, ++counter * factor);
-                            }
-                        }
-                    }(times, 0);
-                    setTimeout(internalCallback, factor);
-                };
-                setDeceleratingTimeout(0.1, 100);
-            }
-        } else {
-
+                    }
+                }(times, 0);
+                setTimeout(internalCallback, factor);
+            };
+            setDeceleratingTimeout(0.1, 100);
         }
     }
 
@@ -198,12 +187,6 @@ function Circlebar(prefs) {
         that.renderProgress(that.value);
         text[0].dataset.value = that.value;
         text.html(that.value);
-    }
-
-    var start_btn = document.getElementById("startBtn");
-    start_btn.addEventListener("click", textFilter);
-    if (that.value) {
-        this.continueOnReloadPage();
     }
 }
 

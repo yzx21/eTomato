@@ -82,9 +82,9 @@ function Circlebar(prefs) {
             audio.play();
             audio.addEventListener("ended", function () {
                 audio.currentTime = 0;
-                $('#coolDownModal').modal("show");
-                StartCoolDown();
             });
+            $('#coolDownModal').modal("show");
+            StartCoolDown();
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
             document.getElementById("publishSection").style.display = "table-row";
@@ -219,12 +219,14 @@ window.StopTomato = function () {
             new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
             StopTimer();
             StopMusic();
+
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
             audio.play();
             audio.addEventListener("ended", function () {
-                alert("Congrats, you've achieved another Tomato!")
                 audio.currentTime = 0;
             });
+            $('#coolDownModal').modal("show");
+            StartCoolDown();
 
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";

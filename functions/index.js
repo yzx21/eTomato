@@ -117,7 +117,7 @@ app.get("/", async (req, res) => {
     tomatosSet = await getLastestTomato(userSnap.uid);
     var durationSec = 0;
     var noteProcessed = true;
-    var remainingRestTimeSec = 301;
+    var remainingRestTimeSec = 0;
     if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         isTomatoOn = true;
@@ -159,10 +159,10 @@ function getRemainingRestTime(tomato) {
     if (tomato['duration'] != undefined) {
         return nowSec - tomato['duration'] <= 300 ? nowSec - tomato['duration'] : 0;
     }
-    if (nowSec - tomato['startTimeSec'] > 1500) {
+    if (nowSec - tomato['startTimeSec'] > 2) {
         return nowSec - tomato['startTimeSec'] <= 300 ? nowSec - tomato['startTimeSec'] : 0;
     }
-    return 301;
+    return 0;
 }
 
 async function getLastestTomato(uid) {

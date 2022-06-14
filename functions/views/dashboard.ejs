@@ -84,7 +84,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you going to terminate this session? Disrupted session is recommended to .
+                    Are you going to terminate this session?.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -118,7 +118,7 @@
     <div id="left-side">
         <div class="row justify-content-center">
             <div class="circlebar" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20
-                data-circle-size="200px" data-circle-maxValue="2" data-circle-skin="purple">
+                data-circle-size="200px" data-circle-maxValue="5" data-circle-skin="purple">
                 <div class="loader-bg">
                     <% if(isTomatoOn) { %>
                     <div class="text">Loading...</div>
@@ -379,7 +379,7 @@
         function onLoad() {
             firebase.analytics().logEvent('onLoad');
             var isOnRest = document.getElementById('app-cover').dataset.onrest;
-            if (isOnRest > 0 && isOnRest <= 300) {
+            if (isOnRest > 0) {
                 $('#coolDownModal').modal("show");
                 StartCoolDown();
             } else {
@@ -425,7 +425,6 @@
                 firebase.analytics().logEvent('stopOut');
             }
         }
-
 
         function ClickStartBtn() {
             if (document.getElementById("processNotesSec").style.display !== "none") {

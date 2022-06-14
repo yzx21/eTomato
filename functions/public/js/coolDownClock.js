@@ -76,20 +76,14 @@ function Circlebar(prefs) {
         }
 
         if (progress == 100) {
-            StopTimer();
+            StopCDTimer();
             // $('#coolDownModal').on('hide.bs.modal', function () {
             //     return true;
             // });
 
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FCD_Completed.mp3?alt=media&token=7a520622-c205-4820-b76f-31390509ac31");
             audio.play();
-            audio.addEventListener("ended", function () {
-                $('#coolDownModal').modal("hide");
-                $('#coolDownModal').off('click');
-                // $('#coolDownModal').on('hide.bs.modal', function () {
-                //     return false;
-                // });
-            });
+            audio.addEventListener("ended", function () { });
         }
     };
     textFilter = function () {
@@ -99,7 +93,7 @@ function Circlebar(prefs) {
         if (that.type == "timer") {
             if (timer === undefined) {
                 timer = setInterval(function () {
-                    if (that.value < that.maxValue) {
+                    if (that.value <= that.maxValue) {
                         that.value += parseInt(that.counter / 1000);
                         percentage = (that.value * 100) / that.maxValue;
                         that.renderProgress(percentage);
@@ -190,45 +184,11 @@ function Circlebar(prefs) {
     }
 }
 
-function StopTimer() {
+function StopCDTimer() {
     clearInterval(timer);
     timer = undefined
 }
 
-window.StopTomato = function () {
-    $.ajax({
-        url: "./stopSession",
-        type: "POST",
-        success: function (result) {
-            new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
-            StopTimer();
-            StopMusic();
-            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
-            audio.play();
-            audio.addEventListener("ended", function () {
-                alert("Congrats, you've achieved another Tomato!")
-                audio.currentTime = 0;
-            });
-
-            document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-            document.getElementById("startBtn").alt = "start_a_tomato";
-            document.getElementById("publishSection").style.display = "table-row";
-            document.getElementById("processNotesSec").style.display = "table-row";
-        },
-        error: function (error) {
-            new Toasteur().error(error.responseText, 'Error!', () => { });
-            document.getElementById("startBtn").alt = "start_a_tomato";
-        },
-    });
-}
-
-
 window.StartCoolDown = function () {
     textFilter();
-    // var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
-    // audio.play();
-    // audio.addEventListener("ended", function () {
-    //     alert("Cool down completed, focus now...")
-    //     audio.currentTime = 0;
-    // });
 }

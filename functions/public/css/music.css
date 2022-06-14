@@ -38,16 +38,19 @@
   color: #54576f;
   font-size: 0.9em;
   font-weight: bold;
-  height: 20%;
+  height: 25%;
   top: 0%;
+  overflow: hidden;
+  white-space: nowwrap;
+  text-overflow: ellipsis;
 }
 
 #track-name {
   color: #acaebd;
-  font-size: 0.8em;
-  padding-top: 4px;
+  font-size: 0.7em;
+  padding-top: 2px;
   margin: 2px 0 2px 0;
-  height: 30%;
+  height: 25%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

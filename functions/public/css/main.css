@@ -143,21 +143,21 @@
 }
 
 #publishCheckBox {
-  position: relative;
+  position: absolute;
   right: 100px;
   top: 8px;
   background-color: #86C232;
 }
 
 #saveBtn {
-  position: relative;
+  position: absolute;
   right: 10px;
   border-radius: 5px;
   background-color: #DEF2F1;
 }
 
 #disgardBtn {
-  position: relative;
+  position: absolute;
   left: 10px;
   border-radius: 5px;
   background-color: #DEF2F1;

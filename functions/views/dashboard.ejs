@@ -117,8 +117,8 @@
 
     <div id="left-side">
         <div class="row justify-content-center">
-            <div class="circlebar" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20
-                data-circle-size="200px" data-circle-maxValue="5" data-circle-skin="purple">
+            <div class="circlebar" id="circlebarId" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20
+                data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
                 <div class="loader-bg">
                     <% if(isTomatoOn) { %>
                     <div class="text">Loading...</div>
@@ -142,7 +142,7 @@
                     <% } %>
                 </a>
             </div>
-            <% if (noteProcessed) { %>
+            <% if (noteSkipped) { %>
             <div id="processNotesSec" style="display:none;">
                 <lable id="processNotesLbl">*Please process the notes for the previous session*</lable>
             </div>
@@ -290,9 +290,9 @@
                     });
                 });
             </script>
-            <% if (noteProcessed) { %>
+            <% if (noteSkipped) { %>
             <div id="publishSection" style="display:none;"=>
-                <button id="disgardBtn" type="button" onclick="disgard();">Disgard</button>
+                <button id="disgardBtn" type="button" onclick="disgard();">Skip</button>
                 <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label>
@@ -300,7 +300,7 @@
             </div>
             <% } else { %>
             <div id="publishSection" style="display:table-row;"=>
-                <button id="disgardBtn" type="button">Disgard</button>
+                <button id="disgardBtn" type="button" onclick="disgard();">Skip</button>
                 <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label>
@@ -339,10 +339,10 @@
                     <p class="pos_center">Dos: Stand up and walk around the room, have a drink of water or fantasize
                         about where you'll go on your next vacations. You can do deep breathing or streching exercises.
                         If you work with other people, you can swap a joke or two.</p>
-                    <p class="pos_center">Don'ts: don't talk about work-related issues with a colleague, don't write
-                        important e-mails or make urgent phones calls. Doing these kinds of things would block the
-                        constructive mental integration that you need to feel alert and ready for the start of the next
-                        Pomodoro.</p>
+                    <p class="pos_center">You can <a href="#" class="tooltip-test" title="Tooltip">make better
+                            decisions</a> and <a href="#" class="tooltip-test" title="Tooltip">prevent decision
+                            fatigue</a> by taking a short
+                        break.</p>
                     <p class="pos_center">🥨 🍨 🥑 😴 💅🏻 🎸 🎯 🐶 🐱</p>
                 </div>
 
@@ -416,14 +416,19 @@
         }
 
         function disgard() {
-            var btnVal = document.getElementById("startBtn").alt;
-            if (btnVal == "start_a_tomato") {
-                document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-                firebase.analytics().logEvent('startOut');
-            } else {
-                document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
-                firebase.analytics().logEvent('stopOut');
-            }
+            $.ajax({
+                url: "./skipNotes",
+                type: "POST",
+                success: function (result) {
+                    new Toasteur().success("Notes skipped", 'Have fun in your next tomato!', () => {});
+                    document.getElementById("publishSection").style.display = "none";
+                    document.getElementById("processNotesSec").style.display = "none";
+                    document.getElementById("circlebarId").dataset.onrest = 1500;
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => {});
+                },
+            });
         }
 
         function ClickStartBtn() {
@@ -442,7 +447,7 @@
                     url: "./startSession",
                     type: "POST",
                     success: function (result) {
-                        new Toasteur().success("Tomato started", 'Enjoy your time!', () => {});
+                        new Toasteur().success('Enjoy your time!', "A new Tomato is started", () => {});
                         document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
                         document.getElementById("startBtn").alt = "stop_a_tomato";
                     },

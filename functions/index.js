@@ -116,7 +116,7 @@ app.get("/", async (req, res) => {
     var isMusicPlaying = false;
     tomatosSet = await getLastestTomato(userSnap.uid);
     var durationSec = 0;
-    var noteProcessed = true;
+    var noteSkipped = true;
     var remainingRestTimeSec = 0;
     if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
@@ -126,8 +126,8 @@ app.get("/", async (req, res) => {
     }
     if (tomatosSet && !isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
-        if (!tomato['noteProcessed']) {
-            noteProcessed = false;
+        if (!tomato['noteSkipped']) {
+            noteSkipped = false;
         }
         remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
     }
@@ -138,7 +138,7 @@ app.get("/", async (req, res) => {
         isTomatoOn: isTomatoOn,
         durationSec: durationSec,
         isMusicPlaying, isMusicPlaying,
-        noteProcessed: noteProcessed,
+        noteSkipped: noteSkipped,
         remainingRestTimeSec: remainingRestTimeSec,
     });
 });
@@ -242,6 +242,30 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
         return;
     }
 });
+
+app.post("/skipNotes", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    tomatosSet = await getLastestTomato(userSnap.uid);
+    if (!tomatosSet || isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+        res.status(401).send("doesn't look like you have a pending tomato without a notes, please refresh and try again.");
+        return;
+    }
+    else {
+        var latestTomato = db.ref('users').child(userSnap.uid).child("tomatos").child(Object.keys(tomatosSet)[0]);
+        latestTomato.update({
+            noteSkipped: true
+        })
+        res.send();
+        return;
+    }
+})
 
 app.get("/logout", (req, res) => {
     res.clearCookie("__session");

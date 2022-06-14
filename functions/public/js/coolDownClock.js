@@ -77,13 +77,12 @@ function Circlebar(prefs) {
 
         if (progress == 100) {
             StopCDTimer();
-            // $('#coolDownModal').on('hide.bs.modal', function () {
-            //     return true;
-            // });
-
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FCD_Completed.mp3?alt=media&token=7a520622-c205-4820-b76f-31390509ac31");
             audio.play();
-            audio.addEventListener("ended", function () { });
+            audio.addEventListener("ended", function () {
+                $('#coolDownModal').modal("hide");
+            });
+
         }
     };
     textFilter = function () {

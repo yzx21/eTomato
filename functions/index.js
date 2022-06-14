@@ -28,6 +28,8 @@ const { timeStamp } = require('console');
 
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
+const tomatoSessionLength = 3;
+const coolDownLength = 10;
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com"
@@ -140,6 +142,8 @@ app.get("/", async (req, res) => {
         isMusicPlaying, isMusicPlaying,
         noteSkipped: noteSkipped,
         remainingRestTimeSec: remainingRestTimeSec,
+        tomatoSessionLength: tomatoSessionLength,
+        coolDownLength: coolDownLength,
     });
 });
 
@@ -148,7 +152,7 @@ function isTomatoOngoing(tomato) {
     if (tomato['duration'] != undefined) {
         return false;
     }
-    if (nowSec - tomato['startTimeSec'] <= 1500) {
+    if (nowSec - tomato['startTimeSec'] <= tomatoSessionLength) {
         return true;
     }
     return false;
@@ -157,11 +161,11 @@ function isTomatoOngoing(tomato) {
 function getRemainingRestTime(tomato) {
     var nowSec = Date.now() / 1000;
     if (tomato['duration'] != undefined) {
-        return nowSec - (tomato['startTimeSec'] + tomato['duration']) <= 300 ?
+        return nowSec - (tomato['startTimeSec'] + tomato['duration']) <= coolDownLength ?
             nowSec - (tomato['startTimeSec'] + tomato['duration']) : 0;
     }
     if (nowSec - tomato['startTimeSec'] > 2) {
-        return nowSec - tomato['startTimeSec'] <= 300 ? nowSec - tomato['startTimeSec'] : 0;
+        return nowSec - tomato['startTimeSec'] <= coolDownLength ? nowSec - tomato['startTimeSec'] : 0;
     }
     return 0;
 }

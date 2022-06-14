@@ -12,6 +12,10 @@ $(document).ready(function () {
 
 var timer;
 var textFilter;
+var value;
+var maxValue;
+var text;
+var resetClock;
 
 function Circlebar(prefs) {
     this.element = $(prefs.element);
@@ -21,8 +25,8 @@ function Circlebar(prefs) {
     var attribs = this.element[0].dataset,
         that = this;
     this.initialise = function () {
-        that.value = parseInt(attribs.circleStarttime) || parseInt(prefs.startTime) || 0;
-        that.maxValue = parseInt(attribs.circleMaxvalue) || parseInt(prefs.maxValue) || 60;
+        value = parseInt(attribs.circleStarttime) || parseInt(prefs.startTime) || 0;
+        maxValue = parseInt(attribs.circleMaxvalue) || parseInt(prefs.maxValue) || 60;
         that.counter = parseInt(attribs.circleCounter) || parseInt(prefs.counter) || 1000;
         that.dialWidth = parseInt(attribs.circleDialwidth) || parseInt(prefs.dialWidth) || 5;
         that.size = attribs.circleSize || prefs.size || "150px";
@@ -79,6 +83,7 @@ function Circlebar(prefs) {
             StopTimer();
             StopMusic();
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
+            // var audio = new Audio("https://drive.google.com/file/d/1l8jO4PkPZx1OOhaTEas_P2XJNytgeRZS/view?usp=sharing");
             audio.play();
             audio.addEventListener("ended", function () {
                 audio.currentTime = 0;
@@ -92,7 +97,8 @@ function Circlebar(prefs) {
         }
     };
     textFilter = function () {
-        if (document.getElementById("processNotesSec").style.display !== "none" && process !== 100) {
+        percentage = (value * 100) / maxValue;
+        if (document.getElementById("processNotesSec").style.display !== "none" && percentage !== 100) {
             $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
             $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
             return;
@@ -106,13 +112,13 @@ function Circlebar(prefs) {
             if (that.type == "timer") {
                 if (timer === undefined) {
                     timer = setInterval(function () {
-                        if (that.value < that.maxValue) {
-                            that.value += parseInt(that.counter / 1000);
-                            percentage = (that.value * 100) / that.maxValue;
+                        if (value < maxValue) {
+                            value += parseInt(that.counter / 1000);
+                            percentage = (value * 100) / maxValue;
                             that.renderProgress(percentage);
-                            text[0].dataset.value = that.value;
+                            text[0].dataset.value = value;
                             date = new Date(null);
-                            date.setSeconds(that.maxValue - that.value); // specify value for seconds here
+                            date.setSeconds(maxValue - value); // specify value for seconds here
                             text.html(date.toISOString().substr(14, 5));
                         } else {
                             clearInterval(timer);
@@ -125,11 +131,11 @@ function Circlebar(prefs) {
                 function setDeceleratingTimeout(factor, times) {
                     var internalCallback = function (counter) {
                         return function () {
-                            if (that.value < that.maxValue && that.value < 100) {
-                                that.value += 1;
-                                that.renderProgress(that.value);
-                                text[0].dataset.value = that.value;
-                                text.html(Math.floor(that.value) + "%");
+                            if (value < maxValue && value < 100) {
+                                value += 1;
+                                that.renderProgress(value);
+                                text[0].dataset.value = value;
+                                text.html(Math.floor(value) + "%");
                                 setTimeout(internalCallback, ++counter * factor);
                             }
                         }
@@ -153,13 +159,13 @@ function Circlebar(prefs) {
             if (that.type == "timer") {
                 if (timer === undefined) {
                     timer = setInterval(function () {
-                        if (that.value < that.maxValue) {
-                            that.value += parseInt(that.counter / 1000);
-                            percentage = (that.value * 100) / that.maxValue;
+                        if (value < maxValue) {
+                            value += parseInt(that.counter / 1000);
+                            percentage = (value * 100) / maxValue;
                             that.renderProgress(percentage);
-                            text[0].dataset.value = that.value;
+                            text[0].dataset.value = value;
                             date = new Date(null);
-                            date.setSeconds(that.maxValue - that.value); // specify value for seconds here
+                            date.setSeconds(maxValue - value); // specify value for seconds here
                             text.html(date.toISOString().substr(14, 5));
                         } else {
                             clearInterval(timer);
@@ -172,11 +178,11 @@ function Circlebar(prefs) {
                 function setDeceleratingTimeout(factor, times) {
                     var internalCallback = function (counter) {
                         return function () {
-                            if (that.value < that.maxValue && that.value < 100) {
-                                that.value += 1;
-                                that.renderProgress(that.value);
-                                text[0].dataset.value = that.value;
-                                text.html(Math.floor(that.value) + "%");
+                            if (value < maxValue && value < 100) {
+                                value += 1;
+                                that.renderProgress(value);
+                                text[0].dataset.value = value;
+                                text.html(Math.floor(value) + "%");
                                 setTimeout(internalCallback, ++counter * factor);
                             }
                         }
@@ -191,17 +197,21 @@ function Circlebar(prefs) {
         }
     }
 
-    this.setValue = function (val) {
+    resetClock = function (val) {
         text = that.element.find(".text");
-        that.value = val;
-        that.renderProgress(that.value);
-        text[0].dataset.value = that.value;
-        text.html(that.value);
+        value = val;
+        var angle = 90;
+        that.element.find(".animate-0-25-b").css("transform", "rotate(" + angle + "deg)");
+        that.element.find(".animate-25-50-b").css("transform", "rotate(" + angle + "deg)");
+        that.element.find(".animate-50-75-b").css("transform", "rotate(" + angle + "deg)");
+        that.element.find(".animate-75-100-b").css("transform", "rotate(" + angle + "deg)");
+        text[0].dataset.value = value;
+        text.html("25:00");
     }
 
     var start_btn = document.getElementById("startBtn");
     start_btn.addEventListener("click", textFilter);
-    if (that.value) {
+    if (value) {
         this.continueOnReloadPage();
     }
 }
@@ -238,4 +248,9 @@ window.StopTomato = function () {
             document.getElementById("startBtn").alt = "start_a_tomato";
         },
     });
+}
+
+
+window.ResetClock = function (value) {
+    resetClock(value);
 }

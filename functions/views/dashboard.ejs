@@ -118,11 +118,11 @@
     <div id="left-side">
         <div class="row justify-content-center">
             <div class="circlebar" id="circlebarId" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20
-                data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
+                data-circle-size="200px" data-circle-maxValue="<%=tomatoSessionLength%>" data-circle-skin="purple">
                 <div class="loader-bg">
                     <% if(isTomatoOn) { %>
                     <div class="text">Loading...</div>
-                    <% } else { %>
+                    <% } else {  %>
                     <div class="text">25:00</div>
                     <% }%>
                 </div>
@@ -164,7 +164,8 @@
 
     <div id="right-side">
         <div class="row position-relative justify-content-center">
-            <div id="app-cover" data-onload=<%=isMusicPlaying%> data-onrest=<%=remainingRestTimeSec%>>
+            <div id="app-cover" data-onload=<%=isMusicPlaying%> data-onrest=<%=remainingRestTimeSec%>
+                data-tomatoSessionLength=<%=tomatoSessionLength%> data-defaultcdlength=<%=coolDownLength%>>
                 <div id="player">
                     <div id="player-track">
                         <div id="album-name"></div>
@@ -320,8 +321,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <div class="circlebarCD" data-circle-startTime=<%=remainingRestTimeSec%>
-                            data-circle-dialWidth=10 data-circle-size="200px" data-circle-maxValue="300"
+                        <div class="circlebarCD" id="circlebarCDiD" data-circle-startTime=<%=remainingRestTimeSec%>
+                            data-circle-dialWidth=10 data-circle-size="200px" data-circle-maxValue="<%=coolDownLength%>"
                             data-circle-skin="blue">
                             <div class="loader-bg">
                                 <div class="text">05:00</div>
@@ -336,9 +337,10 @@
                     <p class="pos_center">Dos: Stand up and walk around the room, have a drink of water or fantasize
                         about where you'll go on your next vacations. You can do deep breathing or streching exercises.
                         If you work with other people, you can swap a joke or two.</p>
-                    <p class="pos_center">Dos: Stand up and walk around the room, have a drink of water or fantasize
-                        about where you'll go on your next vacations. You can do deep breathing or streching exercises.
-                        If you work with other people, you can swap a joke or two.</p>
+                    <p class="pos_center">Don'ts: don't talk about work-related issues with a colleague, don't write
+                        important e-mails or make urgent phones calls. Doing these kinds of things would block the
+                        constructive mental integration that you need to feel alert and ready for the start of the next
+                        Pomodoro.</p>
                     <p class="pos_center">You can <a href="#" class="tooltip-test" title="Tooltip">make better
                             decisions</a> and <a href="#" class="tooltip-test" title="Tooltip">prevent decision
                             fatigue</a> by taking a short
@@ -392,7 +394,8 @@
         }
 
         function startOver() {
-            var snd = new Audio("./public/sounds/start_over.mp3");
+            // var snd = new Audio("./public/sounds/start_over.mp3");
+            var snd = new Audio("https://drive.google.com/file/d/1EvRx8uqJ17Q9XpJ9rpXetXdZaWqRaP6w/view?usp=sharing");
             snd.play();
             var btnVal = document.getElementById("startBtn").alt;
             if (btnVal == "start_a_tomato") {
@@ -423,7 +426,15 @@
                     new Toasteur().success("Notes skipped", 'Have fun in your next tomato!', () => {});
                     document.getElementById("publishSection").style.display = "none";
                     document.getElementById("processNotesSec").style.display = "none";
-                    document.getElementById("circlebarId").dataset.onrest = 1500;
+                    var defaultcdlength = document.getElementById('app-cover').dataset.defaultcdlength;
+                    document.getElementById("circlebarCDiD").dataset.circleStarttime = "0";
+                    document.getElementById("circlebarCDiD").dataset.circleMaxvalue = defaultcdlength;
+                    var tomatoSessionLength = document.getElementById('app-cover').dataset
+                        .tomatosessionlength;
+                    document.getElementById("circlebarId").dataset.circleStarttime = "0";
+                    document.getElementById("circlebarId").dataset.circleMaxvalue = defaultcdlength;
+                    ResetClock(0)
+                    ResetCDClock(0);
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});
@@ -438,7 +449,8 @@
                 return;
             }
             document.getElementById("startBtn").src = "./public/image/start_tomato_pressed.png";
-            var snd = new Audio("./public/sounds/start_clicked.mp3");
+            // var snd = new Audio("./public/sounds/start_clicked.mp3");
+            var snd = new Audio("https://drive.google.com/file/d/1RwlArKE3ls_8tKl3LuRInMGr2TuXpg_s/view?usp=sharing");
             snd.play();
             var btnVal = document.getElementById("startBtn").alt;
             if (btnVal == "start_a_tomato") {

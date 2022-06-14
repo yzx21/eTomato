@@ -157,7 +157,8 @@ function isTomatoOngoing(tomato) {
 function getRemainingRestTime(tomato) {
     var nowSec = Date.now() / 1000;
     if (tomato['duration'] != undefined) {
-        return nowSec - tomato['duration'] <= 300 ? nowSec - tomato['duration'] : 0;
+        return nowSec - (tomato['startTimeSec'] + tomato['duration']) <= 300 ?
+            nowSec - (tomato['startTimeSec'] + tomato['duration']) : 0;
     }
     if (nowSec - tomato['startTimeSec'] > 2) {
         return nowSec - tomato['startTimeSec'] <= 300 ? nowSec - tomato['startTimeSec'] : 0;

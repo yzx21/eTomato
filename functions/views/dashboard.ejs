@@ -14,6 +14,7 @@
     <link type="text/css" rel="stylesheet" href="./public/toast/themes/toasteur-default.min.css">
     <link rel="stylesheet" href='./public/css/bootstrap.min.css'>
     <link rel="stylesheet" href="./public/css/clock.css">
+    <link rel="stylesheet" href="./public/css/feedback.css">
     <link rel="stylesheet" href="./public/fonts/icon-font/css/style.css">
     <link rel="stylesheet" href="./public/fonts/typography-font/typo.css">
     <link rel="stylesheet" href="./public/fonts/fontawesome-5/css/all.css">
@@ -60,20 +61,60 @@
                 <p>pomodoro timer | study stats | notes | lofi music</p>
             </div>
         </div>
-
-
         <div class="dropdown" id="settings">
             <a href="#" id="dropdownMenuButton" data-bs-toggle="dropdown">
                 <img id="settingImg" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#feedbackModal" data-bs-toggle="modal">Feedback</a>
                 <a class="dropdown-item" href="#">Stats</a>
                 <a class="dropdown-item" href="#logoutModal" data-bs-toggle="modal">Logout</a>
             </div>
         </div>
-
     </div>
 
+    <!--Division for Modal-->
+    <div id="feedbackModal" class="modal fade" role="dialog" aria-labelledby="feedbackTitle">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feedbackTitle">How would you feel if you could no longer use</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <h4><strong>eTomato.online</strong>?</h4>
+                    <hr id="feedbackHr">
+                </div>
+                <div class="form-check mb-4">
+                    <input name="feedback" type="radio" class="feedback_opt" id="feedback_opt_1" value="1">
+                    <label class="ml-3" for="feedback_opt_1">Very disappointed</label>
+                </div>
+                <div class="form-check mb-4">
+                    <input name="feedback" type="radio" class="feedback_opt" id="feedback_opt_2" value="2">
+                    <label class="ml-3" for="feedback_opt_2">Somewhat disappointed</label>
+                </div>
+                <div class="form-check mb-4">
+                    <input name="feedback" type="radio" class="feedback_opt" id="feedback_opt_3" value="3">
+                    <label class="ml-3" for="feedback_opt_3">Not disappointed</label>
+                </div>
+                <div class="form-check mb-4">
+                    <input name="feedback" type="radio" class="feedback_opt" id="feedback_opt_4" value="4">
+                    <label class="ml-3" for="feedback_opt_4">N/A</label>
+                </div>
+                <div class="text-center">
+                    <h5>What could we improve?</h5>
+                    <hr id="feedbackHr">
+                </div>
+                <textarea type="textarea" placeholder="Your Message" rows="3" id="feedbackMsg"></textarea>
+                <div class="modal-footer">
+                    <a href="" class="btn btn-primary" onclick="SendFeedback();">Send
+                        <i class="fa fa-paper-plane"></i>
+                    </a>
+                    <a href="" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal stopTomato -->
     <div class="modal fade" id="stopTomatoModal" tabindex="-1" aria-labelledby="stopLableModalLabel" aria-hidden="true">
@@ -509,6 +550,28 @@
                     window.location.href = "./";
                 });
             sessionStorage.setItem("_session", "");
+        }
+
+        function SendFeedback() {
+            var checkedValue = document.querySelector('.feedback_opt:checked').value;
+            var comments = document.getElementById("feedbackMsg").value
+            if (checkedValue || comments) {
+                $.ajax({
+                    url: "./feedback",
+                    type: "POST",
+                    data: {
+                        checkedValue: checkedValue,
+                        comments: comments,
+                    },
+                    success: function (result) {
+                        new Toasteur().success("Thanks for the feedback!", 'We really appreciate your help',
+                            () => {});
+                    },
+                    error: function (error) {
+                        new Toasteur().error(error.responseText, 'Error!', () => {});
+                    },
+                });
+            }
         }
     </script>
 

@@ -248,6 +248,26 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
     }
 });
 
+app.post("/feedback", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const checkValue = req.body["checkedValue"];
+    const comments = req.body["comments"];
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    await db.ref('feedback').push({
+        uid: userSnap.uid,
+        checkValue: checkValue,
+        comments: comments,
+        date: Date.now(),
+    })
+    res.send();
+})
+
 app.post("/skipNotes", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     var db = admin.database();

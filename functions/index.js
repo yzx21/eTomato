@@ -117,6 +117,7 @@ app.get("/", async (req, res) => {
     tomatosSet = await getLastestTomato(userSnap.uid);
     var durationSec = 0;
     var noteProcessed = true;
+    var remainingRestTimeSec = 301;
     if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         isTomatoOn = true;
@@ -128,7 +129,7 @@ app.get("/", async (req, res) => {
         if (!tomato['noteProcessed']) {
             noteProcessed = false;
         }
-
+        remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
     }
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
@@ -138,6 +139,7 @@ app.get("/", async (req, res) => {
         durationSec: durationSec,
         isMusicPlaying, isMusicPlaying,
         noteProcessed: noteProcessed,
+        remainingRestTimeSec: remainingRestTimeSec,
     });
 });
 
@@ -150,6 +152,17 @@ function isTomatoOngoing(tomato) {
         return true;
     }
     return false;
+}
+
+function getRemainingRestTime(tomato) {
+    var nowSec = Date.now() / 1000;
+    if (tomato['duration'] != undefined) {
+        return nowSec - tomato['duration'] <= 300 ? nowSec - tomato['duration'] : 0;
+    }
+    if (nowSec - tomato['startTimeSec'] > 1500) {
+        return nowSec - tomato['startTimeSec'] <= 300 ? nowSec - tomato['startTimeSec'] : 0;
+    }
+    return 301;
 }
 
 async function getLastestTomato(uid) {

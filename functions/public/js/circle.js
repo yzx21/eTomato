@@ -112,7 +112,7 @@ function Circlebar(prefs) {
                             that.renderProgress(percentage);
                             text[0].dataset.value = that.value;
                             date = new Date(null);
-                            date.setSeconds(that.value); // specify value for seconds here
+                            date.setSeconds(that.maxValue - that.value); // specify value for seconds here
                             text.html(date.toISOString().substr(14, 5));
                         } else {
                             clearInterval(timer);

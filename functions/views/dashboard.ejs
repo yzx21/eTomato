@@ -77,14 +77,14 @@
 
     <!-- Modal stopTomato -->
     <div class="modal fade" id="stopTomatoModal" tabindex="-1" aria-labelledby="stopLableModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="stopLableModalLabel">Stop the current tomato?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you going to terminate this session? Terminated tomato are not going to be recorded.
+                    Are you going to terminate this session? Disrupted session is recommended to .
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -98,7 +98,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Logout</h5>
@@ -118,12 +118,12 @@
     <div id="left-side">
         <div class="row justify-content-center">
             <div class="circlebar" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20
-                data-circle-size="200px" data-circle-maxValue="1" data-circle-skin="purple">
+                data-circle-size="200px" data-circle-maxValue="2" data-circle-skin="purple">
                 <div class="loader-bg">
                     <% if(isTomatoOn) { %>
                     <div class="text">Loading...</div>
                     <% } else { %>
-                    <div class="text">00:00</div>
+                    <div class="text">25:00</div>
                     <% }%>
                 </div>
             </div>
@@ -164,7 +164,7 @@
 
     <div id="right-side">
         <div class="row position-relative justify-content-center">
-            <div id="app-cover" data-onload=<%=isMusicPlaying%>>
+            <div id="app-cover" data-onload=<%=isMusicPlaying%> data-onrest=<%=remainingRestTimeSec%>>
                 <div id="player">
                     <div id="player-track">
                         <div id="album-name"></div>
@@ -292,7 +292,7 @@
             </script>
             <% if (noteProcessed) { %>
             <div id="publishSection" style="display:none;"=>
-                <button id="disgardBtn" type="button">Disgard</button>
+                <button id="disgardBtn" type="button" onclick="disgard();">Disgard</button>
                 <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label>
@@ -320,19 +320,29 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <div class="circlebarCD" data-circle-startTime=1 data-circle-dialWidth=10
-                            data-circle-size="200px" data-circle-maxValue="5" data-circle-skin="blue">
+                        <div class="circlebarCD" data-circle-startTime=<%=remainingRestTimeSec%>
+                            data-circle-dialWidth=10 data-circle-size="200px" data-circle-maxValue="300"
+                            data-circle-skin="blue">
                             <div class="loader-bg">
-                                <div class="text">00:00</div>
+                                <div class="text">05:00</div>
                             </div>
                         </div>
                     </div>
                     <hr>
-                    <p class="pos_center">You can <a href="#" class="tooltip-test" title="Tooltip">make better
-                            decisions</a> and <a href="#" class="tooltip-test" title="Tooltip">prevent decision
-                            fatigue</a> by taking a short
-                        break.</p>
-                    <p class="pos_center">Reward yourself during your breaks.</p>
+                    <p class="pos_center">Pomodoro technique suggests 3-5 minutes break to disconnect from your work.
+                        And this allows your mind to assimilate what's been learned in the last 25 minutes and also
+                        gives you a chance to do something good for your health, which will help you do your best during
+                        the next Pomodoro.</p>
+                    <p class="pos_center">Dos: Stand up and walk around the room, have a drink of water or fantasize
+                        about where you'll go on your next vacations. You can do deep breathing or streching exercises.
+                        If you work with other people, you can swap a joke or two.</p>
+                    <p class="pos_center">Dos: Stand up and walk around the room, have a drink of water or fantasize
+                        about where you'll go on your next vacations. You can do deep breathing or streching exercises.
+                        If you work with other people, you can swap a joke or two.</p>
+                    <p class="pos_center">Don'ts: don't talk about work-related issues with a colleague, don't write
+                        important e-mails or make urgent phones calls. Doing these kinds of things would block the
+                        constructive mental integration that you need to feel alert and ready for the start of the next
+                        Pomodoro.</p>
                     <p class="pos_center">🥨 🍨 🥑 😴 💅🏻 🎸 🎯 🐶 🐱</p>
                 </div>
 
@@ -368,10 +378,16 @@
     <script>
         function onLoad() {
             firebase.analytics().logEvent('onLoad');
-            var isMusicPlaying = (document.getElementById('app-cover').dataset.onload === "true");
-            if (isMusicPlaying) {
-                document.getElementById('play-pause-button').click();
-                var val = confirm("Welcome back to an ongoing tomato!");
+            var isOnRest = document.getElementById('app-cover').dataset.onrest;
+            if (isOnRest > 0 && isOnRest <= 300) {
+                $('#coolDownModal').modal("show");
+                StartCoolDown();
+            } else {
+                var isMusicPlaying = (document.getElementById('app-cover').dataset.onload === "true");
+                if (isMusicPlaying) {
+                    document.getElementById('play-pause-button').click();
+                    var val = confirm("Welcome back to an ongoing tomato!");
+                }
             }
         }
 
@@ -398,6 +414,18 @@
                 firebase.analytics().logEvent('stopOut');
             }
         }
+
+        function disgard() {
+            var btnVal = document.getElementById("startBtn").alt;
+            if (btnVal == "start_a_tomato") {
+                document.getElementById("startBtn").src = "./public/image/start_tomato.png";
+                firebase.analytics().logEvent('startOut');
+            } else {
+                document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
+                firebase.analytics().logEvent('stopOut');
+            }
+        }
+
 
         function ClickStartBtn() {
             if (document.getElementById("processNotesSec").style.display !== "none") {
@@ -456,7 +484,6 @@
         })
     </script>
 
-    <script type="module" src="./public/js/coolDownClock.js"></script>
     <script type="module" src="./public/js/coolDownClock.js"></script>
     <script type="module" src="./public/js/music.js"></script>
     <script src="./public/summernote/summernote.min.js"></script>

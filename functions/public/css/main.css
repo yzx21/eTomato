@@ -14,15 +14,14 @@
   left: 40%;
 }
 
-p.pos_fixed {
-  position: fixed;
+.pos_center {
+  position: relative;
   top: 0;
   right: 0;
   left: 0;
   padding: 1em 0;
   margin: 0;
   text-align: center;
-  color: red;
 }
 
 #title-text {
@@ -144,21 +143,21 @@ p.pos_fixed {
 }
 
 #publishCheckBox {
-  position: absolute;
+  position: relative;
   right: 100px;
   top: 8px;
   background-color: #86C232;
 }
 
 #saveBtn {
-  position: absolute;
+  position: relative;
   right: 10px;
   border-radius: 5px;
   background-color: #DEF2F1;
 }
 
 #disgardBtn {
-  position: absolute;
+  position: relative;
   left: 10px;
   border-radius: 5px;
   background-color: #DEF2F1;

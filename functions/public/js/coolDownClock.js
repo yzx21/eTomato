@@ -19,7 +19,7 @@ var resetCDClock;
 
 function Circlebar(prefs) {
     this.element = $(prefs.element);
-    this.element.append('<div class="spinner-holder-one animate-0-25-a"><div class="spinner-holder-two animate-0-25-b"><div class="loader-spinner" style=""></div></div></div><div class="spinner-holder-one animate-25-50-a"><div class="spinner-holder-two animate-25-50-b"><div class="loader-spinner"></div></div></div><div class="spinner-holder-one animate-50-75-a"><div class="spinner-holder-two animate-50-75-b"><div class="loader-spinner"></div></div></div><div class="spinner-holder-one animate-75-100-a"><div class="spinner-holder-two animate-75-100-b"><div class="loader-spinner"></div></div></div>');
+    this.element.append('<div class="spinner-holder-one animate-0-25-a"><div class="spinner-holder-two animate-0-25-b"><div class="cd-spinner" style=""></div></div></div><div class="spinner-holder-one animate-25-50-a"><div class="spinner-holder-two animate-25-50-b"><div class="cd-spinner"></div></div></div><div class="spinner-holder-one animate-50-75-a"><div class="spinner-holder-two animate-50-75-b"><div class="cd-spinner"></div></div></div><div class="spinner-holder-one animate-75-100-a"><div class="spinner-holder-two animate-75-100-b"><div class="cd-spinner"></div></div></div>');
     this.value, this.maxValue, this.counter, this.dialWidth, this.size, this.fontSize, this.fontColor, this.skin, this.triggerPercentage, this.type, this.timer;
     // var attribs = this.element.find("div")[0].parentNode.dataset;
     var attribs = this.element[0].dataset,
@@ -39,7 +39,7 @@ function Circlebar(prefs) {
 
         that.element.addClass(that.skin).addClass('loader');
         that.element.find(".loader-bg").css("border-width", that.dialWidth + "px");
-        that.element.find(".loader-spinner").css("border-width", that.dialWidth + "px");
+        that.element.find(".cd-spinner").css("border-width", that.dialWidth + "px");
         that.element.css({ "width": that.size, "height": that.size });
         that.element.find(".loader-bg .text")
             .css({ "font-size": that.fontSize, "color": that.fontColor });
@@ -81,8 +81,7 @@ function Circlebar(prefs) {
 
         if (progress == 100) {
             StopCDTimer();
-            // var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FCD_Completed.mp3?alt=media&token=7a520622-c205-4820-b76f-31390509ac31");
-            var audio = new Audio("https://drive.google.com/file/d/1W8v2TeWG_6thZyFwkOnroceB2IktEs8E/view?usp=sharing");
+            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FCD_Completed.mp3?alt=media&token=7a520622-c205-4820-b76f-31390509ac31");
             audio.play();
             $('#coolDownModal').modal("hide");
         }

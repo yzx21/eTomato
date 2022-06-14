@@ -83,7 +83,6 @@ function Circlebar(prefs) {
             StopTimer();
             StopMusic();
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
-            // var audio = new Audio("https://drive.google.com/file/d/1l8jO4PkPZx1OOhaTEas_P2XJNytgeRZS/view?usp=sharing");
             audio.play();
             audio.addEventListener("ended", function () {
                 audio.currentTime = 0;
@@ -92,6 +91,7 @@ function Circlebar(prefs) {
             StartCoolDown();
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
+            $('#musicCollapse').collapse("hide")
             document.getElementById("publishSection").style.display = "table-row";
             document.getElementById("processNotesSec").style.display = "table-row";
         }
@@ -240,12 +240,14 @@ window.StopTomato = function () {
 
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
+            $('#musicCollapse').collapse("hide")
             document.getElementById("publishSection").style.display = "table-row";
             document.getElementById("processNotesSec").style.display = "table-row";
         },
         error: function (error) {
             new Toasteur().error(error.responseText, 'Error!', () => { });
-            document.getElementById("startBtn").alt = "start_a_tomato";
+            document.getElementById("startBtn").alt = "stop_a_tomato";
+            $('#musicCollapse').collapse("show")
         },
     });
 }

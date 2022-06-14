@@ -5,10 +5,24 @@
 #app-cover {
   position: relative;
   top: 100px;
-  left: 0;
-  width: 85%;
+  right: 20px;
+  width: calc(100% - 40px);
   aspect-ratio: 4.3;
   margin: -4px auto;
+}
+
+#intro_img_sec {
+  position: relative;
+  top: 130px;
+  width: 100%;
+  aspect-ratio: 1/1.5;
+}
+
+#intro_img {
+  position: relative;
+  top: 20px;
+  width: 100%;
+  aspect-ratio: 1/1.5;
 }
 
 #player {

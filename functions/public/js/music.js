@@ -461,7 +461,9 @@ function initPlayer() {
                     }
                 });
             }
+            $('#musicCollapse').collapse("hide")
         } else {
+            $('#musicCollapse').collapse("show")
         }
     });
 }

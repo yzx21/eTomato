@@ -3,11 +3,17 @@
 }
 
 .text {
-  color: rgb(135, 206, 235) !important;
+  color: #0090CE !important;
   font-weight: bold;
   font-size: 40px;
 }
+
 .loader-spinner {
   border-color: rgb(4, 199, 10);
+  border-width: 10px;
+}
+
+.cd-spinner {
+  border-color: #0090CE;
   border-width: 10px;
 }

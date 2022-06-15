@@ -29,7 +29,7 @@ const { timeStamp } = require('console');
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
 const tomatoSessionLength = 1500;
-const coolDownLength = 300;
+const coolDownLength = 30;
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com"
@@ -116,10 +116,11 @@ app.get("/", async (req, res) => {
     var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
     var isTomatoOn = false;
     var isMusicPlaying = false;
-    tomatosSet = await getLastestTomato(userSnap.uid);
+    var tomatosSet = await getLastestTomato(userSnap.uid);
     var durationSec = 0;
     var noteSkipped = true;
     var remainingRestTimeSec = 0;
+    var noteCompleted = false;
     if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         isTomatoOn = true;
@@ -130,6 +131,9 @@ app.get("/", async (req, res) => {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         if (!tomato['noteSkipped']) {
             noteSkipped = false;
+        }
+        if (tomato["notes"]) {
+            noteCompleted = true;
         }
         remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
     }
@@ -144,6 +148,7 @@ app.get("/", async (req, res) => {
         remainingRestTimeSec: remainingRestTimeSec,
         tomatoSessionLength: tomatoSessionLength,
         coolDownLength: coolDownLength,
+        noteCompleted: noteCompleted,
     });
 });
 
@@ -185,7 +190,7 @@ app.post("/startSession", async (req, res) => {
         res.send("something went wrong");
         return;
     }
-    tomatosSet = await getLastestTomato(userSnap.uid);
+    var tomatosSet = await getLastestTomato(userSnap.uid);
     if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         res.status(500).send("something went wrong, please try again!");
     }
@@ -207,7 +212,7 @@ app.post("/stopSession", async (req, res) => {
         res.send("something went wrong");
         return;
     }
-    tomatosSet = await getLastestTomato(userSnap.uid);
+    var tomatosSet = await getLastestTomato(userSnap.uid);
     if (!tomatosSet || !isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         res.status(500).send("something went wrong, please try again!");
     }
@@ -233,7 +238,7 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
         res.send("something went wrong");
         return;
     }
-    tomatosSet = await getLastestTomato(userSnap.uid);
+    var tomatosSet = await getLastestTomato(userSnap.uid);
     if (!tomatosSet || !isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         res.send();
         return;
@@ -247,6 +252,36 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
         return;
     }
 });
+
+app.post("/saveNotes", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const checkedValue = req.body["checkedValue"];
+    const tomatoType = req.body["tomatoType"];
+    const notes = req.body["notes"];
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var tomatosSet = await getLastestTomato(userSnap.uid);
+    if (!tomatosSet || isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+        res.status(401).send("doesn't look like you have a pending tomato without a notes, please refresh and try again.");
+        return;
+    }
+    else {
+        var latestTomato = db.ref('users').child(userSnap.uid).child("tomatos").child(Object.keys(tomatosSet)[0]).child("notes");
+        latestTomato.update({
+            checkedValue: checkedValue,
+            tomatoType, tomatoType,
+            notes, notes,
+            date: Date.now(),
+        })
+        res.send();
+        return;
+    }
+})
 
 app.post("/feedback", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
@@ -277,7 +312,7 @@ app.post("/skipNotes", async (req, res) => {
         res.status(401).send("something went wrong");
         return;
     }
-    tomatosSet = await getLastestTomato(userSnap.uid);
+    var tomatosSet = await getLastestTomato(userSnap.uid);
     if (!tomatosSet || isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         res.status(401).send("doesn't look like you have a pending tomato without a notes, please refresh and try again.");
         return;

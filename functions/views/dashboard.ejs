@@ -183,7 +183,7 @@
                     <% } %>
                 </a>
             </div>
-            <% if (noteSkipped) { %>
+            <% if (noteSkipped || noteCompleted) { %>
             <div id="processNotesSec" style="display:none;">
                 <lable id="processNotesLbl">*Please process the notes for the previous session*</lable>
             </div>
@@ -315,7 +315,8 @@
     <div id="middle">
         <div class="row position-relative
                                         justify-content-center">
-            <input id="tomatoType" list="hosting-plan" placeholder="Give this tomato session a tag..." type="text">
+            <input id="tomatoType" list="hosting-plan" placeholder="Leave a task category for better stats..."
+                type="text">
             <datalist id="hosting-plan">
                 <option value="Reading" />
                 <option value="Working" />
@@ -340,13 +341,13 @@
                     });
                 });
             </script>
-            <% if (noteSkipped) { %>
+            <% if (noteSkipped || noteCompleted) { %>
             <div id="publishSection" style="display:none;"=>
                 <button id="disgardBtn" type="button" onclick="disgard();">Skip</button>
                 <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label>
-                <button id="saveBtn" type="button">Save</button>
+                <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
             </div>
             <% } else { %>
             <div id="publishSection" style="display:table-row;"=>
@@ -354,7 +355,7 @@
                 <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label>
-                <button id="saveBtn" type="button">Save</button>
+                <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
             </div>
             <% } %>
         </div>
@@ -363,7 +364,7 @@
 
     <!-- Modal -->
     <div id="coolDownModal" class="modal hide" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog">
             <div class=" modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="coolDownModalTitle">5 mins Break</h5>
@@ -398,10 +399,6 @@
                         constructive mental integration that you need to feel alert and ready for the start of
                         the next
                         Pomodoro.</p>
-                    <p class="pos_center">You can <a href="#" class="tooltip-test" title="Tooltip">make better
-                            decisions</a> and <a href="#" class="tooltip-test" title="Tooltip">prevent decision
-                            fatigue</a> by taking a short
-                        break.</p>
                     <p class="pos_center">🥨 🍨 🥑 😴 💅🏻 🎸 🎯 🐶 🐱</p>
                 </div>
 
@@ -572,6 +569,35 @@
                     },
                 });
             }
+        }
+
+        function saveNotes() {
+            var checkedValue = document.getElementById('publishCheckBox').checked;
+            var tomatoType = document.getElementById("tomatoType").value;
+            var notes = $('#summernote').summernote('code')
+            if (!tomatoType && !notes) {
+                new Toasteur().error('Or you can skip this one.', "Saving requires the category or the notes",
+                    () => {});
+                return;
+            }
+            $.ajax({
+                url: "./saveNotes",
+                type: "POST",
+                data: {
+                    checkedValue: checkedValue,
+                    tomatoType: tomatoType,
+                    notes: notes,
+                },
+                success: function (result) {
+                    new Toasteur().success("Note saved", 'Have fun in your next tomato',
+                        () => {});
+                    document.getElementById("publishSection").style.display = "none";
+                    document.getElementById("processNotesSec").style.display = "none";
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => {});
+                },
+            });
         }
     </script>
 

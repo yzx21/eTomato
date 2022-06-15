@@ -44,7 +44,7 @@
   z-index: 1;
   left: 0%;
   top: 0%;
-  width: 320px;
+  width: 40vh;
   height: 100%;
   background-color: hsl(227, 10%, 10%);
   padding-top: 150px;
@@ -55,7 +55,7 @@
   z-index: 1;
   right: 0%;
   top: 0%;
-  width: 320px;
+  width: 40vh;
   height: 100%;
   background-color: hsl(227, 10%, 10%);
   padding-top: 150px;
@@ -66,8 +66,8 @@
   z-index: 1;
   top: 0%;
   height: 300%;
-  left: 320px;
-  width: calc(100% - 640px);
+  left: 40vh;
+  width: calc(100vw - 80vh);
   background-color: hsl(227, 10%, 10%);
   padding-top: 150px;
 }

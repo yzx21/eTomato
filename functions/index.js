@@ -29,7 +29,7 @@ const { timeStamp } = require('console');
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
 const tomatoSessionLength = 1500;
-const coolDownLength = 30;
+const coolDownLength = 300;
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com"

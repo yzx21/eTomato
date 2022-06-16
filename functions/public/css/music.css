@@ -3,13 +3,11 @@
 }
 
 #app-cover {
-  position: relative;
-  top: 100px;
-  right: 20px;
-  width: calc(100% - 9vh);
+  position: absolute;
+  right: -53px;
   aspect-ratio: 3.5;
-  margin: -4px auto;
-  left: 0px;
+  bottom: 10px;
+  width: 25vh;
 }
 
 #intro_img_sec {

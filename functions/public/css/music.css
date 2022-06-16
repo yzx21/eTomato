@@ -3,11 +3,11 @@
 }
 
 #app-cover {
-  position: absolute;
+  position: fixed;
   right: -53px;
   aspect-ratio: 3.5;
   bottom: 10px;
-  width: 25vh;
+  width: 34vh;
 }
 
 #intro_img_sec {
@@ -175,7 +175,7 @@
 }
 
 #album-art.active {
-  top: -60px;
+  top: -4.5vh
 }
 
 #album-art:before {

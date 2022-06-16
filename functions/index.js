@@ -173,7 +173,7 @@ app.get("/", async (req, res) => {
         tomatoSessionLength: tomatoSessionLength,
         coolDownLength: coolDownLength,
         noteCompleted: noteCompleted,
-        tomatos: tomatos,
+        tomatos: tomatos.reverse(),
         moment: moment,
     });
 });

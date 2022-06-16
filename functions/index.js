@@ -30,7 +30,7 @@ const { timeStamp } = require('console');
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
 const tomatoSessionLength = 1500;
-const coolDownLength = 300;
+const coolDownLength = 3;
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com"
@@ -86,7 +86,7 @@ app.post("/sessionLogin", async (req, res) => {
     const options = { maxAge: expiresIn, httpOnly: true, secure: true };
     res.cookie("__session", sessionCookie, options);
     var createNewUser = admin.database().ref("users/" + uid);
-    var updateDb = await createNewUser.set({
+    var updateDb = await createNewUser.update({
         photoURL: photoURL ? photoURL : "",
         displayName: displayName ? displayName : "",
         email: email ? email : "",
@@ -146,7 +146,7 @@ app.get("/", async (req, res) => {
     if (tomatosSet) {
         var tmpTmts = await getAllTomatos(userSnap.uid);
         tmpTmts.forEach(function (tmt) {
-            if (isTomatoOn && Object.keys(tomatosSet)[0] == tmt.key) {
+            if (!(noteSkipped || noteCompleted) && Object.keys(tomatosSet)[0] == tmt.key) {
                 return;
             }
             var duration = tmt.val()["duration"];

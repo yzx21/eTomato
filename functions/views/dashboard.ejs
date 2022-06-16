@@ -266,7 +266,7 @@
                     <%if(tomatos[i]["notes"]) {%>
                     <label id="noteType"><%=tomatos[i]["type"]%></label>
                     <%} else {%>
-                    <label id="noteType">Note type</label>
+                    <label id="noteType">No type</label>
                     <%}%>
                     <%if(tomatos[i]["duration"]) {%>
                     <img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar">
@@ -526,6 +526,7 @@
                     document.getElementById('publishCheckBox').checked = false;
                     document.getElementById("tomatoType").value = "";
                     $('#summernote').summernote('code', "");
+                    ("#middle").load("./");
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});
@@ -626,6 +627,7 @@
                     document.getElementById('publishCheckBox').checked = false;
                     document.getElementById("tomatoType").value = "";
                     $('#summernote').summernote('code', "");
+                    ("#middle").load("./");
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});

@@ -281,7 +281,7 @@ hr {
   top: 15px;
 }
 
-.noteText {
+#noteText {
   position: relative;
   padding-top: 10px;
   padding-left: 60px;

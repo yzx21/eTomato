@@ -83,6 +83,8 @@
 
 #settingImg {
   border-radius: 50%;
+  width: 50px;
+  height: 50px;
 }
 
 #dropdownMenuButton {
@@ -111,11 +113,14 @@
 
 #tomatoType {
   position: relative;
-  width: calc(60% - 0.5px);
+  width: calc(60% - 1px);
   margin: auto;
-  padding-left: 8px;
-  padding-right: 8px;
-  border-color: #D9D9D9;
+  padding-left: 16px;
+  padding-right: 16px;
+  top: 1px;
+  border-width: 0;
+  border-radius: 6px 6px 0 0;
+  height: 30px;
 }
 
 #publishSection {
@@ -251,4 +256,71 @@ hr {
   right: 114px;
   z-index: 10;
   width: 200px;
+}
+
+#note1 {
+  background-color: #FEFFFF;
+  border-radius: 6px;
+}
+
+#noteLable {
+  position: relative;
+  left: 20px;
+  top: 11px;
+}
+
+#noteTime {
+  position: relative;
+  top: 10px;
+  left: calc(50% - 120px);
+}
+
+#noteType {
+  position: absolute;
+  right: 48px;
+  top: 15px;
+}
+
+.noteText {
+  position: relative;
+  padding-top: 10px;
+  padding-left: 60px;
+}
+
+#noteLikeBtn {
+  position: relative;
+  width: 50px;
+  left: calc(50% - 25px);
+}
+
+#notesSec {
+  position: relative;
+  top: 20px;
+  width: 60%;
+  padding: 0%;
+}
+
+#noteAvatar {
+  border-radius: 50%;
+  position: relative;
+  left: 10px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+#noteStatus {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 10px;
+  top: 10px;
+}
+
+.noteCard {
+  position: relative;
+  top: 20px;
+  background-color: #FEFFFF;
+  margin-top: 20px;
+  border-radius: 6px;
 }

@@ -52,7 +52,7 @@
         <div class="row position-relative justify-content-center">
             <div class="float-container">
                 <div class="float-child" id="title-icon">
-                    <img src="./public/image/tomato.png" alt="">
+                    <img src="./public/image/tomato.png" width="60px" alt="">
                 </div>
                 <div class="float-child" id="title-text">eTomato</div>
             </div>
@@ -229,7 +229,6 @@
                         tabsize: 2,
                         toolbar: [
                             ['style', ['bold', 'italic', 'underline', 'clear']],
-                            ['para', ['ul', 'ol']]
                         ],
                         height: 220,
                         focus: true,
@@ -256,6 +255,22 @@
                 <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
             </div>
             <% } %>
+
+            <div id="notesSec">
+                <% for (let i=0; i<tomatos.length; i++) { %>
+                <div class="noteCard">
+                    <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
+                    <label id="noteLable">Me</label>
+                    <label
+                        id="noteTime"><%=moment(parseInt(tomatos[i]["startTimeSec"] * 1000 )).local().format('lll')%></label>
+                    <label id="noteType"><%=tomatos[i]["type"]%></label>
+                    <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar">
+                    <br>
+                    <%-tomatos[i]["notes"]%>
+                    <button id="noteLikeBtn">like</button>
+                </div>
+                <% } %>
+            </div>
         </div>
     </div>
 
@@ -493,6 +508,10 @@
                     document.getElementById("circlebarId").dataset.circleMaxvalue = defaultcdlength;
                     ResetClock(0)
                     ResetCDClock(0);
+
+                    document.getElementById('publishCheckBox').checked = false;
+                    document.getElementById("tomatoType").value = "";
+                    $('#summernote').summernote('code', "");
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});
@@ -590,6 +609,9 @@
                         () => {});
                     document.getElementById("publishSection").style.display = "none";
                     document.getElementById("processNotesSec").style.display = "none";
+                    document.getElementById('publishCheckBox').checked = false;
+                    document.getElementById("tomatoType").value = "";
+                    $('#summernote').summernote('code', "");
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});

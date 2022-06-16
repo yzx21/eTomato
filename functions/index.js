@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session')
+const moment = require('moment');
 const fs = require('fs')
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
@@ -29,7 +30,7 @@ const { timeStamp } = require('console');
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
 const tomatoSessionLength = 1500;
-const coolDownLength = 300;
+const coolDownLength = 3;
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com"
@@ -121,13 +122,18 @@ app.get("/", async (req, res) => {
     var noteSkipped = true;
     var remainingRestTimeSec = 0;
     var noteCompleted = false;
-    if (tomatosSet && isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+    var tomatos = [];
+    var lastestTmt = undefined;
+    if (tomatosSet) {
+        lastestTmt = tomatosSet[Object.keys(tomatosSet)[0]];
+    }
+    if (lastestTmt && isTomatoOngoing(lastestTmt)) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         isTomatoOn = true;
         durationSec = Date.now() / 1000 - tomato['startTimeSec'];
         isMusicPlaying = (tomato['isMusicPlaying'] === 'true');
     }
-    if (tomatosSet && !isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+    if (lastestTmt && !isTomatoOngoing(lastestTmt)) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
         if (!tomato['noteSkipped']) {
             noteSkipped = false;
@@ -137,6 +143,24 @@ app.get("/", async (req, res) => {
         }
         remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
     }
+    if (tomatosSet) {
+        var tmpTmts = await getAllTomatos(userSnap.uid);
+        tmpTmts.forEach(function (tmt) {
+            if (isTomatoOn && Object.keys(tomatosSet)[0] == tmt.key) {
+                return;
+            }
+            var duration = tmt.val()["duration"];
+            var type = tmt.val()["notes"] ? tmt.val()["notes"]["tomatoType"] : undefined;
+            var notes = tmt.val()["notes"] ? tmt.val()["notes"]["notes"] : undefined;
+            tomatos.push({
+                startTimeSec: tmt.val()["startTimeSec"],
+                duration: duration,
+                type: type,
+                notes: notes
+            })
+        })
+    }
+
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
         profileUrl: userRec.val()['photoURL'],
@@ -149,6 +173,8 @@ app.get("/", async (req, res) => {
         tomatoSessionLength: tomatoSessionLength,
         coolDownLength: coolDownLength,
         noteCompleted: noteCompleted,
+        tomatos: tomatos,
+        moment: moment,
     });
 });
 
@@ -180,6 +206,11 @@ async function getLastestTomato(uid) {
     tomatosSet = tomatosSet.val();
     return tomatosSet;
 }
+
+async function getAllTomatos(uid) {
+    return admin.database().ref('users').child(uid).child("tomatos").once('value');
+}
+
 
 app.post("/startSession", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";

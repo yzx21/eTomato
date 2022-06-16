@@ -4,9 +4,9 @@
 
 #app-cover {
   position: fixed;
-  right: -53px;
+  right: 40px;
   aspect-ratio: 3.5;
-  bottom: 10px;
+  bottom: 40px;
   width: 34vh;
 }
 

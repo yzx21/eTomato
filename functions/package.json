@@ -28,6 +28,7 @@
     "firebase": "^9.6.1",
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.19.0",
+    "moment": "^2.29.3",
     "node-dir": "^0.1.17",
     "uuid": "^8.3.2",
     "xhr2": "^0.2.1"

@@ -339,3 +339,16 @@ hr {
   margin-top: 40px;
   border-radius: 6px;
 }
+
+#todaySummarySec {
+  position: relative;
+
+}
+
+#todayTomatoLbl {
+  position: relative;
+  color: #FEFFFF;
+  top: 60px;
+  text-align: center;
+  left: calc(50% - 75px);
+}

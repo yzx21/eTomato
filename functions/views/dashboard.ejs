@@ -262,7 +262,7 @@
                     <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
                     <label id="noteLable">Me</label>
                     <label
-                        id="noteTime"><%=moment(parseInt(tomatos[i]["startTimeSec"] * 1000 )).local().format('lll')%></label>
+                        id="noteTime"><%=moment.unix(parseInt(tomatos[i]["startTimeSec"])).local('America/Los_Angeles').format('lll')%></label>
                     <%if(tomatos[i]["notes"]) {%>
                     <label id="noteType"><%=tomatos[i]["type"]%></label>
                     <%} else {%>
@@ -281,9 +281,9 @@
                     Nothing was noted in this session.
                     <%}%>
                     </div>
-                <button id="noteLikeBtn">like</button>
-            </div>
-            <% } %>
+                    <button id="noteLikeBtn">like</button>
+                </div>
+                <% } %>
                 </div>
             </div>
         </div>
@@ -627,7 +627,8 @@
                     document.getElementById('publishCheckBox').checked = false;
                     document.getElementById("tomatoType").value = "";
                     $('#summernote').summernote('code', "");
-                    ("#middle").load("./");
+                    $('#notesSec').prepend(
+                        result);
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});

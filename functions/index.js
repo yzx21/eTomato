@@ -212,6 +212,29 @@ async function getAllTomatos(uid) {
     return admin.database().ref('users').child(uid).child("tomatos").once('value');
 }
 
+async function getLatestNote(userRec, latestTmtSnap) {
+    var newDiv = '<div class="noteCard"> <img id="noteAvatar" src="' + userRec.val()['photoURL'] + '" width="40px" height="40px" alt="Avatar"> <label id="noteLable">Me</label> <label id="noteTime">' +
+        moment(parseInt(latestTmtSnap.val()['startTimeSec'] * 1000)).local().format("lll")
+        + '</label>';
+    if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['tomatoType'] !== undefined) {
+        newDiv += '<label id="noteType">' + latestTmtSnap.val()['notes']['tomatoType'] + '</label>'
+    } else {
+        newDiv += '<label id="noteType">No type</label>'
+    }
+    if (latestTmtSnap.val()['duration'] !== undefined) {
+        newDiv += '<img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar"> <br> <div id="noteText">'
+    } else {
+        newDiv += '<img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"> <br> <div id="noteText">'
+    }
+
+    if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['notes'] !== undefined) {
+        newDiv += latestTmtSnap.val()['notes']['notes'];
+    } else {
+        newDiv += "Nothing was noted in this session.";
+    }
+    newDiv += '</div> <button id="noteLikeBtn">like</button></div>'
+    return newDiv;
+}
 
 app.post("/startSession", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
@@ -313,28 +336,8 @@ app.post("/saveNotes", async (req, res) => {
         })
 
         var latestTmtSnap = await latestTomato.once('value')
-
-        console.log(latestTmtSnap.val())
-        var newDiv = '<div class="noteCard"> <img id="noteAvatar" src="' + userRec.val()['photoURL'] + '" width="40px" height="40px" alt="Avatar"> <label id="noteLable">Me</label> <label id="noteTime">' +
-            moment(parseInt(latestTmtSnap.val()['startTimeSec'] * 1000)).local().format("lll")
-            + '</label>';
-        if (latestTmtSnap.val()['notes']['tomatoType'] !== undefined) {
-            newDiv += '<label id="noteType">' + latestTmtSnap.val()['notes']['tomatoType'] + '</label>'
-        } else {
-            newDiv += '<label id="noteType">No type</label>'
-        }
-        if (latestTmtSnap.val()['duration'] !== undefined) {
-            newDiv += '<img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar"> <br> <div id="noteText">'
-        } else {
-            newDiv += '<img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"> <br> <div id="noteText">'
-        }
-
-        if (latestTmtSnap.val()['notes']['notes'] !== undefined) {
-            newDiv += latestTmtSnap.val()['notes']['notes'];
-        } else {
-            newDiv += "Nothing was noted in this session.";
-        }
-        newDiv += '</div> <button id="noteLikeBtn">like</button></div>'
+        var newDiv = await getLatestNote(userRec, latestTmtSnap);
+        console.log(newDiv)
         res.send(newDiv);
         return;
     }
@@ -369,6 +372,7 @@ app.post("/skipNotes", async (req, res) => {
         res.status(401).send("something went wrong");
         return;
     }
+    var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
     var tomatosSet = await getLastestTomato(userSnap.uid);
     if (!tomatosSet || isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
         res.status(401).send("doesn't look like you have a pending tomato without a notes, please refresh and try again.");
@@ -376,10 +380,13 @@ app.post("/skipNotes", async (req, res) => {
     }
     else {
         var latestTomato = db.ref('users').child(userSnap.uid).child("tomatos").child(Object.keys(tomatosSet)[0]);
-        latestTomato.update({
+        await latestTomato.update({
             noteSkipped: true
         })
-        res.send();
+        var latestTmtSnap = await latestTomato.once('value')
+        var newDiv = await getLatestNote(userRec, latestTmtSnap);
+        console.log(newDiv)
+        res.send(newDiv);
         return;
     }
 })

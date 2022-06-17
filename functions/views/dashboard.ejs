@@ -522,11 +522,11 @@
                     document.getElementById("circlebarId").dataset.circleMaxvalue = defaultcdlength;
                     ResetClock(0)
                     ResetCDClock(0);
-
                     document.getElementById('publishCheckBox').checked = false;
                     document.getElementById("tomatoType").value = "";
                     $('#summernote').summernote('code', "");
-                    ("#middle").load("./");
+                    $('#notesSec').prepend(
+                        result);
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});

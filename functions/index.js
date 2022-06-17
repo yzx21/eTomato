@@ -232,7 +232,7 @@ async function getLatestNote(userRec, latestTmtSnap) {
     } else {
         newDiv += "Nothing was noted in this session.";
     }
-    newDiv += '</div> <button id="noteLikeBtn">like</button></div>'
+    newDiv += '</div>  <img id="noteLikeBtn" src="./public/image/liked.png"></div> <label id="likeCnt">0</label>'
     return newDiv;
 }
 
@@ -337,7 +337,6 @@ app.post("/saveNotes", async (req, res) => {
 
         var latestTmtSnap = await latestTomato.once('value')
         var newDiv = await getLatestNote(userRec, latestTmtSnap);
-        console.log(newDiv)
         res.send(newDiv);
         return;
     }
@@ -385,7 +384,6 @@ app.post("/skipNotes", async (req, res) => {
         })
         var latestTmtSnap = await latestTomato.once('value')
         var newDiv = await getLatestNote(userRec, latestTmtSnap);
-        console.log(newDiv)
         res.send(newDiv);
         return;
     }

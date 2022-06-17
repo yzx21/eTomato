@@ -281,7 +281,8 @@
                     Nothing was noted in this session.
                     <%}%>
                     </div>
-                    <button id="noteLikeBtn">like</button>
+                    <img id="noteLikeBtn" src="./public/image/liked.png">
+                    <label id="likeCnt">0</label>
                 </div>
                 <% } %>
                 </div>
@@ -626,6 +627,8 @@
                     document.getElementById("processNotesSec").style.display = "none";
                     document.getElementById('publishCheckBox').checked = false;
                     document.getElementById("tomatoType").value = "";
+                    ResetClock(0)
+                    ResetCDClock(0);
                     $('#summernote').summernote('code', "");
                     $('#notesSec').prepend(
                         result);

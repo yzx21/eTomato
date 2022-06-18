@@ -201,7 +201,7 @@
             <div id="todaySummarySec">
                 <lable id="todayTomatoLbl">Today's tomatos (<%=todayTmt.length%>)</lable>
                 <div class="container" id="todayTmtId">
-                    <div class="row">
+                    <div class="row" id="todayTmtRow">
                         <%if (isTomatoOn || !(noteSkipped || noteCompleted)) {%>
                         <div class="col">
                             <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px"
@@ -214,11 +214,11 @@
                             <%if(todayTmt[i]['duration'] == "25 mins") {%>
                             <img id="todayTmtImgId" src="./public/image/tomato.png" width="40px" height="40px"
                                 alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                title="<%=todayTmt[i]['type']%> : <%=todayTmt[i]['duration']%>" />
+                                title="<%=todayTmt[i]['type']%>: <%=todayTmt[i]['duration']%>" />
                             <%} else {%>
                             <img id="todayTmtImgId" src="./public/image/green_tomato.png" width="40px" height="40px"
                                 alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                title="<%=todayTmt[i]['type']%> : <%=todayTmt[i]['duration']%>" />
+                                title="<%=todayTmt[i]['type']%>: <%=todayTmt[i]['duration']%>" />
                             <%}%>
                         </div>
                         <%}%>
@@ -580,7 +580,12 @@
                         document.getElementById("tomatoType").value = "";
                         $('#summernote').summernote('code', "");
                         $('#notesSec').prepend(
-                            result);
+                            result['newNoteDiv']);
+
+                        $('#todayTmtRow').children().eq(0).remove();
+                        $('#todayTmtRow').prepend(
+                            result['newTodayTmt']);
+
                         var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                             '[data-bs-toggle="tooltip"]'))
                         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -622,6 +627,10 @@
                                 "./public/image/stop_tomato.png";
                             document.getElementById("startBtn").alt = "stop_a_tomato";
                             $('#musicCollapse').collapse("show")
+                            var WIPTmt =
+                                '<div class="col"> <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Working in progress" /> </div>'
+                            $('#todayTmtRow').prepend(
+                                WIPTmt);
                         },
                         error: function (error) {
                             new Toasteur().error(error.responseText, 'Error!', () => {});
@@ -697,8 +706,12 @@
                         ResetClock(0)
                         ResetCDClock(0);
                         $('#summernote').summernote('code', "");
+
                         $('#notesSec').prepend(
-                            result);
+                            result['newNoteDiv']);
+                        $('#todayTmtRow').children().eq(0).remove();
+                        $('#todayTmtRow').prepend(
+                            result['newTodayTmt']);
                         var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                             '[data-bs-toggle="tooltip"]'))
                         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

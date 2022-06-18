@@ -143,8 +143,6 @@ app.get("/", async (req, res) => {
             noteCompleted = true;
         }
         remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
-        // moment.unix(parseInt(tomatos[i]["startTimeSec"]) - parseInt((tomatos[i]["timeOffset"] || 0)) * 60
-
     }
     var nowDate = getDayMonthYear(Date.now() / 1000 - (userRec.val()["timeOffset"] || 0) * 60);
 
@@ -259,6 +257,33 @@ async function getLatestNote(userRec, latestTmtSnap) {
         newDiv += "Nothing was noted in this session.";
     }
     newDiv += '</div>  <img id="noteLikeBtn" src="./public/image/liked.png"><label id="likeCnt">0</label></div>'
+    return newDiv;
+}
+
+
+async function getLatestTodayTmt(latestTmtSnap) {
+    latestTmtSnap = latestTmtSnap.val()
+    var newDiv = '<div class="col"> <img id="todayTmtImgId" '
+    if (latestTmtSnap['duration']) {
+        newDiv += 'src = "./public/image/green_tomato.png"'
+    } else {
+        newDiv += 'src = "./public/image/tomato.png"'
+    }
+    console.log(latestTmtSnap)
+    newDiv += 'width = "40px" height = "40px" alt = "Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" '
+    if (latestTmtSnap['notes'] && latestTmtSnap['notes']['tomatoType']) {
+        if (latestTmtSnap['duration']) {
+            newDiv += 'title = "' + latestTmtSnap['notes']['tomatoType'] + ": " + (latestTmtSnap['duration'] / 60).toFixed(1) + ' mins" /> </div>'
+        } else {
+            newDiv += 'title = "' + latestTmtSnap['notes']['tomatoType'] + ": " + '25 mins" /> </div>'
+        }
+    } else {
+        if (latestTmtSnap['duration']) {
+            newDiv += 'title = "No type: ' + (latestTmtSnap['duration'] / 60).toFixed(1) + ' mins" /> </div>'
+        } else {
+            newDiv += 'title = "No type: 25 mins" /> </div>'
+        }
+    }
     console.log(newDiv)
     return newDiv;
 }
@@ -380,8 +405,9 @@ app.post("/saveNotes", async (req, res) => {
         })
 
         var latestTmtSnap = await latestTomato.once('value')
-        var newDiv = await getLatestNote(userRec, latestTmtSnap);
-        res.send(newDiv);
+        var newNoteDiv = await getLatestNote(userRec, latestTmtSnap);
+        var newTodayTmt = await getLatestTodayTmt(latestTmtSnap);
+        res.send({ newNoteDiv: newNoteDiv, newTodayTmt: newTodayTmt });
         return;
     }
 })
@@ -427,8 +453,9 @@ app.post("/skipNotes", async (req, res) => {
             noteSkipped: true
         })
         var latestTmtSnap = await latestTomato.once('value')
-        var newDiv = await getLatestNote(userRec, latestTmtSnap);
-        res.send(newDiv);
+        var newNoteDiv = await getLatestNote(userRec, latestTmtSnap);
+        var newTodayTmt = await getLatestTodayTmt(latestTmtSnap);
+        res.send({ newNoteDiv: newNoteDiv, newTodayTmt: newTodayTmt });
         return;
     }
 })

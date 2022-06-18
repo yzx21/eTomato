@@ -143,7 +143,11 @@ app.get("/", async (req, res) => {
             noteCompleted = true;
         }
         remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
+        // moment.unix(parseInt(tomatos[i]["startTimeSec"]) - parseInt((tomatos[i]["timeOffset"] || 0)) * 60
+
     }
+    var nowDate = getDayMonthYear(Date.now() / 1000 - (userRec.val()["timeOffset"] || 0) * 60);
+
     var todayTmt = []
     if (tomatosSet) {
         var tmpTmts = await getAllTomatos(userSnap.uid);
@@ -162,6 +166,15 @@ app.get("/", async (req, res) => {
                 timeOffset: tmt.val()["timeOffset"],
                 notes: notes
             })
+
+            var tmtDurationMins = duration ? (duration / 60).toFixed(1) + " mins" : "25 mins"
+            var tmtDate = getDayMonthYear(parseInt(tmt.val()["startTimeSec"]) - parseInt(tmt.val()["timeOffset"] * 60))
+            if (tmtDate.toString() === nowDate.toString()) {
+                todayTmt.push({
+                    duration: tmtDurationMins,
+                    type: type || "No type",
+                });
+            }
         })
     }
 
@@ -179,8 +192,17 @@ app.get("/", async (req, res) => {
         noteCompleted: noteCompleted,
         tomatos: tomatos.reverse(),
         moment: moment,
+        todayTmt: todayTmt.reverse(),
     });
 });
+
+function getDayMonthYear(seconds) {
+    var nowDate = moment.unix(seconds);
+    var nowDay = nowDate.format("D");
+    var nowMonth = nowDate.format("M");
+    var nowYear = nowDate.format("YYYY");
+    return [nowDay, nowMonth, nowYear]
+}
 
 function isTomatoOngoing(tomato) {
     var nowSec = Date.now() / 1000;
@@ -240,6 +262,21 @@ async function getLatestNote(userRec, latestTmtSnap) {
     console.log(newDiv)
     return newDiv;
 }
+
+app.post("/sendTimeOffset", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const timeOffset = req.body["timeOffset"] || 0;
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.send("something went wrong");
+        return;
+    }
+    db.ref('users').child(userSnap.uid).update({ timeOffset: timeOffset })
+    res.send();
+    return;
+})
 
 app.post("/startSession", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";

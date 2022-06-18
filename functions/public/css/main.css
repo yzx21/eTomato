@@ -206,8 +206,9 @@ hr {
 }
 
 .split {
-  left: 20%;
-  right: 20%;
+  left: 10%;
+  width: 100%;
+  position: relative;
 }
 
 .circlebarCD {
@@ -361,4 +362,15 @@ hr {
 
 .nothing {
   color: #A6A6A6;
+}
+
+#todayTmtId {
+  position: relative;
+  top: 100px;
+  width: 80%;
+  left: 0px;
+}
+
+#todayTmtImgId {
+  position: relative;
 }

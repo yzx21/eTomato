@@ -43,6 +43,10 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+
+    <script src="./public/js/popper.min.js"></script>
+    <script src="./public/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family:
@@ -268,9 +272,12 @@
                     <label id="noteType">No type</label>
                     <%}%>
                     <%if(tomatos[i]["duration"]) {%>
-                    <img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar">
+                    <img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                        title="<%=(tomatos[i]['duration']/60).toFixed(1)%> mins" />
                     <%} else {%>
-                    <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar">
+                    <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"
+                        title="25 min">
                     <%}%>
                     <br>
                     <div id="noteText">
@@ -477,6 +484,10 @@
             } else {
                 $('#musicCollapse').collapse("show")
             }
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
         }
 
         function startOver() {

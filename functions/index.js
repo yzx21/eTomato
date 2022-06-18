@@ -153,6 +153,9 @@ app.get("/", async (req, res) => {
             if (!(noteSkipped || noteCompleted) && Object.keys(tomatosSet)[0] == tmt.key) {
                 return;
             }
+            if (isTomatoOngoing(tmt.val())) {
+                return;
+            }
             var duration = tmt.val()["duration"];
             var type = tmt.val()["notes"] ? tmt.val()["notes"]["tomatoType"] : undefined;
             var notes = tmt.val()["notes"] ? tmt.val()["notes"]["notes"] : undefined;

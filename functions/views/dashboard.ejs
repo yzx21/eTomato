@@ -129,7 +129,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you going to terminate this session?.
+                    Do not worry: The next Pomodoro will go better. Be gentle with yourself.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -628,7 +628,7 @@
                             document.getElementById("startBtn").alt = "stop_a_tomato";
                             $('#musicCollapse').collapse("show")
                             var WIPTmt =
-                                '<div class="col"> <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Working in progress" /> </div>'
+                                '<div class="col"> <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="Working in progress"  aria-label="Working in progress" /> </div>'
                             $('#todayTmtRow').prepend(
                                 WIPTmt);
                         },

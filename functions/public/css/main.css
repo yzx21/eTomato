@@ -374,3 +374,10 @@ hr {
 #todayTmtImgId {
   position: relative;
 }
+
+#ggLogin1 {
+  position: fixed;
+  right: 30px;
+  width: 200px;
+  height: 40px;
+}

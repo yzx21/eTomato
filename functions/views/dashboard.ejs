@@ -631,6 +631,11 @@
                                 '<div class="col"> <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="Working in progress"  aria-label="Working in progress" /> </div>'
                             $('#todayTmtRow').prepend(
                                 WIPTmt);
+                            var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                                '[data-bs-toggle="tooltip"]'))
+                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                return new bootstrap.Tooltip(tooltipTriggerEl)
+                            })
                         },
                         error: function (error) {
                             new Toasteur().error(error.responseText, 'Error!', () => {});

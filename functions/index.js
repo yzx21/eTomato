@@ -30,7 +30,7 @@ const { timeStamp } = require('console');
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
 const tomatoSessionLength = 1500;
-const coolDownLength = 300;
+const coolDownLength = 3;
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -144,6 +144,7 @@ app.get("/", async (req, res) => {
         }
         remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
     }
+    var todayTmt = []
     if (tomatosSet) {
         var tmpTmts = await getAllTomatos(userSnap.uid);
         tmpTmts.forEach(function (tmt) {
@@ -153,6 +154,7 @@ app.get("/", async (req, res) => {
             var duration = tmt.val()["duration"];
             var type = tmt.val()["notes"] ? tmt.val()["notes"]["tomatoType"] : undefined;
             var notes = tmt.val()["notes"] ? tmt.val()["notes"]["notes"] : undefined;
+
             tomatos.push({
                 startTimeSec: tmt.val()["startTimeSec"],
                 duration: duration,
@@ -214,7 +216,6 @@ async function getAllTomatos(uid) {
 }
 
 async function getLatestNote(userRec, latestTmtSnap) {
-
     var newDiv = '<div class="noteCard"> <img id="noteAvatar" src="' + userRec.val()['photoURL'] + '" width="40px" height="40px" alt="Avatar"> <label id="noteLable">Me</label> <label id="noteTime">' +
         moment.unix(parseInt(latestTmtSnap.val()['startTimeSec']) - parseInt(latestTmtSnap.val()['timeOffset']) * 60).local().format("lll")
         + '</label>';
@@ -223,10 +224,11 @@ async function getLatestNote(userRec, latestTmtSnap) {
     } else {
         newDiv += '<label id="noteType">No type</label>'
     }
+
     if (latestTmtSnap.val()['duration'] !== undefined) {
-        newDiv += '<img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar"> <br> <div id="noteText">'
+        newDiv += '<img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="' + (latestTmtSnap.val()["duration"] / 60).toFixed(1) + ' mins" aria-label="' + (latestTmtSnap.val()["duration"] / 60).toFixed(1) + ' mins"/> <br> <div id="noteText">'
     } else {
-        newDiv += '<img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"> <br> <div id="noteText">'
+        newDiv += '<img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="25 mins"  aria-label="25 mins" /> <br> <div id="noteText">'
     }
 
     if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['notes'] !== undefined) {
@@ -235,6 +237,7 @@ async function getLatestNote(userRec, latestTmtSnap) {
         newDiv += "Nothing was noted in this session.";
     }
     newDiv += '</div>  <img id="noteLikeBtn" src="./public/image/liked.png"><label id="likeCnt">0</label></div>'
+    console.log(newDiv)
     return newDiv;
 }
 

@@ -200,6 +200,37 @@
 
             <div id="todaySummarySec">
                 <lable id="todayTomatoLbl">Today's tomatos (0)</lable>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            Column
+                        </div>
+                        <div class="col">
+                            Column
+                        </div>
+                        <div class="col">
+                            Column
+                        </div>
+                        <div class="col">
+                            Column
+                        </div>
+                        <div class="col">
+                            Column
+                        </div>
+                        <div class="col">
+                            Column
+                        </div>
+                        <div class="col">
+                            Column
+                        </div>
+                        <div class="col">
+                            Column
+                        </div>
+                        <div class="col">
+                            Column
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -277,14 +308,14 @@
                         title="<%=(tomatos[i]['duration']/60).toFixed(1)%> mins" />
                     <%} else {%>
                     <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"
-                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="25 min">
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="25 min" />
                     <%}%>
                     <br>
                     <div id="noteText">
                     <%if(tomatos[i]["notes"]) {%>
                     <%-tomatos[i]["notes"]%>
                     <%} else {%>
-                    Nothing was noted in this session.
+                    <p class="nothing">Nothing was noted in this session.</p>
                     <%}%>
                     </div>
                     <img id="noteLikeBtn" src="./public/image/liked.png">
@@ -538,6 +569,11 @@
                     $('#summernote').summernote('code', "");
                     $('#notesSec').prepend(
                         result);
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                        '[data-bs-toggle="tooltip"]'))
+                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                    })
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});
@@ -647,6 +683,11 @@
                     $('#summernote').summernote('code', "");
                     $('#notesSec').prepend(
                         result);
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                        '[data-bs-toggle="tooltip"]'))
+                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                    })
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});

@@ -358,3 +358,7 @@ hr {
   text-align: center;
   left: calc(50% - 75px);
 }
+
+.nothing {
+  color: #A6A6A6;
+}

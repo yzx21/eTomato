@@ -195,7 +195,7 @@
             <hr class="split">
 
             <div id="todaySummarySec">
-                <lable id="todayTomatoLbl">Today's tomatos(0)</lable>
+                <lable id="todayTomatoLbl">Today's tomatos (0)</lable>
             </div>
         </div>
 
@@ -240,17 +240,17 @@
             <% if (noteSkipped || noteCompleted) { %>
             <div id="publishSection" style="display:none;"=>
                 <button id="disgardBtn" type="button" onclick="disgard();">Skip</button>
-                <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
+                <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
-                    to global</label>
+                    to global</label> -->
                 <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
             </div>
             <% } else { %>
             <div id="publishSection" style="display:table-row;"=>
                 <button id="disgardBtn" type="button" onclick="disgard();">Skip</button>
-                <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
+                <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
-                    to global</label>
+                    to global</label> -->
                 <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
             </div>
             <% } %>
@@ -261,7 +261,7 @@
                     <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
                     <label id="noteLable">Me</label>
                     <label
-                        id="noteTime"><%=moment.unix(parseInt(tomatos[i]["startTimeSec"])).local('America/Los_Angeles').format('lll')%></label>
+                        id="noteTime"><%=moment.unix(parseInt(tomatos[i]["startTimeSec"]) - parseInt(tomatos[i]["timeOffset"]) * 60).format('lll')%></label>
                     <%if(tomatos[i]["notes"]) {%>
                     <label id="noteType"><%=tomatos[i]["type"]%></label>
                     <%} else {%>
@@ -522,7 +522,7 @@
                     document.getElementById("circlebarId").dataset.circleMaxvalue = defaultcdlength;
                     ResetClock(0)
                     ResetCDClock(0);
-                    document.getElementById('publishCheckBox').checked = false;
+                    // document.getElementById('publishCheckBox').checked = false;
                     document.getElementById("tomatoType").value = "";
                     $('#summernote').summernote('code', "");
                     $('#notesSec').prepend(
@@ -548,9 +548,14 @@
             var btnVal = document.getElementById("startBtn").alt;
             if (btnVal == "start_a_tomato") {
                 firebase.analytics().logEvent('ClickStartBtn');
+                const date = new Date();
+                const offset = date.getTimezoneOffset();
                 $.ajax({
                     url: "./startSession",
                     type: "POST",
+                    data: {
+                        timeOffset: offset
+                    },
                     success: function (result) {
                         new Toasteur().success('Enjoy your time!', "A new Tomato is started", () => {});
                         document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
@@ -603,7 +608,7 @@
         }
 
         function saveNotes() {
-            var checkedValue = document.getElementById('publishCheckBox').checked;
+            // var checkedValue = document.getElementById('publishCheckBox').checked;
             var tomatoType = document.getElementById("tomatoType").value;
             var notes = $('#summernote').summernote('code')
             if (!tomatoType && !notes) {
@@ -615,7 +620,7 @@
                 url: "./saveNotes",
                 type: "POST",
                 data: {
-                    checkedValue: checkedValue,
+                    // checkedValue: checkedValue,
                     tomatoType: tomatoType,
                     notes: notes,
                 },
@@ -624,7 +629,7 @@
                         () => {});
                     document.getElementById("publishSection").style.display = "none";
                     document.getElementById("processNotesSec").style.display = "none";
-                    document.getElementById('publishCheckBox').checked = false;
+                    // document.getElementById('publishCheckBox').checked = false;
                     document.getElementById("tomatoType").value = "";
                     ResetClock(0)
                     ResetCDClock(0);

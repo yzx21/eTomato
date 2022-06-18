@@ -30,7 +30,7 @@ const { timeStamp } = require('console');
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
 const tomatoSessionLength = 1500;
-const coolDownLength = 3;
+const coolDownLength = 300;
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -157,6 +157,7 @@ app.get("/", async (req, res) => {
                 startTimeSec: tmt.val()["startTimeSec"],
                 duration: duration,
                 type: type,
+                timeOffset: tmt.val()["timeOffset"],
                 notes: notes
             })
         })
@@ -213,8 +214,9 @@ async function getAllTomatos(uid) {
 }
 
 async function getLatestNote(userRec, latestTmtSnap) {
+
     var newDiv = '<div class="noteCard"> <img id="noteAvatar" src="' + userRec.val()['photoURL'] + '" width="40px" height="40px" alt="Avatar"> <label id="noteLable">Me</label> <label id="noteTime">' +
-        moment(parseInt(latestTmtSnap.val()['startTimeSec'] * 1000)).local().format("lll")
+        moment.unix(parseInt(latestTmtSnap.val()['startTimeSec']) - parseInt(latestTmtSnap.val()['timeOffset']) * 60).local().format("lll")
         + '</label>';
     if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['tomatoType'] !== undefined) {
         newDiv += '<label id="noteType">' + latestTmtSnap.val()['notes']['tomatoType'] + '</label>'
@@ -232,12 +234,13 @@ async function getLatestNote(userRec, latestTmtSnap) {
     } else {
         newDiv += "Nothing was noted in this session.";
     }
-    newDiv += '</div>  <img id="noteLikeBtn" src="./public/image/liked.png"></div> <label id="likeCnt">0</label>'
+    newDiv += '</div>  <img id="noteLikeBtn" src="./public/image/liked.png"><label id="likeCnt">0</label></div>'
     return newDiv;
 }
 
 app.post("/startSession", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
+    const timeOffset = req.body["timeOffset"] || 0;
     var db = admin.database();
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
@@ -252,7 +255,8 @@ app.post("/startSession", async (req, res) => {
     else {
         var tomatosSnap = db.ref('users').child(userSnap.uid).child("tomatos");
         tomatosSnap.push({
-            startTimeSec: Date.now() / 1000
+            startTimeSec: Date.now() / 1000,
+            timeOffset: timeOffset,
         })
         res.send();
     }
@@ -329,7 +333,7 @@ app.post("/saveNotes", async (req, res) => {
     else {
         var latestTomato = db.ref('users').child(userSnap.uid).child("tomatos").child(Object.keys(tomatosSet)[0]);
         await latestTomato.child("notes").update({
-            checkedValue: checkedValue,
+            // checkedValue: checkedValue,
             tomatoType, tomatoType,
             notes, notes,
             date: Date.now(),

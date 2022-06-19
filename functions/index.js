@@ -272,7 +272,6 @@ async function getLatestTodayTmt(latestTmtSnap) {
     } else {
         newDiv += 'src = "./public/image/tomato.png"'
     }
-    console.log(latestTmtSnap)
     newDiv += 'width = "40px" height = "40px" alt = "Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" '
     if (latestTmtSnap['notes'] && latestTmtSnap['notes']['tomatoType']) {
         if (latestTmtSnap['duration']) {
@@ -287,7 +286,6 @@ async function getLatestTodayTmt(latestTmtSnap) {
             newDiv += 'title = "No type: 25 mins" /> </div>'
         }
     }
-    console.log(newDiv)
     return newDiv;
 }
 

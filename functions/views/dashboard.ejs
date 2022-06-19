@@ -189,11 +189,11 @@
             </div>
             <% if (noteSkipped || noteCompleted) { %>
             <div id="processNotesSec" style="display:none;">
-                <lable id="processNotesLbl">*Please process the notes for the previous session*</lable>
+                <lable id="processNotesLbl">*Please save or skip the notes for the previous session*</lable>
             </div>
             <% } else { %>
             <div id="processNotesSec" style="display:table-row;">
-                <lable id="processNotesLbl">*Please process the notes for the previous session*</lable>
+                <lable id="processNotesLbl">*Please save or skip the notes for the previous session*</lable>
             </div>
             <% } %>
             <hr class="split">
@@ -250,7 +250,7 @@
                 <script>
                     $(document).ready(function () {
                         $('#summernote').summernote({
-                            placeholder: 'Ralph Ellison’s The Invisible Man: An extremely powerful story of a young Southern Negro ... ',
+                            placeholder: 'During this tomato session, you can write here: 1.the tasks you want to complete. 2.your thoughts and things to remember. 3.your self reflection. ',
                             tabsize: 2,
                             toolbar: [
                                 ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -319,7 +319,8 @@
 
             <div class="collapse" id="musicCollapse">
                 <div id="app-cover" data-onload=<%=isMusicPlaying%> data-onrest=<%=remainingRestTimeSec%>
-                    data-tomatoSessionLength=<%=tomatoSessionLength%> data-defaultcdlength=<%=coolDownLength%>>
+                    data-tomatoSessionLength=<%=tomatoSessionLength%> data-defaultcdlength=<%=coolDownLength%>
+                    data-todaycnt=<%=todayTmt.length%>>
                     <div id="player">
                         <div id="player-track">
                             <div id="album-name"></div>
@@ -586,6 +587,12 @@
                         $('#todayTmtRow').prepend(
                             result['newTodayTmt']);
 
+                        var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
+                        document.getElementById('todayTomatoLbl').innerHTML =
+                            'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
+                        document.getElementById('app-cover').dataset.todaycnt += 1;
+
+
                         var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                             '[data-bs-toggle="tooltip"]'))
                         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -717,6 +724,12 @@
                         $('#todayTmtRow').children().eq(0).remove();
                         $('#todayTmtRow').prepend(
                             result['newTodayTmt']);
+
+                        var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
+                        document.getElementById('todayTomatoLbl').innerHTML =
+                            'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
+                        document.getElementById('app-cover').dataset.todaycnt += 1;
+
                         var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                             '[data-bs-toggle="tooltip"]'))
                         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

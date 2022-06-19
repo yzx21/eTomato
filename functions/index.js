@@ -29,7 +29,7 @@ const { timeStamp } = require('console');
 
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
-const tomatoSessionLength = 1500;
+const tomatoSessionLength = 300;
 const coolDownLength = 300;
 
 admin.initializeApp({
@@ -254,10 +254,11 @@ async function getLatestNote(userRec, latestTmtSnap) {
         newDiv += '<img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="25 mins"  aria-label="25 mins" /> <br> <div id="noteText">'
     }
 
-    if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['notes'] !== undefined) {
+    if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()["notes"]["notes"] !== "<p><br></p>") {
         newDiv += latestTmtSnap.val()['notes']['notes'];
     } else {
-        newDiv += "Nothing was noted in this session.";
+
+        newDiv += '<p class="nothing">Nothing was noted in this session.</p>';
     }
     newDiv += '</div>  <img id="noteLikeBtn" src="./public/image/liked.png"><label id="likeCnt">0</label></div>'
     return newDiv;

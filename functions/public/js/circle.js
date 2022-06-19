@@ -92,14 +92,14 @@ function Circlebar(prefs) {
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
+            // document.getElementById("publishSection").style.display = "table-row";
             document.getElementById("publishSection").style.display = "table-row";
-            document.getElementById("processNotesSec").style.display = "table-row";
         }
     };
     textFilter = function () {
         percentage = (value * 100) / maxValue;
-        if (document.getElementById("processNotesSec").style.display !== "none" && percentage !== 100) {
-            $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+        if (document.getElementById("publishSection").style.display !== "none" && percentage !== 100) {
+            // $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
             $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
             return;
         }
@@ -242,7 +242,7 @@ window.StopTomato = function () {
             document.getElementById("startBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
             document.getElementById("publishSection").style.display = "table-row";
-            document.getElementById("processNotesSec").style.display = "table-row";
+            // document.getElementById("processNotesSec").style.display = "table-row";
         },
         error: function (error) {
             new Toasteur().error(error.responseText, 'Error!', () => { });

@@ -187,30 +187,21 @@
                     <% } %>
                 </a>
             </div>
-            <% if (noteSkipped || noteCompleted) { %>
-            <div id="processNotesSec" style="display:none;">
-                <lable id="processNotesLbl">*Please save or skip the notes for the previous session*</lable>
-            </div>
-            <% } else { %>
-            <div id="processNotesSec" style="display:table-row;">
-                <lable id="processNotesLbl">*Please save or skip the notes for the previous session*</lable>
-            </div>
-            <% } %>
             <hr class="split">
 
             <div id="todaySummarySec">
                 <lable id="todayTomatoLbl">Today's tomatos (<%=todayTmt.length%>)</lable>
                 <div class="container" id="todayTmtId">
-                    <div class="row" id="todayTmtRow">
+                    <div class="row justify-content-start" id="todayTmtRow">
                         <%if (isTomatoOn || !(noteSkipped || noteCompleted)) {%>
-                        <div class="col">
+                        <div class="col-3">
                             <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px"
                                 alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                 title="Working in progress" />
                         </div>
                         <%}%>
                         <%for(let i=0; i<todayTmt.length; i++) {%>
-                        <div class="col">
+                        <div class="col-3">
                             <%if(todayTmt[i]['duration'] == "25 mins") {%>
                             <img id="todayTmtImgId" src="./public/image/tomato.png" width="40px" height="40px"
                                 alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -264,19 +255,33 @@
                     });
                 </script>
                 <% if (noteSkipped || noteCompleted) { %>
-                <div id="publishSection" style="display:none;"=>
-                    <button id="disgardBtn" type="button" onclick="disgard();">Skip</button>
+                <div id="publishSection" style="display:none;">
+                    <!-- <button id="disgardBtn" type="button" onclick="disgard();">Skip</button> -->
                     <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label> -->
+                    <% if (noteSkipped || noteCompleted) { %>
+                    <lable id="processNotesLbl">*Please save the notes*
+                    </lable>
+                    <% } else { %>
+                    <lable id="processNotesLbl">*Please save the notes*
+                    </lable>
+                    <% } %>
                     <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
                 </div>
                 <% } else { %>
                 <div id="publishSection" style="display:table-row;"=>
-                    <button id="disgardBtn" type="button" onclick="disgard();">Skip</button>
+                    <!-- <button id="disgardBtn" type="button" onclick="disgard();">Skip</button> -->
                     <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label> -->
+                    <% if (noteSkipped || noteCompleted) { %>
+                    <lable id="processNotesLbl">*Please save the notes*
+                    </lable>
+                    <% } else { %>
+                    <lable id="processNotesLbl">*Please save the notes*
+                    </lable>
+                    <% } %>
                     <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
                 </div>
                 <% } %>
@@ -303,7 +308,7 @@
                         <%}%>
                     <br>
                     <div id="noteText">
-                    <%if(tomatos[i]["notes"]) {%>
+                    <%if(tomatos[i]["notes"] && tomatos[i]["notes"] != "<p><br></p>") {%>
                         <%-tomatos[i]["notes"]%>
                         <%} else {%>
                         <p class="nothing">Nothing was noted in this session.</p>
@@ -564,7 +569,6 @@
                         new Toasteur().success("Notes skipped", 'Have fun in your next tomato!',
                             () => {});
                         document.getElementById("publishSection").style.display = "none";
-                        document.getElementById("processNotesSec").style.display = "none";
                         var defaultcdlength = document.getElementById('app-cover').dataset
                             .defaultcdlength;
                         document.getElementById("circlebarCDiD").dataset.circleStarttime = "0";
@@ -606,8 +610,8 @@
             }
 
             function ClickStartBtn() {
-                if (document.getElementById("processNotesSec").style.display !== "none") {
-                    $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                if (document.getElementById("publishSection").style.display !== "none") {
+                    // $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                     $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                     return;
                 }
@@ -695,10 +699,11 @@
                 var tomatoType = document.getElementById("tomatoType").value;
                 var notes = $('#summernote').summernote('code')
                 if (!tomatoType && !notes) {
-                    new Toasteur().error('Or you can skip this one.',
-                        "Saving requires the category or the notes",
-                        () => {});
+                    disgard();
                     return;
+                }
+                if (!tomatoType) {
+                    tomatoType = "No type";
                 }
                 $.ajax({
                     url: "./saveNotes",
@@ -712,7 +717,6 @@
                         new Toasteur().success("Note saved", 'Have fun in your next tomato',
                             () => {});
                         document.getElementById("publishSection").style.display = "none";
-                        document.getElementById("processNotesSec").style.display = "none";
                         // document.getElementById('publishCheckBox').checked = false;
                         document.getElementById("tomatoType").value = "";
                         ResetClock(0)

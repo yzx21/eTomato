@@ -94,6 +94,24 @@ function Circlebar(prefs) {
             $('#musicCollapse').collapse("hide")
             // document.getElementById("publishSection").style.display = "table-row";
             document.getElementById("publishSection").style.display = "table";
+
+
+            // Let's check whether notification permissions have already been granted
+            if (Notification.permission === "granted") {
+                // If it's okay let's create a notification
+                var notification = new Notification("You have used up 25 mins, it's time for a break!");
+            }
+
+            // Otherwise, we need to ask the user for permission
+            else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(function (permission) {
+                    // If the user accepts, let's create a notification
+                    if (permission === "granted") {
+                        var notification = new Notification("You have used up 25 mins, it's time for a break!");
+                    }
+                });
+            }
+
         }
     };
     textFilter = function () {

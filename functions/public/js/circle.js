@@ -93,7 +93,7 @@ function Circlebar(prefs) {
             document.getElementById("startBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
             // document.getElementById("publishSection").style.display = "table-row";
-            document.getElementById("publishSection").style.display = "table-row";
+            document.getElementById("publishSection").style.display = "table";
         }
     };
     textFilter = function () {
@@ -241,7 +241,7 @@ window.StopTomato = function () {
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
-            document.getElementById("publishSection").style.display = "table-row";
+            document.getElementById("publishSection").style.display = "table";
             // document.getElementById("processNotesSec").style.display = "table-row";
         },
         error: function (error) {

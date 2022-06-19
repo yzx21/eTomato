@@ -30,7 +30,7 @@ const { timeStamp } = require('console');
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
 const tomatoSessionLength = 300;
-const coolDownLength = 300;
+const coolDownLength = 3;
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -267,7 +267,7 @@ async function getLatestNote(userRec, latestTmtSnap) {
 
 async function getLatestTodayTmt(latestTmtSnap) {
     latestTmtSnap = latestTmtSnap.val()
-    var newDiv = '<div class="col"> <img id="todayTmtImgId" '
+    var newDiv = '<div class="col-3"> <img id="todayTmtImgId" '
     if (latestTmtSnap['duration']) {
         newDiv += 'src = "./public/image/green_tomato.png"'
     } else {

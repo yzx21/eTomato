@@ -253,7 +253,7 @@ window.StopTomato = function () {
             audio.addEventListener("ended", function () {
                 audio.currentTime = 0;
             });
-            $('#coolDownModal').modal("show");
+            $('#coolDownForStopModal').modal("show");
             StartCoolDown();
 
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";

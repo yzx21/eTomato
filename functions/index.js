@@ -29,8 +29,8 @@ const { timeStamp } = require('console');
 
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
-const tomatoSessionLength = 3;
-const coolDownLength = 3;
+const tomatoSessionLength = 1500;
+const coolDownLength = 300;
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -125,6 +125,7 @@ app.get("/", async (req, res) => {
     var noteCompleted = false;
     var tomatos = [];
     var lastestTmt = undefined;
+    var cdDismissable = false;
     if (tomatosSet) {
         lastestTmt = tomatosSet[Object.keys(tomatosSet)[0]];
     }
@@ -143,6 +144,7 @@ app.get("/", async (req, res) => {
             noteCompleted = true;
         }
         remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
+        cdDismissable = (tomato['duration'] != undefined);
     }
     var nowDate = getDayMonthYear(Date.now() / 1000 - (userRec.val()["timeOffset"] || 0) * 60);
 
@@ -194,6 +196,7 @@ app.get("/", async (req, res) => {
         tomatos: tomatos.reverse(),
         moment: moment,
         todayTmt: todayTmt.reverse(),
+        cdDismissable: cdDismissable,
     });
 });
 

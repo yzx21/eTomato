@@ -221,6 +221,15 @@ hr {
   left: 25%;
 }
 
+.circlebarCD2 {
+  position: relative;
+  user-select: none;
+  box-sizing: border-box;
+  padding-left: 0%;
+  padding-right: 0%;
+  left: 25%;
+}
+
 #coolDownModalTitle {
   margin-bottom: 0%;
   position: relative;

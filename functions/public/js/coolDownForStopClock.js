@@ -2,9 +2,9 @@ import { StopMusic } from "./music.js"
 
 $(document).ready(function () {
     var prefs = {
-        element: ".circlebar"
+        element: ".circlebarCD2"
     };
-    $('.circlebar').each(function () {
+    $('.circlebarCD2').each(function () {
         prefs.element = $(this);
         new Circlebar(prefs);
     });
@@ -15,11 +15,11 @@ var textFilter;
 var value;
 var maxValue;
 var text;
-var resetClock;
+var resetCDClock;
 
 function Circlebar(prefs) {
     this.element = $(prefs.element);
-    this.element.append('<div class="spinner-holder-one animate-0-25-a"><div class="spinner-holder-two animate-0-25-b"><div class="loader-spinner" style=""></div></div></div><div class="spinner-holder-one animate-25-50-a"><div class="spinner-holder-two animate-25-50-b"><div class="loader-spinner"></div></div></div><div class="spinner-holder-one animate-50-75-a"><div class="spinner-holder-two animate-50-75-b"><div class="loader-spinner"></div></div></div><div class="spinner-holder-one animate-75-100-a"><div class="spinner-holder-two animate-75-100-b"><div class="loader-spinner"></div></div></div>');
+    this.element.append('<div class="spinner-holder-one animate-0-25-a"><div class="spinner-holder-two animate-0-25-b"><div class="cd-spinner" style=""></div></div></div><div class="spinner-holder-one animate-25-50-a"><div class="spinner-holder-two animate-25-50-b"><div class="cd-spinner"></div></div></div><div class="spinner-holder-one animate-50-75-a"><div class="spinner-holder-two animate-50-75-b"><div class="cd-spinner"></div></div></div><div class="spinner-holder-one animate-75-100-a"><div class="spinner-holder-two animate-75-100-b"><div class="cd-spinner"></div></div></div>');
     this.value, this.maxValue, this.counter, this.dialWidth, this.size, this.fontSize, this.fontColor, this.skin, this.triggerPercentage, this.type, this.timer;
     // var attribs = this.element.find("div")[0].parentNode.dataset;
     var attribs = this.element[0].dataset,
@@ -39,7 +39,7 @@ function Circlebar(prefs) {
 
         that.element.addClass(that.skin).addClass('loader');
         that.element.find(".loader-bg").css("border-width", that.dialWidth + "px");
-        that.element.find(".loader-spinner").css("border-width", that.dialWidth + "px");
+        that.element.find(".cd-spinner").css("border-width", that.dialWidth + "px");
         that.element.css({ "width": that.size, "height": that.size });
         that.element.find(".loader-bg .text")
             .css({ "font-size": that.fontSize, "color": that.fontColor });
@@ -80,90 +80,50 @@ function Circlebar(prefs) {
         }
 
         if (progress == 100) {
-            StopTimer();
-            StopMusic();
-            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
+            StopCDTimer2();
+            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FCD_Completed.mp3?alt=media&token=7a520622-c205-4820-b76f-31390509ac31");
             audio.play();
-            audio.addEventListener("ended", function () {
-                audio.currentTime = 0;
-            });
-            $('#coolDownModal').modal("show");
-            StartCoolDown();
-            document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-            document.getElementById("startBtn").alt = "start_a_tomato";
-            $('#musicCollapse').collapse("hide")
-            // document.getElementById("publishSection").style.display = "table-row";
-            document.getElementById("publishSection").style.display = "table";
-
-
-            // Let's check whether notification permissions have already been granted
-            if (Notification.permission === "granted") {
-                // If it's okay let's create a notification
-                var notification = new Notification("You have used up 25 mins, it's time for a break!");
-            }
-
-            // Otherwise, we need to ask the user for permission
-            else if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(function (permission) {
-                    // If the user accepts, let's create a notification
-                    if (permission === "granted") {
-                        var notification = new Notification("You have used up 25 mins, it's time for a break!");
-                    }
-                });
-            }
-
+            $('#coolDownForStopModal').modal("hide");
         }
     };
     textFilter = function () {
-        percentage = (value * 100) / maxValue;
-        if (document.getElementById("publishSection").style.display !== "none" && percentage !== 100) {
-            // $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-            $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-            return;
+        var percentage = 0,
+            date = 0,
+            text = that.element.find(".text");
+        if (that.type == "timer") {
+            if (timer === undefined) {
+                timer = setInterval(function () {
+                    if (value <= maxValue) {
+                        value += parseInt(that.counter / 1000);
+                        percentage = (value * 100) / maxValue;
+                        that.renderProgress(percentage);
+                        text[0].dataset.value = value;
+                        date = new Date(null);
+                        date.setSeconds(maxValue - value); // specify value for seconds here
+                        text.html(date.toISOString().substr(14, 5));
+                    } else {
+                        clearInterval(timer);
+                        timer = undefined
+                    }
+                }, (that.counter));
+            }
         }
-        var start_btn = document.getElementById("startBtn");
-        var btnVal = start_btn.alt;
-        if (btnVal == "start_a_tomato") {
-            var percentage = 0,
-                date = 0,
-                text = that.element.find(".text");
-            if (that.type == "timer") {
-                if (timer === undefined) {
-                    timer = setInterval(function () {
-                        if (value < maxValue) {
-                            value += parseInt(that.counter / 1000);
-                            percentage = (value * 100) / maxValue;
-                            that.renderProgress(percentage);
+        if (that.type == "progress") {
+            function setDeceleratingTimeout(factor, times) {
+                var internalCallback = function (counter) {
+                    return function () {
+                        if (value < maxValue && value < 100) {
+                            value += 1;
+                            that.renderProgress(value);
                             text[0].dataset.value = value;
-                            date = new Date(null);
-                            date.setSeconds(maxValue - value); // specify value for seconds here
-                            text.html(date.toISOString().substr(14, 5));
-                        } else {
-                            clearInterval(timer);
-                            timer = undefined
+                            text.html(Math.floor(value) + "%");
+                            setTimeout(internalCallback, ++counter * factor);
                         }
-                    }, (that.counter));
-                }
-            }
-            if (that.type == "progress") {
-                function setDeceleratingTimeout(factor, times) {
-                    var internalCallback = function (counter) {
-                        return function () {
-                            if (value < maxValue && value < 100) {
-                                value += 1;
-                                that.renderProgress(value);
-                                text[0].dataset.value = value;
-                                text.html(Math.floor(value) + "%");
-                                setTimeout(internalCallback, ++counter * factor);
-                            }
-                        }
-                    }(times, 0);
-                    setTimeout(internalCallback, factor);
-                };
-                setDeceleratingTimeout(0.1, 100);
-            }
-        } else {
-
+                    }
+                }(times, 0);
+                setTimeout(internalCallback, factor);
+            };
+            setDeceleratingTimeout(0.1, 100);
         }
     }
 
@@ -215,7 +175,7 @@ function Circlebar(prefs) {
         }
     }
 
-    resetClock = function (val) {
+    resetCDClock = function (val) {
         text = that.element.find(".text");
         value = val;
         var angle = 90;
@@ -224,53 +184,19 @@ function Circlebar(prefs) {
         that.element.find(".animate-50-75-b").css("transform", "rotate(" + angle + "deg)");
         that.element.find(".animate-75-100-b").css("transform", "rotate(" + angle + "deg)");
         text[0].dataset.value = value;
-        text.html("25:00");
-    }
-
-    var start_btn = document.getElementById("startBtn");
-    start_btn.addEventListener("click", textFilter);
-    if (value) {
-        this.continueOnReloadPage();
+        text.html("05:00");
     }
 }
 
-function StopTimer() {
+function StopCDTimer2() {
     clearInterval(timer);
     timer = undefined
 }
 
-window.StopTomato = function () {
-    $.ajax({
-        url: "./stopSession",
-        type: "POST",
-        success: function (result) {
-            new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
-            StopTimer();
-            StopMusic();
-
-            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
-            audio.play();
-            audio.addEventListener("ended", function () {
-                audio.currentTime = 0;
-            });
-            $('#coolDownForStopModal').modal("show");
-            StartCoolDown2();
-
-            document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-            document.getElementById("startBtn").alt = "start_a_tomato";
-            $('#musicCollapse').collapse("hide")
-            document.getElementById("publishSection").style.display = "table";
-            // document.getElementById("processNotesSec").style.display = "table-row";
-        },
-        error: function (error) {
-            new Toasteur().error(error.responseText, 'Error!', () => { });
-            document.getElementById("startBtn").alt = "stop_a_tomato";
-            $('#musicCollapse').collapse("show")
-        },
-    });
+window.StartCoolDown2 = function () {
+    textFilter();
 }
 
-
-window.ResetClock = function (value) {
-    resetClock(value);
+window.ResetCDClock2 = function (value) {
+    resetCDClock(value);
 }

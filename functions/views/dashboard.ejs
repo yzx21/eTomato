@@ -436,7 +436,6 @@
                 </div>
             </div>
 
-            <!-- Modal -->
             <div id="coolDownModal" class="modal hide" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -458,7 +457,6 @@
                             <p class="pos_center">Pomodoro technique suggests 3-5 minutes break to disconnect
                                 from your work.</p>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -467,12 +465,12 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="coolDownModalTitle">5 mins Break</h5>
+                            <h5 class="modal-title" id="coolDownForStopModalTitle">5 mins Break</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div>
-                                <div class="circlebarCD" id="circlebarCDiD"
+                                <div class="circlebarCD2" id="circlebarCDiD2"
                                     data-circle-startTime=<%=remainingRestTimeSec%> data-circle-dialWidth=10
                                     data-circle-size="200px" data-circle-maxValue="<%=coolDownLength%>"
                                     data-circle-skin="blue">
@@ -485,7 +483,6 @@
                             <p class="pos_center">Pomodoro technique suggests 3-5 minutes break to disconnect
                                 from your work.</p>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -522,12 +519,13 @@
                 var isOnRest = document.getElementById('app-cover').dataset.onrest;
                 var cdDismissable = document.getElementById('app-cover').dataset.cddismissable;
                 if (isOnRest > 0) {
-                    if (cdDismissable) {
+                    if (cdDismissable == "true") {
                         $('#coolDownForStopModal').modal("show");
+                        StartCoolDown2();
                     } else {
                         $('#coolDownModal').modal("show");
+                        StartCoolDown();
                     }
-                    StartCoolDown();
                 } else {
                     var isMusicPlaying = (document.getElementById('app-cover').dataset.onload === "true");
                     if (isMusicPlaying) {
@@ -601,8 +599,8 @@
                         document.getElementById("publishSection").style.display = "none";
                         var defaultcdlength = document.getElementById('app-cover').dataset
                             .defaultcdlength;
-                        document.getElementById("circlebarCDiD").dataset.circleStarttime = "0";
-                        document.getElementById("circlebarCDiD").dataset.circleMaxvalue =
+                        document.getElementById("circlebarCDiD2").dataset.circleStarttime = "0";
+                        document.getElementById("circlebarCDiD2").dataset.circleMaxvalue =
                             defaultcdlength;
                         var tomatoSessionLength = document.getElementById('app-cover').dataset
                             .tomatosessionlength;
@@ -723,6 +721,7 @@
                             new Toasteur().success("Thanks for the feedback!",
                                 'We really appreciate your help',
                                 () => {});
+                                $('#feedbackModal').modal("hide");
                         },
                         error: function (error) {
                             new Toasteur().error(error.responseText, 'Error!', () => {});
@@ -799,6 +798,7 @@
         </script>
 
         <script type="module" src="./public/js/coolDownClock.js"></script>
+        <script type="module" src="./public/js/coolDownForStopClock.js"></script>
         <script type="module" src="./public/js/music.js"></script>
         <script src="./public/summernote/summernote.min.js"></script>
         <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>

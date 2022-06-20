@@ -4,10 +4,8 @@ const elts = {
 };
 
 const texts = [
-    "Focus on",
-    "being productive",
-    "instead of",
-    "busy!"
+    "Focus on being productive",
+    "instead of busy!"
 ];
 
 const morphTime = 1;

@@ -26,11 +26,12 @@ const tmp = require('tmp');
 const { Timestamp } = require('firebase/firestore');
 const { on } = require('events');
 const { timeStamp } = require('console');
+const { user } = require('firebase-functions/v1/auth');
 
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
-const tomatoSessionLength = 6;
-const coolDownLength = 10;
+const tomatoSessionLength = 1500;
+const coolDownLength = 300;
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -147,7 +148,6 @@ app.get("/", async (req, res) => {
         cdDismissable = (tomato['duration'] != undefined);
     }
     var nowDate = getDayMonthYear(Date.now() / 1000 - (userRec.val()["timeOffset"] || 0) * 60);
-
     var todayTmt = []
     if (tomatosSet) {
         var tmpTmts = await getAllTomatos(userSnap.uid);
@@ -180,6 +180,14 @@ app.get("/", async (req, res) => {
             }
         })
     }
+    var todos = []
+    for (let todo in userRec.val()['todos']) {
+        todos.push({
+            uid: todo,
+            inputvalue: userRec.val()['todos'][todo]['inputValue'],
+            status: userRec.val()['todos'][todo]['status']
+        })
+    }
 
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
@@ -197,6 +205,7 @@ app.get("/", async (req, res) => {
         moment: moment,
         todayTmt: todayTmt.reverse(),
         cdDismissable: cdDismissable,
+        todos: todos,
     });
 });
 
@@ -382,6 +391,79 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
     }
 });
 
+app.post("/deleteTodo", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const todoId = req.body["todoId"] || '';
+    if (todoId === '') {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var todo = db.ref('users').child(userSnap.uid).child("todos");
+    if (!todo.child(todoId)) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    todo.child(todoId).remove();
+    res.send(todoId);
+})
+
+app.post("/addTodo", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const inputValue = req.body["inputValue"] || '';
+    if (inputValue === '') {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var todo = db.ref('users').child(userSnap.uid).child("todos");
+    var newNoteSnap = await todo.push({ noteDate: Date.now() / 1000, inputValue: inputValue })
+    res.send(newNoteSnap.key);
+})
+
+app.post("/toogleTodo", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const todoId = req.body["todoId"] || '';
+    if (todoId === '') {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var db = admin.database();
+    try {
+        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var todo = db.ref('users').child(userSnap.uid).child("todos");
+    var todo = db.ref('users').child(userSnap.uid).child("todos");
+    if (!todo.child(todoId)) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var statusSnap = todo.child(todoId);
+    var statusValue = await statusSnap.child("status").once('value');
+    if (!statusValue.val() || statusValue.val() == '0') {
+        statusSnap.update({ "status": "1" })
+        res.send('1');
+    } else {
+        statusSnap.update({ "status": "0" })
+        res.send('0');
+    }
+})
+
 app.post("/saveNotes", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const checkedValue = req.body["checkedValue"];
@@ -406,7 +488,7 @@ app.post("/saveNotes", async (req, res) => {
             // checkedValue: checkedValue,
             tomatoType, tomatoType,
             notes, notes,
-            date: Date.now(),
+            date: Date.now() / 1000,
         })
 
         var latestTmtSnap = await latestTomato.once('value')
@@ -432,7 +514,7 @@ app.post("/feedback", async (req, res) => {
         uid: userSnap.uid,
         checkValue: checkValue,
         comments: comments,
-        date: Date.now(),
+        date: Date.now() / 1000,
     })
     res.send();
 })

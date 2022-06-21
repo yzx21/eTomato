@@ -14,6 +14,7 @@
     <link type="text/css" rel="stylesheet" href="./public/toast/themes/toasteur-default.min.css">
     <link rel="stylesheet" href='./public/css/bootstrap.min.css'>
     <link rel="stylesheet" href="./public/css/clock.css">
+    <link rel="stylesheet" href="./public/css/todo.css">
     <link rel="stylesheet" href="./public/css/feedback.css">
     <link rel="stylesheet" href="./public/fonts/icon-font/css/style.css">
     <link rel="stylesheet" href="./public/fonts/typography-font/typo.css">
@@ -59,10 +60,6 @@
                     <img src="./public/image/tomato.png" width="60px" alt="">
                 </div>
                 <div class="float-child" id="title-text">eTomato</div>
-            </div>
-
-            <div id="taglines">
-                <p>pomodoro timer | study stats | notes | lofi music</p>
             </div>
         </div>
         <div class="dropdown" id="settings">
@@ -162,7 +159,98 @@
 
     <div id="left-side">
         <div class="row justify-content-center">
-            <div class="circlebar" id="circlebarId" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=20
+            <div id="todaySummarySec">
+                <lable id="todayTomatoLbl">Today's tomatos (<%=todayTmt.length%>)</lable>
+                <div class="container" id="todayTmtId">
+                    <div class="row justify-content-start" id="todayTmtRow">
+                        <%if (isTomatoOn || !(noteSkipped || noteCompleted)) {%>
+                        <div class="col-2>
+                            <img id=" todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px"
+                            alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Working in progress" />
+                    </div>
+                    <%}%>
+                        <%for(let i=0; i<todayTmt.length; i++) {%>
+                    <div class="col-2">
+                        <%if(todayTmt[i]['duration'] == "25 mins") {%>
+                        <img id="todayTmtImgId" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="<%=todayTmt[i]['type']%>: <%=todayTmt[i]['duration']%>" />
+                        <%} else {%>
+                        <img id="todayTmtImgId" src="./public/image/green_tomato.png" width="40px" height="40px"
+                            alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="<%=todayTmt[i]['type']%>: <%=todayTmt[i]['duration']%>" />
+                        <%}%>
+                        </div>
+                        <%}%>
+                        <hr class="split" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center" id="todoDivId">
+            <lable id="todoLabel">Today's todo</lable>
+            <div id="todoDiv">
+                <div class="container" id="inputDivId">
+                    <input type="text" id="todoInput" placeholder="Title...">
+                    <span onclick="newTodo()" class="addBtn"> Add </span>
+                </div>
+            </div>
+
+            <ul id="myUL">
+                <% for(let i=0; i<todos.length; i++) { %>
+                <% if(todos[i]['status'] == '1') {%>
+                <li id="<%=todos[i]['uid']%>" class="checked"><%=todos[i]['inputvalue']%></li>
+                <% } else { %>
+                <li id="<%=todos[i]['uid']%>" class=""><%=todos[i]['inputvalue']%></li>
+                <% }%>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+
+    </div>
+    <div id="right-side">
+        <div id="notesSec">
+            <% for (let i=0; i<tomatos.length; i++) { %>
+            <div class="noteCard">
+                <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
+                <label id="noteLable">Me</label>
+                <label
+                    id="noteTime"><%=moment.unix(parseInt(tomatos[i]["startTimeSec"]) - parseInt(tomatos[i]["timeOffset"]) * 60).format('lll')%></label>
+                <%if(tomatos[i]["notes"]) {%>
+                <label id="noteType"><%=tomatos[i]["type"]%></label>
+                <%} else {%>
+                <label id="noteType">No type</label>
+                <%}%>
+                        <%if(tomatos[i]["duration"]) {%>
+                <img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar"
+                    data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="<%=(tomatos[i]['duration']/60).toFixed(1)%> mins" />
+                <%} else {%>
+                <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"
+                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="25 min" />
+                <%}%>
+                    <br>
+                    <div id="noteText">
+                    <%if(tomatos[i]["notes"] && tomatos[i]["notes"] != "<p><br></p>") {%>
+                <%-tomatos[i]["notes"]%>
+                <%} else {%>
+                <p class="nothing">Nothing was noted in this session.</p>
+                <%}%>
+                    </div>
+                    <img id="noteLikeBtn" src="./public/image/liked.png">
+                    <label id="likeCnt">0</label>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div id="middle">
+        <div class="row justify-content-center">
+            <div class="circlebar" id="circlebarId" data-circle-startTime=<%=durationSec%> data-circle-dialWidth=16
                 data-circle-size="200px" data-circle-maxValue="<%=tomatoSessionLength%>" data-circle-skin="purple">
                 <div class="loader-bg">
                     <% if(isTomatoOn) { %>
@@ -174,7 +262,7 @@
             </div>
             <div id="startBtnSec">
                 <a id="start_btn" style="background-color:
-                                    transparent; border-width: 0px;" role="button" aria-expanded="false"
+                                        transparent; border-width: 0px;" role="button" aria-expanded="false"
                     aria-controls="collapseTimer">
                     <% if(!isTomatoOn) { %>
                     <img id="startBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" width="340"
@@ -187,447 +275,420 @@
                     <% } %>
                 </a>
             </div>
-            <hr class="split">
-
-            <div id="todaySummarySec">
-                <lable id="todayTomatoLbl">Today's tomatos (<%=todayTmt.length%>)</lable>
-                <div class="container" id="todayTmtId">
-                    <div class="row justify-content-start" id="todayTmtRow">
-                        <%if (isTomatoOn || !(noteSkipped || noteCompleted)) {%>
-                        <div class="col-3">
-                            <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px"
-                                alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                title="Working in progress" />
-                        </div>
-                        <%}%>
-                        <%for(let i=0; i<todayTmt.length; i++) {%>
-                        <div class="col-3">
-                            <%if(todayTmt[i]['duration'] == "25 mins") {%>
-                            <img id="todayTmtImgId" src="./public/image/tomato.png" width="40px" height="40px"
-                                alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                title="<%=todayTmt[i]['type']%>: <%=todayTmt[i]['duration']%>" />
-                            <%} else {%>
-                            <img id="todayTmtImgId" src="./public/image/green_tomato.png" width="40px" height="40px"
-                                alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                title="<%=todayTmt[i]['type']%>: <%=todayTmt[i]['duration']%>" />
-                            <%}%>
-                        </div>
-                        <%}%>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <div id="right-side">
-            <div class="row position-relative justify-content-center">
-                <div id="intro_img_sec">
-                    <img id="intro_img" src="./public/image/intro.png">
+        <div class="row position-relative justify-content-center">
+            <div class="collapse" id="deComposingSec">
+                <div id="container">
+                    <span id="deComposingSecTxt1"></span>
+                    <span id="deComposingSecTxt2"></span>
                 </div>
-            </div>
-        </div>
-
-        <div id="middle">
-            <div class="row position-relative justify-content-center">
-                <div class="collapse" id="deComposingSec">
-                    <div id="container">
-                        <span id="deComposingSecTxt1"></span>
-                        <span id="deComposingSecTxt2"></span>
-                    </div>
-                    <svg id="filters">
-                        <defs>
-                            <filter id="threshold">
-                                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                <svg id="filters">
+                    <defs>
+                        <filter id="threshold">
+                            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
 									0 1 0 0 0
 									0 0 1 0 0
 									0 0 0 255 -140" />
-                            </filter>
-                        </defs>
-                    </svg>
-                </div>
-                <div class="collapse" id="composingSec">
-                    <input id="tomatoType" list="hosting-plan" placeholder="Leave a task category for better stats..."
-                        type="text">
-                    <datalist id="hosting-plan">
-                        <option value="Reading" />
-                        <option value="Working" />
-                        <option value="Workout" />
-                    </datalist>
+                        </filter>
+                    </defs>
+                </svg>
+            </div>
+            <div class="collapse" id="composingSec">
+                <input id="tomatoType" list="hosting-plan" placeholder="Leave a task category for better stats..."
+                    type="text">
+                <datalist id="hosting-plan">
+                    <option value="Reading" />
+                    <option value="Working" />
+                    <option value="Workout" />
+                </datalist>
 
-                    <div id="summernote" class="position-relative justify-content-center"></div>
-                    <script>
-                        $(document).ready(function () {
-                            $('#summernote').summernote({
-                                placeholder: 'During this tomato session, you can write here: 1.the tasks you want to complete. 2.your thoughts and things to remember. 3.your self reflection. ',
-                                tabsize: 2,
-                                toolbar: [
-                                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                                ],
-                                height: 220,
-                                focus: true,
-                            }).on("summernote.enter", function (we, e) {
-                                $(this).summernote('pasteHTML', '<br>&VeryThinSpace;');
-                                e.preventDefault();
-                            });
+                <div id="summernote" class="position-relative justify-content-center"></div>
+                <script>
+                    $(document).ready(function () {
+                        $('#summernote').summernote({
+                            placeholder: 'During this tomato session, you can write here: 1.the tasks you want to complete. 2.your thoughts and things to remember. 3.your self reflection. ',
+                            tabsize: 2,
+                            toolbar: [
+                                ['style', ['bold', 'italic', 'underline', 'clear']],
+                            ],
+                            height: 220,
+                            focus: true,
+                        }).on("summernote.enter", function (we, e) {
+                            $(this).summernote('pasteHTML', '<br>&VeryThinSpace;');
+                            e.preventDefault();
                         });
-                    </script>
+                    });
+                </script>
+                <% if (noteSkipped || noteCompleted) { %>
+                <div id="publishSection" style="display:none;">
+                    <!-- <button id="disgardBtn" type="button" onclick="disgard();">Skip</button> -->
+                    <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
+                <label id="checkboxLbl" for="publishCheckBox">Publish
+                    to global</label> -->
                     <% if (noteSkipped || noteCompleted) { %>
-                    <div id="publishSection" style="display:none;">
-                        <!-- <button id="disgardBtn" type="button" onclick="disgard();">Skip</button> -->
-                        <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
-                <label id="checkboxLbl" for="publishCheckBox">Publish
-                    to global</label> -->
-                        <% if (noteSkipped || noteCompleted) { %>
-                        <lable id="processNotesLbl">*Please save the notes*
-                        </lable>
-                        <% } else { %>
-                        <lable id="processNotesLbl">*Please save the notes*
-                        </lable>
-                        <% } %>
-                        <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
-                    </div>
+                    <lable id="processNotesLbl">*Please save the notes*
+                    </lable>
                     <% } else { %>
-                    <div id="publishSection" style="display:table;">
-                        <!-- <button id="disgardBtn" type="button" onclick="disgard();">Skip</button> -->
-                        <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
+                    <lable id="processNotesLbl">*Please save the notes*
+                    </lable>
+                    <% } %>
+                    <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
+                </div>
+                <% } else { %>
+                <div id="publishSection" style="display:table;">
+                    <!-- <button id="disgardBtn" type="button" onclick="disgard();">Skip</button> -->
+                    <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
                 <label id="checkboxLbl" for="publishCheckBox">Publish
                     to global</label> -->
-                        <% if (noteSkipped || noteCompleted) { %>
-                        <lable id="processNotesLbl">*Please save the notes*
-                        </lable>
-                        <% } else { %>
-                        <lable id="processNotesLbl">*Please save the notes*
-                        </lable>
-                        <% } %>
-                        <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
-                    </div>
+                    <% if (noteSkipped || noteCompleted) { %>
+                    <lable id="processNotesLbl">*Please save the notes*
+                    </lable>
+                    <% } else { %>
+                    <lable id="processNotesLbl">*Please save the notes*
+                    </lable>
                     <% } %>
-                </div>
-
-                <div id="notesSec">
-                    <% for (let i=0; i<tomatos.length; i++) { %>
-                    <div class="noteCard">
-                        <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
-                        <label id="noteLable">Me</label>
-                        <label
-                            id="noteTime"><%=moment.unix(parseInt(tomatos[i]["startTimeSec"]) - parseInt(tomatos[i]["timeOffset"]) * 60).format('lll')%></label>
-                        <%if(tomatos[i]["notes"]) {%>
-                        <label id="noteType"><%=tomatos[i]["type"]%></label>
-                        <%} else {%>
-                        <label id="noteType">No type</label>
-                        <%}%>
-                    <%if(tomatos[i]["duration"]) {%>
-                        <img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px"
-                            alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="<%=(tomatos[i]['duration']/60).toFixed(1)%> mins" />
-                        <%} else {%>
-                        <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"
-                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="25 min" />
-                        <%}%>
-                    <br>
-                    <div id="noteText">
-                    <%if(tomatos[i]["notes"] && tomatos[i]["notes"] != "<p><br></p>") {%>
-                        <%-tomatos[i]["notes"]%>
-                        <%} else {%>
-                        <p class="nothing">Nothing was noted in this session.</p>
-                        <%}%>
-                    </div>
-                    <img id="noteLikeBtn" src="./public/image/liked.png">
-                    <label id="likeCnt">0</label>
+                    <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
                 </div>
                 <% } %>
-                    </div>
-                </div>
             </div>
-
-            <div class="collapse" id="musicCollapse">
-                <div id="app-cover" data-onload=<%=isMusicPlaying%> data-onrest=<%=remainingRestTimeSec%>
-                    data-cddismissable=<%=cdDismissable%> data-tomatoSessionLength=<%=tomatoSessionLength%>
-                    data-defaultcdlength=<%=coolDownLength%> data-todaycnt=<%=todayTmt.length%>>
-                    <div id="player">
-                        <div id="player-track">
-                            <div id="album-name"></div>
-                            <div id="track-name"></div>
-                            <div id="track-time">
-                                <div id="current-time"></div>
-                                <div id="track-length"></div>
-                            </div>
-                            <div id="s-area">
-                                <div id="ins-time"></div>
-                                <div id="s-hover"></div>
-                                <div id="seek-bar"></div>
-                            </div>
-                        </div>
-                        <div id="player-content">
-                            <div id="album-art">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.jpeg?alt=media&token=60eed0ce-c372-4e69-bff5-0c5ee0bcb589"
-                                    class="active" id="_1">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Youth_Is_Wasted_On_The_Young_Chez%20Remix_Tellow.jpeg?alt=media&token=32fd9a79-e9aa-4490-9794-9773485f5d25"
-                                    class="active" id="_2">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_The_Hours_dreem.jpeg?alt=media&token=79d32fdf-481d-4049-9e04-4eb13ddc204d"
-                                    class="active" id="_3">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Spirals_Arden_Forest.jpeg?alt=media&token=76eee0d8-cafe-4e32-ad11-98c66bd8326e"
-                                    class="active" id="_4">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Singing_Swan_Aleph_One.jpeg?alt=media&token=e11b9027-adfb-49a5-878d-f4f42f0b8d92"
-                                    class="active" id="_5">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Silver_Rain_Emil_Axelsson.jpeg?alt=media&token=d2746de3-eebf-4177-942e-3acf6a5b385a"
-                                    class="active" id="_6">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Satellite_of_Love_Brendon_Moeller.jpeg?alt=media&token=20f956a6-3bd1-492b-8c79-ea8848a2723e"
-                                    class="active" id="_7">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_New_Jade_dreem.jpeg?alt=media&token=33607f99-5595-4fee-a8bf-b302a7225cb6"
-                                    class="active" id="_8">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Neutra_Chelle_Ives.jpeg?alt=media&token=84669922-c237-4360-afef-bd3f72706773"
-                                    class="active" id="_9">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Let_There_Be_Rain_Silver_Maple.jpeg?alt=media&token=789062a8-463e-40bb-ac05-bf60defeb0a2"
-                                    class="active" id="_10">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Late_Arrivals_Lonov.jpeg?alt=media&token=fd73bd6c-11f1-4d39-b0fe-726ec39d26a5"
-                                    class="active" id="_11">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Lakes_Harbours_Oceans.jpeg?alt=media&token=4cd8eee3-3d65-4bb7-ba89-ac70d50cc055"
-                                    class="active" id="_12">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Krotos_They_Dream_By_Day.jpeg?alt=media&token=7c8cc492-6879-44a0-b141-288beb60f720"
-                                    class="active" id="_13">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Dreaming_Wide_Awake_King_Sis.jpeg?alt=media&token=bb2fabc1-edc0-4580-888b-539e2423b3d5"
-                                    class="active" id="_14">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Copycat_Far_Orange.jpeg?alt=media&token=06dc4d42-caba-4822-8fcf-5374a5977226"
-                                    class="active" id="_15">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Between_Illusions_Rikard_From.jpeg?alt=media&token=b342c953-932e-4e2e-aeb3-0878cc5d60d0"
-                                    class="active" id="_16">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Baby_Idk_Rambutan.jpeg?alt=media&token=39785b51-9fc3-4b37-a23f-df73dcc84940"
-                                    class="active" id="_17">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Avinam_Valante.jpeg?alt=media&token=183a9647-f304-485d-8422-c1a57ccd83a0"
-                                    class="active" id="_18">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Alike_Jones_Meadow.jpeg?alt=media&token=56ad6c86-588d-493a-ad7d-a4f8c314a9e8"
-                                    class="active" id="_19">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Abstractions_Aleph_One.jpeg?alt=media&token=8576a2cd-d593-42cc-bb3b-08fefd923518"
-                                    class="active" id="_20">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_100_Times_Jones_Meadow.jpeg?alt=media&token=3506ed8f-e264-45e0-96c7-5837095261cb"
-                                    class="active" id="_21">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_1.jpeg?alt=media&token=1bb7b4f7-f7aa-43c4-b6e7-8003fb40d8ec"
-                                    class="active" id="_22">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_2.jpeg?alt=media&token=931388e5-a928-45b6-8db4-5f966559e512"
-                                    id="_23">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_3.jpeg?alt=media&token=7d0fcad3-305e-47dc-a1e9-4aca3b0f43ef"
-                                    id="_24">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_4.jpeg?alt=media&token=13826994-10ba-47f5-b3cf-668a9f544738"
-                                    id="_25">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_5.jpeg?alt=media&token=230fd83b-5cc7-4518-b0d4-a050813f60c2"
-                                    id="_26">
-                                <div id="buffer-box">Buffering ...</div>
-                            </div>
-                            <div id="player-controls">
-                                <div class="control">
-                                    <div class="button" id="play-previous">
-                                        <i class="fas fa-backward"></i>
-                                    </div>
-                                </div>
-                                <div class="control">
-                                    <div class="button" id="play-pause-button">
-                                        <i class="fas fa-play"></i>
-                                    </div>
-                                </div>
-                                <div class="control">
-                                    <div class="button" id="play-next">
-                                        <i class="fas fa-forward"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="coolDownModal" class="modal hide" data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="coolDownModalTitle">5 mins Break</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div>
-                                <div class="circlebarCD" id="circlebarCDiD"
-                                    data-circle-startTime=<%=remainingRestTimeSec%> data-circle-dialWidth=10
-                                    data-circle-size="200px" data-circle-maxValue="<%=coolDownLength%>"
-                                    data-circle-skin="blue">
-                                    <div class="loader-bg">
-                                        <div class="text">05:00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <p class="pos_center">Pomodoro technique suggests 3-5 minutes break to disconnect
-                                from your work.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="coolDownForStopModal" class="modal hide" data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="coolDownForStopModalTitle">5 mins Break</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div>
-                                <div class="circlebarCD2" id="circlebarCDiD2"
-                                    data-circle-startTime=<%=remainingRestTimeSec%> data-circle-dialWidth=10
-                                    data-circle-size="200px" data-circle-maxValue="<%=coolDownLength%>"
-                                    data-circle-skin="blue">
-                                    <div class="loader-bg">
-                                        <div class="text">05:00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <p class="pos_center">Pomodoro technique suggests 3-5 minutes break to disconnect
-                                from your work.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <footer class="footer-area-l-12 position-relative" style="text-align:center;">
-            </footer>
         </div>
-        <!-- Vendor Scripts -->
-        <script src="./public/js/vendor.min.js"></script>
-        <script src="./public/js/animation_text.js"></script>
-        <script src="./public/plugins/aos/aos.min.js"></script>
-        <!-- Activation Script -->
-        <script src="./public/js/custom.js"></script>
-        <script src="./public/js/clock.js"></script>
-        <script>
-            const firebaseConfig = {
-                apiKey: "AIzaSyBe7BVBWqB6znKy7b_UND2nUd09nnUFmEQ",
-                authDomain: "etomato-63aac.firebaseapp.com",
-                databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com",
-                projectId: "etomato-63aac",
-                storageBucket: "etomato-63aac.appspot.com",
-                messagingSenderId: "144378496941",
-                appId: "1:144378496941:web:dc08de13472e73f14d0324",
-                measurementId: "G-7W4Q6GF7JP"
-            };
-            try {
-                firebase.initializeApp(firebaseConfig);
-            } catch {}
-        </script>
 
-        <script>
-            function onLoad() {
-                firebase.analytics().logEvent('onLoad');
-                var isOnRest = document.getElementById('app-cover').dataset.onrest;
-                var cdDismissable = document.getElementById('app-cover').dataset.cddismissable;
-                if (isOnRest > 0) {
-                    if (cdDismissable == "true") {
-                        $('#coolDownForStopModal').modal("show");
-                        StartCoolDown2();
-                    } else {
-                        $('#coolDownModal').modal("show");
-                        StartCoolDown();
-                    }
+        <div class="collapse" id="musicCollapse">
+            <div id="app-cover" data-onload=<%=isMusicPlaying%> data-onrest=<%=remainingRestTimeSec%>
+                data-cddismissable=<%=cdDismissable%> data-tomatoSessionLength=<%=tomatoSessionLength%>
+                data-defaultcdlength=<%=coolDownLength%> data-todaycnt=<%=todayTmt.length%>>
+                <div id="player">
+                    <div id="player-track">
+                        <div id="album-name"></div>
+                        <div id="track-name"></div>
+                        <div id="track-time">
+                            <div id="current-time"></div>
+                            <div id="track-length"></div>
+                        </div>
+                        <div id="s-area">
+                            <div id="ins-time"></div>
+                            <div id="s-hover"></div>
+                            <div id="seek-bar"></div>
+                        </div>
+                    </div>
+                    <div id="player-content">
+                        <div id="album-art">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.jpeg?alt=media&token=60eed0ce-c372-4e69-bff5-0c5ee0bcb589"
+                                class="active" id="_1">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Youth_Is_Wasted_On_The_Young_Chez%20Remix_Tellow.jpeg?alt=media&token=32fd9a79-e9aa-4490-9794-9773485f5d25"
+                                class="active" id="_2">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_The_Hours_dreem.jpeg?alt=media&token=79d32fdf-481d-4049-9e04-4eb13ddc204d"
+                                class="active" id="_3">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Spirals_Arden_Forest.jpeg?alt=media&token=76eee0d8-cafe-4e32-ad11-98c66bd8326e"
+                                class="active" id="_4">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Singing_Swan_Aleph_One.jpeg?alt=media&token=e11b9027-adfb-49a5-878d-f4f42f0b8d92"
+                                class="active" id="_5">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Silver_Rain_Emil_Axelsson.jpeg?alt=media&token=d2746de3-eebf-4177-942e-3acf6a5b385a"
+                                class="active" id="_6">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Satellite_of_Love_Brendon_Moeller.jpeg?alt=media&token=20f956a6-3bd1-492b-8c79-ea8848a2723e"
+                                class="active" id="_7">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_New_Jade_dreem.jpeg?alt=media&token=33607f99-5595-4fee-a8bf-b302a7225cb6"
+                                class="active" id="_8">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Neutra_Chelle_Ives.jpeg?alt=media&token=84669922-c237-4360-afef-bd3f72706773"
+                                class="active" id="_9">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Let_There_Be_Rain_Silver_Maple.jpeg?alt=media&token=789062a8-463e-40bb-ac05-bf60defeb0a2"
+                                class="active" id="_10">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Late_Arrivals_Lonov.jpeg?alt=media&token=fd73bd6c-11f1-4d39-b0fe-726ec39d26a5"
+                                class="active" id="_11">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Lakes_Harbours_Oceans.jpeg?alt=media&token=4cd8eee3-3d65-4bb7-ba89-ac70d50cc055"
+                                class="active" id="_12">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Krotos_They_Dream_By_Day.jpeg?alt=media&token=7c8cc492-6879-44a0-b141-288beb60f720"
+                                class="active" id="_13">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Dreaming_Wide_Awake_King_Sis.jpeg?alt=media&token=bb2fabc1-edc0-4580-888b-539e2423b3d5"
+                                class="active" id="_14">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Copycat_Far_Orange.jpeg?alt=media&token=06dc4d42-caba-4822-8fcf-5374a5977226"
+                                class="active" id="_15">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Between_Illusions_Rikard_From.jpeg?alt=media&token=b342c953-932e-4e2e-aeb3-0878cc5d60d0"
+                                class="active" id="_16">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Baby_Idk_Rambutan.jpeg?alt=media&token=39785b51-9fc3-4b37-a23f-df73dcc84940"
+                                class="active" id="_17">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Avinam_Valante.jpeg?alt=media&token=183a9647-f304-485d-8422-c1a57ccd83a0"
+                                class="active" id="_18">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Alike_Jones_Meadow.jpeg?alt=media&token=56ad6c86-588d-493a-ad7d-a4f8c314a9e8"
+                                class="active" id="_19">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Abstractions_Aleph_One.jpeg?alt=media&token=8576a2cd-d593-42cc-bb3b-08fefd923518"
+                                class="active" id="_20">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_100_Times_Jones_Meadow.jpeg?alt=media&token=3506ed8f-e264-45e0-96c7-5837095261cb"
+                                class="active" id="_21">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_1.jpeg?alt=media&token=1bb7b4f7-f7aa-43c4-b6e7-8003fb40d8ec"
+                                class="active" id="_22">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_2.jpeg?alt=media&token=931388e5-a928-45b6-8db4-5f966559e512"
+                                id="_23">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_3.jpeg?alt=media&token=7d0fcad3-305e-47dc-a1e9-4aca3b0f43ef"
+                                id="_24">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_4.jpeg?alt=media&token=13826994-10ba-47f5-b3cf-668a9f544738"
+                                id="_25">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_5.jpeg?alt=media&token=230fd83b-5cc7-4518-b0d4-a050813f60c2"
+                                id="_26">
+                            <div id="buffer-box">Buffering ...</div>
+                        </div>
+                        <div id="player-controls">
+                            <div class="control">
+                                <div class="button" id="play-previous">
+                                    <i class="fas fa-backward"></i>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="button" id="play-pause-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="button" id="play-next">
+                                    <i class="fas fa-forward"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="coolDownModal" class="modal hide" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="coolDownModalTitle">5 mins Break</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div class="circlebarCD" id="circlebarCDiD" data-circle-startTime=<%=remainingRestTimeSec%>
+                                data-circle-dialWidth=10 data-circle-size="200px"
+                                data-circle-maxValue="<%=coolDownLength%>" data-circle-skin="blue">
+                                <div class="loader-bg">
+                                    <div class="text">05:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="pos_center">Pomodoro technique suggests 3-5 minutes break to disconnect
+                            from your work.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="coolDownForStopModal" class="modal hide" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="coolDownForStopModalTitle">5 mins Break</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div class="circlebarCD2" id="circlebarCDiD2"
+                                data-circle-startTime=<%=remainingRestTimeSec%> data-circle-dialWidth=10
+                                data-circle-size="200px" data-circle-maxValue="<%=coolDownLength%>"
+                                data-circle-skin="blue">
+                                <div class="loader-bg">
+                                    <div class="text">05:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="pos_center">Pomodoro technique suggests 3-5 minutes break to disconnect
+                            from your work.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer-area-l-12 position-relative" style="text-align:center;">
+        </footer>
+    </div>
+    <!-- Vendor Scripts -->
+    <script src="./public/js/vendor.min.js"></script>
+    <script src="./public/js/animation_text.js"></script>
+    <script src="./public/plugins/aos/aos.min.js"></script>
+    <!-- Activation Script -->
+    <script src="./public/js/custom.js"></script>
+    <script src="./public/js/clock.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBe7BVBWqB6znKy7b_UND2nUd09nnUFmEQ",
+            authDomain: "etomato-63aac.firebaseapp.com",
+            databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com",
+            projectId: "etomato-63aac",
+            storageBucket: "etomato-63aac.appspot.com",
+            messagingSenderId: "144378496941",
+            appId: "1:144378496941:web:dc08de13472e73f14d0324",
+            measurementId: "G-7W4Q6GF7JP"
+        };
+        try {
+            firebase.initializeApp(firebaseConfig);
+        } catch {}
+    </script>
+
+    <script>
+        function onLoad() {
+            firebase.analytics().logEvent('onLoad');
+            var isOnRest = document.getElementById('app-cover').dataset.onrest;
+            var cdDismissable = document.getElementById('app-cover').dataset.cddismissable;
+            if (isOnRest > 0) {
+                if (cdDismissable == "true") {
+                    $('#coolDownForStopModal').modal("show");
+                    StartCoolDown2();
                 } else {
-                    var isMusicPlaying = (document.getElementById('app-cover').dataset.onload === "true");
-                    if (isMusicPlaying) {
-                        document.getElementById('play-pause-button').click();
-                        var val = confirm("Welcome back to an ongoing tomato!");
-                    }
+                    $('#coolDownModal').modal("show");
+                    StartCoolDown();
                 }
-                var btnVal = document.getElementById("startBtn").alt;
-                if (btnVal == "start_a_tomato") {
-                    $('#musicCollapse').collapse("hide")
-                    if (document.getElementById("publishSection").style.display == "none") {
-                        $('#composingSec').collapse("hide")
-                        $('#deComposingSec').collapse("show")
-                    } else {
-                        $('#composingSec').collapse("show")
-                        $('#deComposingSec').collapse("hide")
-                    }
+            } else {
+                var isMusicPlaying = (document.getElementById('app-cover').dataset.onload === "true");
+                if (isMusicPlaying) {
+                    document.getElementById('play-pause-button').click();
+                    var val = confirm("Welcome back to an ongoing tomato!");
+                }
+            }
+            var btnVal = document.getElementById("startBtn").alt;
+            if (btnVal == "start_a_tomato") {
+                $('#musicCollapse').collapse("hide")
+                if (document.getElementById("publishSection").style.display == "none") {
+                    $('#composingSec').collapse("hide")
+                    $('#deComposingSec').collapse("show")
                 } else {
-                    $('#musicCollapse').collapse("show")
                     $('#composingSec').collapse("show")
                     $('#deComposingSec').collapse("hide")
                 }
-                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                    return new bootstrap.Tooltip(tooltipTriggerEl)
-                })
+            } else {
+                $('#musicCollapse').collapse("show")
+                $('#composingSec').collapse("show")
+                $('#deComposingSec').collapse("hide")
+            }
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+            const date = new Date();
+            const offset = date.getTimezoneOffset();
+            $.ajax({
+                url: "./sendTimeOffset",
+                type: "POST",
+                data: {
+                    timeOffset: offset
+                }
+            });
+        }
+
+        function startOver() {
+            var snd = new Audio("./public/sounds/start_over.mp3");
+            // var snd = new Audio(
+            //     "https://drive.google.com/file/d/1EvRx8uqJ17Q9XpJ9rpXetXdZaWqRaP6w/view?usp=sharing");
+            snd.play();
+            var btnVal = document.getElementById("startBtn").alt;
+            if (btnVal == "start_a_tomato") {
+                document.getElementById('startBtn').src = "./public/image/start_tomato_hover.png";
+                firebase.analytics().logEvent('startOver');
+            } else {
+                document.getElementById('startBtn').src = "./public/image/stop_tomato_hover.png";
+                firebase.analytics().logEvent('stopOver');
+            }
+        }
+
+        function startOut() {
+            var btnVal = document.getElementById("startBtn").alt;
+            if (btnVal == "start_a_tomato") {
+                document.getElementById("startBtn").src = "./public/image/start_tomato.png";
+                firebase.analytics().logEvent('startOut');
+            } else {
+                document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
+                firebase.analytics().logEvent('stopOut');
+            }
+        }
+
+        function disgard() {
+            $.ajax({
+                url: "./skipNotes",
+                type: "POST",
+                success: function (result) {
+                    new Toasteur().success("Notes skipped", 'Have fun in your next tomato!',
+                        () => {});
+                    document.getElementById("publishSection").style.display = "none";
+                    var defaultcdlength = document.getElementById('app-cover').dataset
+                        .defaultcdlength;
+                    document.getElementById("circlebarCDiD2").dataset.circleStarttime = "0";
+                    document.getElementById("circlebarCDiD2").dataset.circleMaxvalue =
+                        defaultcdlength;
+                    var tomatoSessionLength = document.getElementById('app-cover').dataset
+                        .tomatosessionlength;
+                    document.getElementById("circlebarId").dataset.circleStarttime = "0";
+                    document.getElementById("circlebarId").dataset.circleMaxvalue =
+                        defaultcdlength;
+                    ResetClock(0)
+                    ResetCDClock(0);
+                    // document.getElementById('publishCheckBox').checked = false;
+                    document.getElementById("tomatoType").value = "";
+                    $('#summernote').summernote('code', "");
+                    $('#notesSec').prepend(
+                        result['newNoteDiv']);
+
+                    $('#todayTmtRow').children().eq(0).remove();
+                    $('#todayTmtRow').prepend(
+                        result['newTodayTmt']);
+
+                    $('#composingSec').collapse("hide")
+                    $('#deComposingSec').collapse("show")
+
+                    var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
+                    document.getElementById('todayTomatoLbl').innerHTML =
+                        'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
+                    document.getElementById('app-cover').dataset.todaycnt += 1;
+
+
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                        '[data-bs-toggle="tooltip"]'))
+                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                    })
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => {});
+                },
+            });
+        }
+
+        function ClickStartBtn() {
+            if (document.getElementById("publishSection").style.display !== "none") {
+                // $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                return;
+            }
+            document.getElementById("startBtn").src = "./public/image/start_tomato_pressed.png";
+            var snd = new Audio("./public/sounds/start_clicked.mp3");
+            // var snd = new Audio(
+            //     "https://drive.google.com/file/d/1RwlArKE3ls_8tKl3LuRInMGr2TuXpg_s/view?usp=sharing");
+            snd.play();
+            var btnVal = document.getElementById("startBtn").alt;
+            if (btnVal == "start_a_tomato") {
+                firebase.analytics().logEvent('ClickStartBtn');
                 const date = new Date();
                 const offset = date.getTimezoneOffset();
                 $.ajax({
-                    url: "./sendTimeOffset",
+                    url: "./startSession",
                     type: "POST",
                     data: {
                         timeOffset: offset
-                    }
-                });
-            }
-
-            function startOver() {
-                var snd = new Audio("./public/sounds/start_over.mp3");
-                // var snd = new Audio(
-                //     "https://drive.google.com/file/d/1EvRx8uqJ17Q9XpJ9rpXetXdZaWqRaP6w/view?usp=sharing");
-                snd.play();
-                var btnVal = document.getElementById("startBtn").alt;
-                if (btnVal == "start_a_tomato") {
-                    document.getElementById('startBtn').src = "./public/image/start_tomato_hover.png";
-                    firebase.analytics().logEvent('startOver');
-                } else {
-                    document.getElementById('startBtn').src = "./public/image/stop_tomato_hover.png";
-                    firebase.analytics().logEvent('stopOver');
-                }
-            }
-
-            function startOut() {
-                var btnVal = document.getElementById("startBtn").alt;
-                if (btnVal == "start_a_tomato") {
-                    document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-                    firebase.analytics().logEvent('startOut');
-                } else {
-                    document.getElementById("startBtn").src = "./public/image/stop_tomato.png";
-                    firebase.analytics().logEvent('stopOut');
-                }
-            }
-
-            function disgard() {
-                $.ajax({
-                    url: "./skipNotes",
-                    type: "POST",
+                    },
                     success: function (result) {
-                        new Toasteur().success("Notes skipped", 'Have fun in your next tomato!',
+                        new Toasteur().success('Enjoy your time!', "A new Tomato is started",
                             () => {});
-                        document.getElementById("publishSection").style.display = "none";
-                        var defaultcdlength = document.getElementById('app-cover').dataset
-                            .defaultcdlength;
-                        document.getElementById("circlebarCDiD2").dataset.circleStarttime = "0";
-                        document.getElementById("circlebarCDiD2").dataset.circleMaxvalue =
-                            defaultcdlength;
-                        var tomatoSessionLength = document.getElementById('app-cover').dataset
-                            .tomatosessionlength;
-                        document.getElementById("circlebarId").dataset.circleStarttime = "0";
-                        document.getElementById("circlebarId").dataset.circleMaxvalue =
-                            defaultcdlength;
-                        ResetClock(0)
-                        ResetCDClock(0);
-                        // document.getElementById('publishCheckBox').checked = false;
-                        document.getElementById("tomatoType").value = "";
-                        $('#summernote').summernote('code', "");
-                        $('#notesSec').prepend(
-                            result['newNoteDiv']);
 
-                        $('#todayTmtRow').children().eq(0).remove();
+                        $('#composingSec').collapse("show");
+                        $('#deComposingSec').collapse("hide");
+
+                        document.getElementById("startBtn").src =
+                            "./public/image/stop_tomato.png";
+                        document.getElementById("startBtn").alt = "stop_a_tomato";
+                        $('#musicCollapse').collapse("show")
+                        var WIPTmt =
+                            '<div class="col-2"> <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="Working in progress"  aria-label="Working in progress" /> </div>'
                         $('#todayTmtRow').prepend(
-                            result['newTodayTmt']);
-
-                        $('#composingSec').collapse("hide")
-                        $('#deComposingSec').collapse("show")
-
-                        var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
-                        document.getElementById('todayTomatoLbl').innerHTML =
-                            'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-                        document.getElementById('app-cover').dataset.todaycnt += 1;
-
-
+                            WIPTmt);
                         var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                             '[data-bs-toggle="tooltip"]'))
                         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -636,174 +697,229 @@
                     },
                     error: function (error) {
                         new Toasteur().error(error.responseText, 'Error!', () => {});
+                        document.getElementById("startBtn").alt = "start_a_tomato";
+                        $('#musicCollapse').collapse("hide")
                     },
                 });
+            } else {
+                firebase.analytics().logEvent('ClickStopBtn');
+                $('#stopTomatoModal').modal("show");
             }
+        }
 
-            function ClickStartBtn() {
-                if (document.getElementById("publishSection").style.display !== "none") {
-                    // $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-                    $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-                    return;
-                }
-                document.getElementById("startBtn").src = "./public/image/start_tomato_pressed.png";
-                var snd = new Audio("./public/sounds/start_clicked.mp3");
-                // var snd = new Audio(
-                //     "https://drive.google.com/file/d/1RwlArKE3ls_8tKl3LuRInMGr2TuXpg_s/view?usp=sharing");
-                snd.play();
-                var btnVal = document.getElementById("startBtn").alt;
-                if (btnVal == "start_a_tomato") {
-                    firebase.analytics().logEvent('ClickStartBtn');
-                    const date = new Date();
-                    const offset = date.getTimezoneOffset();
-                    $.ajax({
-                        url: "./startSession",
-                        type: "POST",
-                        data: {
-                            timeOffset: offset
-                        },
-                        success: function (result) {
-                            new Toasteur().success('Enjoy your time!', "A new Tomato is started",
-                                () => {});
+        function logout() {
+            firebase.analytics().logEvent('logout');
+            fetch("./logout", {
+                    method: "GET",
+                })
+                .then(response => {
+                    window.location.href = "./";
+                });
+            sessionStorage.setItem("_session", "");
+        }
 
-                            $('#composingSec').collapse("show");
-                            $('#deComposingSec').collapse("hide");
-
-                            document.getElementById("startBtn").src =
-                                "./public/image/stop_tomato.png";
-                            document.getElementById("startBtn").alt = "stop_a_tomato";
-                            $('#musicCollapse').collapse("show")
-                            var WIPTmt =
-                                '<div class="col-3"> <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="Working in progress"  aria-label="Working in progress" /> </div>'
-                            $('#todayTmtRow').prepend(
-                                WIPTmt);
-                            var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                                '[data-bs-toggle="tooltip"]'))
-                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                                return new bootstrap.Tooltip(tooltipTriggerEl)
-                            })
-                        },
-                        error: function (error) {
-                            new Toasteur().error(error.responseText, 'Error!', () => {});
-                            document.getElementById("startBtn").alt = "start_a_tomato";
-                            $('#musicCollapse').collapse("hide")
-                        },
-                    });
-                } else {
-                    firebase.analytics().logEvent('ClickStopBtn');
-                    $('#stopTomatoModal').modal("show");
-                }
-            }
-
-            function logout() {
-                firebase.analytics().logEvent('logout');
-                fetch("./logout", {
-                        method: "GET",
-                    })
-                    .then(response => {
-                        window.location.href = "./";
-                    });
-                sessionStorage.setItem("_session", "");
-            }
-
-            function SendFeedback() {
-                var checkedValue = document.querySelector('.feedback_opt:checked').value;
-                var comments = document.getElementById("feedbackMsg").value
-                if (checkedValue || comments) {
-                    $.ajax({
-                        url: "./feedback",
-                        type: "POST",
-                        data: {
-                            checkedValue: checkedValue,
-                            comments: comments,
-                        },
-                        success: function (result) {
-                            new Toasteur().success("Thanks for the feedback!",
-                                'We really appreciate your help',
-                                () => {});
-                                $('#feedbackModal').modal("hide");
-                        },
-                        error: function (error) {
-                            new Toasteur().error(error.responseText, 'Error!', () => {});
-                        },
-                    });
-                }
-            }
-
-            function saveNotes() {
-                // var checkedValue = document.getElementById('publishCheckBox').checked;
-                var tomatoType = document.getElementById("tomatoType").value;
-                var notes = $('#summernote').summernote('code')
-                if (!tomatoType && !notes) {
-                    disgard();
-                    return;
-                }
-                if (!tomatoType) {
-                    tomatoType = "No type";
-                }
+        function SendFeedback() {
+            var checkedValue = document.querySelector('.feedback_opt:checked').value;
+            var comments = document.getElementById("feedbackMsg").value
+            if (checkedValue || comments) {
                 $.ajax({
-                    url: "./saveNotes",
+                    url: "./feedback",
                     type: "POST",
                     data: {
-                        // checkedValue: checkedValue,
-                        tomatoType: tomatoType,
-                        notes: notes,
+                        checkedValue: checkedValue,
+                        comments: comments,
                     },
                     success: function (result) {
-                        new Toasteur().success("Note saved", 'Have fun in your next tomato',
+                        new Toasteur().success("Thanks for the feedback!",
+                            'We really appreciate your help',
                             () => {});
-                        document.getElementById("publishSection").style.display = "none";
-                        // document.getElementById('publishCheckBox').checked = false;
-                        document.getElementById("tomatoType").value = "";
-                        ResetClock(0);
-                        ResetCDClock(0);
-                        $('#summernote').summernote('code', "");
-                        $('#notesSec').prepend(
-                            result['newNoteDiv']);
-                        $('#todayTmtRow').children().eq(0).remove();
-                        $('#todayTmtRow').prepend(
-                            result['newTodayTmt']);
-                        $('#composingSec').collapse("hide")
-                        $('#deComposingSec').collapse("show")
-                        var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
-                        document.getElementById('todayTomatoLbl').innerHTML =
-                            'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-                        document.getElementById('app-cover').dataset.todaycnt += 1;
-
-                        var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                            '[data-bs-toggle="tooltip"]'))
-                        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                            return new bootstrap.Tooltip(tooltipTriggerEl)
-                        })
+                        $('#feedbackModal').modal("hide");
                     },
                     error: function (error) {
                         new Toasteur().error(error.responseText, 'Error!', () => {});
                     },
                 });
             }
-        </script>
+        }
 
-        <script>
-            $(function () {
-                $('#modalClose').on('click', function () {
-                    $('#stopTomatoModal').modal("hide");
-                })
-                $('#modalClose1').on('click', function () {
-                    $('#stopTomatoModal').modal("hide");
-                })
-                $('#modalClose2').on('click', function () {
-                    $('#stopTomatoModal').modal("hide");
-                })
+        function saveNotes() {
+            // var checkedValue = document.getElementById('publishCheckBox').checked;
+            var tomatoType = document.getElementById("tomatoType").value;
+            var notes = $('#summernote').summernote('code')
+            if (!tomatoType && !notes) {
+                disgard();
+                return;
+            }
+            if (!tomatoType) {
+                tomatoType = "No type";
+            }
+            $.ajax({
+                url: "./saveNotes",
+                type: "POST",
+                data: {
+                    // checkedValue: checkedValue,
+                    tomatoType: tomatoType,
+                    notes: notes,
+                },
+                success: function (result) {
+                    new Toasteur().success("Note saved", 'Have fun in your next tomato',
+                        () => {});
+                    document.getElementById("publishSection").style.display = "none";
+                    // document.getElementById('publishCheckBox').checked = false;
+                    document.getElementById("tomatoType").value = "";
+                    ResetClock(0);
+                    ResetCDClock(0);
+                    $('#summernote').summernote('code', "");
+                    $('#notesSec').prepend(
+                        result['newNoteDiv']);
+                    $('#todayTmtRow').children().eq(0).remove();
+                    $('#todayTmtRow').prepend(
+                        result['newTodayTmt']);
+                    $('#composingSec').collapse("hide")
+                    $('#deComposingSec').collapse("show")
+                    var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
+                    document.getElementById('todayTomatoLbl').innerHTML =
+                        'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
+                    document.getElementById('app-cover').dataset.todaycnt += 1;
+
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                        '[data-bs-toggle="tooltip"]'))
+                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                    })
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => {});
+                },
+            });
+        }
+
+        function newTodo() {
+            var inputValue = document.getElementById("todoInput").value;
+            if (inputValue === '') {
+                alert("You must write something!");
+                return
+            }
+            $.ajax({
+                url: "./addTodo",
+                type: "POST",
+                data: {
+                    inputValue: inputValue,
+                },
+                success: function (result) {
+                    var li = document.createElement("li");
+                    var inputValue = document.getElementById("todoInput").value;
+                    var t = document.createTextNode(inputValue);
+                    li.id = result
+                    li.appendChild(t);
+                    if (inputValue === '') {
+                        alert("You must write something!");
+                    } else {
+                        document.getElementById("myUL").appendChild(li);
+                    }
+                    document.getElementById("todoInput").value = "";
+                    var span = document.createElement("SPAN");
+                    var txt = document.createTextNode("\u00D7");
+                    span.className = "closeTodo";
+                    span.appendChild(txt);
+                    li.appendChild(span);
+                    for (i = 0; i < close.length; i++) {
+                        close[i].onclick = function () {
+                            var div = this.parentElement;
+                            var todoId = div.id;
+                            $.ajax({
+                                url: "./deleteTodo",
+                                type: "POST",
+                                data: {
+                                    todoId: todoId,
+                                },
+                                success: function (result2) {
+                                    var div2 = document.getElementById(result2);
+                                    div2.style.display = "none";
+                                },
+                                error: function (error) {
+                                    new
+                                    Toasteur().error(error.responseText, 'Error!',
+                                        () => {});
+                                },
+                            });
+                        }
+                    }
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => {});
+                },
+            });
+        }
+    </script>
+
+    <script>
+        $(function () {
+            $('#modalClose').on('click', function () {
+                $('#stopTomatoModal').modal("hide");
             })
-        </script>
+            $('#modalClose1').on('click', function () {
+                $('#stopTomatoModal').modal("hide");
+            })
+            $('#modalClose2').on('click', function () {
+                $('#stopTomatoModal').modal("hide");
+            })
+        })
+    </script>
 
-        <script type="module" src="./public/js/coolDownClock.js"></script>
-        <script type="module" src="./public/js/coolDownForStopClock.js"></script>
-        <script type="module" src="./public/js/music.js"></script>
-        <script src="./public/summernote/summernote.min.js"></script>
-        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script>
+        // Create a "close" button and append it to each list item
+        var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "closeTodo";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
+        } // Click on a close button to hide the current list item var
+        close = document.getElementsByClassName("closeTodo");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
+        } // Add a "checked" symbol when clicking on a list item
+        var list = document.querySelector('ul');
+        list.addEventListener('click',
+            function (ev) {
+                if (ev.target.tagName === 'LI') {
+                    $.ajax({
+                        url: "./toogleTodo",
+                        type: "POST",
+                        data: {
+                            todoId: ev.target.id,
+                        },
+                        success: function (result) {
+                            if (result === '1') {
+                                ev.target.className = 'checked';
+                            } else {
+                                ev.target.className = "";
+                            }
+                        },
+                        error: function (error) {
+                            new
+                            Toasteur().error(error.responseText, 'Error!',
+                                () => {});
+                        },
+                    });
+                }
+            }, false); // Create a new list item when clicking on the "Add" button
+    </script>
 
-        <script src="./public/toast/toasteur.min.js"></script>
+    <script type="module" src="./public/js/coolDownClock.js"></script>
+    <script type="module" src="./public/js/coolDownForStopClock.js"></script>
+    <script type="module" src="./public/js/music.js"></script>
+    <script src="./public/summernote/summernote.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+
+    <script src="./public/toast/toasteur.min.js"></script>
 </body>
 
 </html>

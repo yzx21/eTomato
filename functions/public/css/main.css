@@ -4,7 +4,7 @@
   left: 0%;
   top: 0%;
   width: 100%;
-  height: 120;
+  height: 80px;
   justify-content: center;
   background-color: hsl(227, 10%, 10%, 0.9);
 }
@@ -44,39 +44,43 @@
   z-index: 1;
   left: 0%;
   top: 0%;
-  width: 40vh;
+  width: 25%;
   height: 100%;
   background-color: hsl(227, 10%, 10%);
-  padding-top: 150px;
+  padding-top: 90px;
 }
 
 #right-side {
-  position: fixed;
+  position: absolute;
   z-index: 1;
   right: 0%;
   top: 0%;
-  width: 40vh;
+  width: 30%;
   height: 100%;
   background-color: hsl(227, 10%, 10%);
-  padding-top: 150px;
+  padding-top: 90px;
+  min-height: 120%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 #middle {
-  position: absolute;
+  position: fixed;
   z-index: 1;
   top: 0%;
   min-height: 120%;
-  left: 40vh;
-  width: calc(100vw - 80vh);
+  left: 25%;
+  width: 45%;
   background-color: hsl(227, 10%, 10%);
   padding-top: 150px;
-  overflow-x: hidden;
-  overflow-y: scroll;
+
 }
 
 #settings {
   position: absolute;
-  top: 35px;
+  top: 17px;
   width: 40px;
   right: 70px;
   height: 40px;
@@ -85,8 +89,8 @@
 
 #settingImg {
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
 }
 
 #dropdownMenuButton {
@@ -98,19 +102,6 @@
   -ms-transform: scale(1.1);
   transform: scale(1.1);
   transition: 0.1s ease;
-}
-
-#taglines {
-  position: relative;
-  width: auto;
-  padding-top: 90px;
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-
-  color: #A6A6A6;
 }
 
 #tomatoType {
@@ -175,6 +166,8 @@
   position: relative;
   height: 45;
   top: 35px;
+  right: 20px;
+  left: 0px;
 }
 
 #startBtn {
@@ -207,9 +200,14 @@ hr {
 }
 
 .split {
-  left: 10%;
+  left: 0%;
   width: 100%;
   position: relative;
+}
+
+#circlebarId {
+  width: 40%;
+  height: calc(40vw * 0.4);
 }
 
 .circlebarCD {
@@ -328,7 +326,7 @@ hr {
 #notesSec {
   position: relative;
   top: 20px;
-  width: 60%;
+  width: 100%;
   padding: 0%;
 }
 
@@ -365,10 +363,11 @@ hr {
 #todayTomatoLbl {
   position: relative;
   color: #FEFFFF;
-  top: 60px;
-  text-align: center;
-  left: calc(50% - 75px);
+  top: 0px;
+  left: 15%;
+  font-size: 25px;
 }
+
 
 .nothing {
   color: #A6A6A6;
@@ -376,7 +375,7 @@ hr {
 
 #todayTmtId {
   position: relative;
-  top: 100px;
+  top: 20px;
   width: 80%;
   left: 0px;
 }

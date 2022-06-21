@@ -407,15 +407,3 @@ body {
 
   filter: url(#threshold) blur(0.6px);
 }
-
-#deComposingSecTxt1,
-#deComposingSecTxt2 {
-  position: absolute;
-  width: 100%;
-  display: inline-block;
-  font-family: "Raleway", sans-serif;
-  font-size: 80pt;
-  text-align: center;
-  user-select: none;
-  color: #FEFFFF;
-}

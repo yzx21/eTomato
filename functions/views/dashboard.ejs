@@ -312,10 +312,6 @@
                 </script>
 
                 <div id="publishSection" style="display:table;">
-                    <!-- <button id="disgardBtn" type="button" onclick="disgard();">Skip</button> -->
-                    <!-- <input type="checkbox" id="publishCheckBox" name="publishCheckBox">
-                <label id="checkboxLbl" for="publishCheckBox">Publish
-                    to global</label> -->
                     <button id="saveBtn" type="button" onclick="saveNotes();">Save</button>
                 </div>
             </div>
@@ -573,54 +569,6 @@
             }
         }
 
-        function disgard() {
-            $.ajax({
-                url: "./skipNotes",
-                type: "POST",
-                success: function (result) {
-                    new Toasteur().success("Notes skipped", 'Have fun in your next tomato!',
-                        () => {});
-                    document.getElementById("publishSection").style.display = "none";
-                    var defaultcdlength = document.getElementById('app-cover').dataset
-                        .defaultcdlength;
-                    document.getElementById("circlebarCDiD2").dataset.circleStarttime = "0";
-                    document.getElementById("circlebarCDiD2").dataset.circleMaxvalue =
-                        defaultcdlength;
-                    var tomatoSessionLength = document.getElementById('app-cover').dataset
-                        .tomatosessionlength;
-                    document.getElementById("circlebarId").dataset.circleStarttime = "0";
-                    document.getElementById("circlebarId").dataset.circleMaxvalue =
-                        defaultcdlength;
-                    ResetClock(0)
-                    ResetCDClock(0);
-                    // document.getElementById('publishCheckBox').checked = false;
-                    document.getElementById("tomatoType").value = "";
-                    $('#summernote').summernote('code', "");
-                    $('#notesSec').prepend(
-                        result['newNoteDiv']);
-
-                    $('#todayTmtRow').children().eq(0).remove();
-                    $('#todayTmtRow').prepend(
-                        result['newTodayTmt']);
-
-                    var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
-                    document.getElementById('todayTomatoLbl').innerHTML =
-                        'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-                    document.getElementById('app-cover').dataset.todaycnt += 1;
-
-
-                    var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                        '[data-bs-toggle="tooltip"]'))
-                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                        return new bootstrap.Tooltip(tooltipTriggerEl)
-                    })
-                },
-                error: function (error) {
-                    new Toasteur().error(error.responseText, 'Error!', () => {});
-                },
-            });
-        }
-
         function ClickStartBtn() {
             document.getElementById("startBtn").src = "./public/image/start_tomato_pressed.png";
             var snd = new Audio("./public/sounds/start_clicked.mp3");
@@ -651,7 +599,7 @@
                             WIPTmt);
 
                         document.getElementById('addAnote').style.display = "block";
-
+                        document.getElementById('play-pause-button').click();
                         var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                             '[data-bs-toggle="tooltip"]'))
                         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -727,7 +675,6 @@
                 success: function (result) {
                     new Toasteur().success("Note saved", 'Have fun in your next tomato',
                         () => {});
-                    document.getElementById("publishSection").style.display = "none";
                     // document.getElementById('publishCheckBox').checked = false;
                     document.getElementById("tomatoType").value = "";
                     ResetClock(0);

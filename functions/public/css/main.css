@@ -72,8 +72,9 @@
   padding: 0;
   cursor: pointer;
   color: white;
-  left: 70%;
-  width: 30%;
+  width: 36%;
+  display: block;
+  position: relative;
 }
 
 #middle {
@@ -164,13 +165,6 @@
   background-color: #DEF2F1;
 }
 
-#disgardBtn {
-  position: absolute;
-  left: 10px;
-  border-radius: 5px;
-  background-color: #DEF2F1;
-}
-
 #startBtnSec {
   position: relative;
   height: 60px;
@@ -211,6 +205,8 @@ hr {
 #addAnote {
   position: relative;
   top: 20px;
+  padding-left: 71%;
+
 }
 
 .split {

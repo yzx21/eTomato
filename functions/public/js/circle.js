@@ -253,7 +253,7 @@ window.StopTomato = function () {
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
-            document.getElementById("publishSection").style.display = "table";
+            // document.getElementById("publishSection").style.display = "table";
             // document.getElementById("processNotesSec").style.display = "table-row";
         },
         error: function (error) {

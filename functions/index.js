@@ -479,7 +479,7 @@ app.post("/saveNotes", async (req, res) => {
     }
     var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
     var tomatosSet = await getLastestTomato(userSnap.uid);
-    if (!tomatosSet || isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
+    if (!tomatosSet) {
         res.status(401).send("doesn't look like you have a pending tomato without a notes, please refresh and try again.");
         return;
     }

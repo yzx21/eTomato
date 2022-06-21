@@ -394,6 +394,7 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
 app.post("/deleteTodo", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const todoId = req.body["todoId"] || '';
+    console.log(todoId)
     if (todoId === '') {
         res.status(401).send("something went wrong");
         return;

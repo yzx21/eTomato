@@ -3,10 +3,8 @@
 }
 
 #app-cover {
-  right: 40px;
+  height: 100%;
   aspect-ratio: 3.5;
-  bottom: 40px;
-  width: 34vh;
 }
 
 #intro_img_sec {
@@ -264,25 +262,28 @@
 #player-controls {
   width: 60%;
   height: 100%;
-  margin: 0 13% 0 141px;
   float: right;
   overflow: hidden;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 .control {
   width: 33.333%;
   float: left;
-  padding: 7%;
+  height: 100%;
 }
 
 .button {
   left: 0;
-  width: 3vw;
-  padding-top: 10px;
+  width: 70%;
+  padding-top: 20%;
   background-color: #fff;
   border-radius: 6px;
   cursor: pointer;
   aspect-ratio: 1;
+  position: relative;
+  top: 10%;
 }
 
 .button i {
@@ -308,6 +309,9 @@
 
 #musicDiv {
   position: fixed;
-  left: calc(45.5% - 100px);
+  left: 35%;
+  width: 30%;
   bottom: 35px;
+  height: 100px;
+  aspect-ratio: 3.5;
 }

@@ -281,9 +281,10 @@ hr {
 
 #musicCollapse {
   position: relative;
-  left: calc(50% - 100px);
   z-index: 10;
-  width: 200px;
+  height: 100px;
+  padding-left: 10%;
+  padding-right: 10%s;
 }
 
 #note1 {

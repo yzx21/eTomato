@@ -508,7 +508,6 @@
 	width: 100%;
 	cursor: ns-resize;
 	background-color: #FEFFFF;
-	border-radius: 0 0 6px 6px;
 }
 
 .note-editor.note-airframe .note-statusbar .note-resizebar .note-icon-bar,

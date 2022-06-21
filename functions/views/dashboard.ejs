@@ -517,8 +517,10 @@
             var btnVal = document.getElementById("startBtn").alt;
             if (btnVal == "start_a_tomato") {
                 $('#musicCollapse').collapse("hide")
+                document.getElementById('addAnote').style.display = "none";
             } else {
                 $('#musicCollapse').collapse("show")
+                document.getElementById('addAnote').style.display = "block";
             }
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

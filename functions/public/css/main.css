@@ -116,7 +116,7 @@
 
 #tomatoType {
   position: relative;
-  width: calc(60% - 1px);
+  width: calc(60% - 2px);
   margin: auto;
   padding-left: 16px;
   padding-right: 16px;
@@ -124,18 +124,19 @@
   border-width: 0;
   border-radius: 6px 6px 0 0;
   height: 30px;
-  left: 20%;
+  left: calc(20% + 1px);
 }
 
 #publishSection {
   position: relative;
-  width: calc(60% - 1px);
+  width: calc(60% - 2px);
   margin: auto;
   padding-left: 0;
   padding-right: 0;
   background-color: #FEFFFF;
   top: 0;
   height: 25px;
+  border-radius: 0 0 6px 6px;
 }
 
 #processNotesSec {

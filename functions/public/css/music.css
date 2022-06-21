@@ -3,7 +3,6 @@
 }
 
 #app-cover {
-  position: fixed;
   right: 40px;
   aspect-ratio: 3.5;
   bottom: 40px;
@@ -26,7 +25,7 @@
 
 #player {
   position: relative;
-  height: 100%;
+  height: 80%;
   z-index: 3;
 }
 
@@ -70,7 +69,7 @@
 }
 
 #track-time {
-  height: 20%;
+  height: 25%;
   margin-bottom: 3px;
   overflow: hidden;
 }
@@ -273,17 +272,17 @@
 .control {
   width: 33.333%;
   float: left;
-  padding: 10%;
+  padding: 7%;
 }
 
 .button {
   left: 0;
-  height: 100%;
   width: 3vw;
-  padding-top: 10%;
+  padding-top: 10px;
   background-color: #fff;
   border-radius: 6px;
   cursor: pointer;
+  aspect-ratio: 1;
 }
 
 .button i {
@@ -305,4 +304,10 @@
 
 .button:hover i {
   color: #fff;
+}
+
+#musicDiv {
+  position: fixed;
+  left: calc(45.5% - 100px);
+  bottom: 35px;
 }

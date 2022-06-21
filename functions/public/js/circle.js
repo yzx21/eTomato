@@ -116,11 +116,6 @@ function Circlebar(prefs) {
     };
     textFilter = function () {
         percentage = (value * 100) / maxValue;
-        if (document.getElementById("publishSection").style.display !== "none" && percentage !== 100) {
-            // $("#processNotesSec").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-            $("#publishSection").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-            return;
-        }
         var start_btn = document.getElementById("startBtn");
         var btnVal = start_btn.alt;
         if (btnVal == "start_a_tomato") {
@@ -247,7 +242,6 @@ window.StopTomato = function () {
             new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
             StopTimer();
             StopMusic();
-
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
             audio.play();
             audio.addEventListener("ended", function () {

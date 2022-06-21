@@ -311,6 +311,7 @@
 .note-editor .note-editing-area {
 	position: relative;
 	background-color: #FEFFFF;
+	height: 80px;
 }
 
 .note-editor .note-editing-area .note-editable {

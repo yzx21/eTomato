@@ -44,7 +44,7 @@
   z-index: 1;
   left: 0%;
   top: 0%;
-  width: 25%;
+  width: calc(25% + 1px);
   height: 100%;
   background-color: hsl(227, 10%, 10%);
   padding-top: 90px;
@@ -55,15 +55,25 @@
   z-index: 1;
   right: 0%;
   top: 0%;
-  width: 30%;
+  width: calc(30% + 1px);
   height: 100%;
   background-color: hsl(227, 10%, 10%);
   padding-top: 90px;
   min-height: 120%;
   overflow-x: hidden;
-  overflow-y: scroll;
   padding-left: 3%;
   padding-right: 3%;
+}
+
+.astext {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  color: white;
+  left: 70%;
+  width: 30%;
 }
 
 #middle {
@@ -74,7 +84,7 @@
   left: 25%;
   width: 45%;
   background-color: hsl(227, 10%, 10%);
-  padding-top: 150px;
+  padding-top: 80px;
 
 }
 
@@ -125,9 +135,7 @@
   padding-right: 0;
   background-color: #FEFFFF;
   top: 0;
-  height: 35px;
-  border-color: #ff0004;
-  border-style: dotted;
+  height: 25px;
 }
 
 #processNotesSec {
@@ -164,17 +172,23 @@
 
 #startBtnSec {
   position: relative;
-  height: 45;
-  top: 35px;
+  height: 60px;
+  top: 20px;
   right: 20px;
   left: 0px;
+  width: 50%;
+}
+
+#composingSec {
+  position: relative;
+  top: 20px
 }
 
 #startBtn {
   position: relative;
   left: 27.5%;
   width: 45%;
-  height: 89%;
+  height: 68%;
 }
 
 #checkboxLbl {
@@ -183,20 +197,19 @@
   top: 5px;
 }
 
-#processNotesLbl {
-  color: red;
-  font-size: 0.8em;
-}
-
 hr {
   position: relative;
   color: #D9D9D9;
   height: 1px;
   width: 60%;
-  top: 50px;
-  left: 20%;
+  top: 15px;
   border-top: 0.5px solid #D9D9D9;
   border-bottom: 0.5px solid #D9D9D9;
+}
+
+#addAnote {
+  position: relative;
+  top: 20px;
 }
 
 .split {
@@ -267,9 +280,8 @@ hr {
 }
 
 #musicCollapse {
-  position: fixed;
-  bottom: 69px;
-  right: 114px;
+  position: relative;
+  left: calc(50% - 100px);
   z-index: 10;
   width: 200px;
 }

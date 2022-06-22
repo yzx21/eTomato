@@ -325,7 +325,7 @@ window.StopTomato = function () {
                 var newDiv = '<div class="col-3"> <img id="todayTmtImgId" '
                 newDiv += 'src = "./public/image/green_tomato.png"'
                 newDiv += 'width = "40px" height = "40px" alt = "Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" '
-                newDiv += 'title = "No type: ' + result / 60 + ' mins" /> </div>'
+                newDiv += 'title = "No type: ' + (result / 60).toFixed(1) + ' mins" /> </div>'
                 $('#todayTmtRow').prepend(newDiv);
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                     '[data-bs-toggle="tooltip"]'))

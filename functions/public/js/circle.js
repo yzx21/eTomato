@@ -289,6 +289,8 @@ window.StopTomato = function () {
                         'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
                     document.getElementById('app-cover').dataset.todaycnt += 1;
 
+                    document.getElementById('addAnote').style.display = "none";
+
                     var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                         '[data-bs-toggle="tooltip"]'))
                     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

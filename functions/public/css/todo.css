@@ -2,6 +2,12 @@
     color: black;
     padding-top: 85px;
     padding-left: 15%;
+    padding-right: 15%;
+}
+
+#todoDiv {
+    top: 15px;
+    position: relative;
 }
 
 #todoLabel {
@@ -9,16 +15,21 @@
     color: #FEFFFF;
     top: 0px;
     left: 0%;
-    font-size: 25px;
+    font-size: 15px;
+    background-color: #7B78FC;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 #todoInput {
     left: 0px;
     width: 80%;
     height: 35px;
-    font-size: 20px;
-    color: black;
+    font-size: 15px;
+    background-color: transparent;
+    color: white;
     padding-left: 15px;
+    border-radius: 5px;
 }
 
 #inputDivId {
@@ -57,7 +68,7 @@ ul li {
     width: 85%;
     padding: 5px 8px 5px 40px;
     list-style-type: none;
-    background: rgb(206, 206, 206);
+    color: rgb(206, 206, 206);
     font-size: 18px;
     transition: 0.2s;
 
@@ -66,11 +77,16 @@ ul li {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    background-color: #3D4D54;
+    border-radius: 10px;
+
+    margin-bottom: 10px;
 }
 
 /* Set all odd list items to a different color (zebra-stripes) */
 ul li:nth-child(odd) {
-    background: #eee;
+    background: #3D4D54;
     width: 85%;
 }
 
@@ -81,7 +97,7 @@ ul li:hover {
 
 /* When clicked on, add a background color and strike out text */
 ul li.checked {
-    background: #888;
+    background: #394385;
     color: #fff;
     text-decoration: line-through;
     width: 85%;

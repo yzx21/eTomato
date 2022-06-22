@@ -361,17 +361,29 @@ hr {
 
 #todaySummarySec {
   position: relative;
-
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 #todayTomatoLbl {
   position: relative;
   color: #FEFFFF;
   top: 0px;
-  left: 15%;
-  font-size: 25px;
+  font-size: 15px;
+  background-color: #7B78FC;
+  padding: 10px;
+  border-radius: 5px;
 }
 
+#todayDiv {
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+#todayTmtRow {
+  background-color: #3D4D54;
+  border-radius: 5px;
+}
 
 .nothing {
   color: #A6A6A6;
@@ -380,12 +392,19 @@ hr {
 #todayTmtId {
   position: relative;
   top: 20px;
-  width: 80%;
   left: 0px;
+  padding: 0px;
 }
 
 #todayTmtImgId {
   position: relative;
+  left: 5px;
+  top: 5px;
+}
+
+#myUL {
+  position: relative;
+  top: 17px;
 }
 
 #ggLogin1 {

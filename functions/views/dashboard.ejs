@@ -163,7 +163,7 @@
                 <lable id="todayTomatoLbl">Today's tomatos (<%=todayTmt.length%>)</lable>
                 <div class="container" id="todayTmtId">
                     <div class="row justify-content-start" id="todayTmtRow">
-                        <%if (isTomatoOn || !(noteSkipped || noteCompleted)) {%>
+                        <%if (isTomatoOn) {%>
                         <div class="col-2">
                             <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px"
                                 alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -444,7 +444,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="coolDownForStopModalTitle">5 mins Break</h5>
+                    <h5 class="modal-title" id="coolDownForStopModalTitle">5 mins Break(stopped tomato)</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -658,7 +658,6 @@
             var tomatoType = document.getElementById("tomatoType").value;
             var notes = $('#summernote').summernote('code')
             if (!tomatoType && !notes) {
-                disgard();
                 return;
             }
             if (!tomatoType) {

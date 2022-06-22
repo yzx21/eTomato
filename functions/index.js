@@ -121,9 +121,7 @@ app.get("/", async (req, res) => {
     var isMusicPlaying = false;
     var tomatosSet = await getLastestTomato(userSnap.uid);
     var durationSec = 0;
-    var noteSkipped = true;
     var remainingRestTimeSec = 0;
-    var noteCompleted = false;
     var tomatos = [];
     var lastestTmt = undefined;
     var cdDismissable = false;
@@ -138,12 +136,6 @@ app.get("/", async (req, res) => {
     }
     if (lastestTmt && !isTomatoOngoing(lastestTmt)) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
-        if (!tomato['noteSkipped']) {
-            noteSkipped = false;
-        }
-        if (tomato["notes"]) {
-            noteCompleted = true;
-        }
         remainingRestTimeSec = getRemainingRestTime(tomatosSet[Object.keys(tomatosSet)[0]]);
         cdDismissable = (tomato['duration'] != undefined);
     }
@@ -152,7 +144,7 @@ app.get("/", async (req, res) => {
     if (tomatosSet) {
         var tmpTmts = await getAllTomatos(userSnap.uid);
         tmpTmts.forEach(function (tmt) {
-            if (!(noteSkipped || noteCompleted) && Object.keys(tomatosSet)[0] == tmt.key) {
+            if (Object.keys(tomatosSet)[0] == tmt.key) {
                 return;
             }
             if (isTomatoOngoing(tmt.val())) {
@@ -188,7 +180,6 @@ app.get("/", async (req, res) => {
             status: userRec.val()['todos'][todo]['status']
         })
     }
-
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
         profileUrl: userRec.val()['photoURL'],
@@ -196,11 +187,9 @@ app.get("/", async (req, res) => {
         isTomatoOn: isTomatoOn,
         durationSec: durationSec,
         isMusicPlaying, isMusicPlaying,
-        noteSkipped: noteSkipped,
         remainingRestTimeSec: remainingRestTimeSec,
         tomatoSessionLength: tomatoSessionLength,
         coolDownLength: coolDownLength,
-        noteCompleted: noteCompleted,
         tomatos: tomatos.reverse(),
         moment: moment,
         todayTmt: todayTmt.reverse(),
@@ -495,6 +484,7 @@ app.post("/saveNotes", async (req, res) => {
         var latestTmtSnap = await latestTomato.once('value')
         var newNoteDiv = await getLatestNote(userRec, latestTmtSnap);
         var newTodayTmt = await getLatestTodayTmt(latestTmtSnap);
+        console.log(newTodayTmt)
         res.send({ newNoteDiv: newNoteDiv, newTodayTmt: newTodayTmt });
         return;
     }
@@ -518,34 +508,6 @@ app.post("/feedback", async (req, res) => {
         date: Date.now() / 1000,
     })
     res.send();
-})
-
-app.post("/skipNotes", async (req, res) => {
-    const sessionCookie = req.cookies.__session || "";
-    var db = admin.database();
-    try {
-        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
-    } catch (err) {
-        res.status(401).send("something went wrong");
-        return;
-    }
-    var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
-    var tomatosSet = await getLastestTomato(userSnap.uid);
-    if (!tomatosSet || isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
-        res.status(401).send("doesn't look like you have a pending tomato without a notes, please refresh and try again.");
-        return;
-    }
-    else {
-        var latestTomato = db.ref('users').child(userSnap.uid).child("tomatos").child(Object.keys(tomatosSet)[0]);
-        await latestTomato.update({
-            noteSkipped: true
-        })
-        var latestTmtSnap = await latestTomato.once('value')
-        var newNoteDiv = await getLatestNote(userRec, latestTmtSnap);
-        var newTodayTmt = await getLatestTodayTmt(latestTmtSnap);
-        res.send({ newNoteDiv: newNoteDiv, newTodayTmt: newTodayTmt });
-        return;
-    }
 })
 
 app.get("/logout", (req, res) => {

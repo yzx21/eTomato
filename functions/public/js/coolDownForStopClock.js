@@ -198,6 +198,6 @@ window.StartCoolDown2 = function () {
     textFilter();
 }
 
-window.ResetCDClock2 = function (value) {
+export function ResetCDClock2(value) {
     resetCDClock(value);
 }

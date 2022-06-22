@@ -1,5 +1,5 @@
 import { StopMusic } from "./music.js"
-import { ResetCDClock } from "./coolDownForStopClock"
+import { ResetCDClock2 } from "./coolDownForStopClock.js"
 
 $(document).ready(function () {
     var prefs = {
@@ -244,42 +244,6 @@ window.StopTomato = function () {
     if (!tomatoType) {
         tomatoType = "No type";
     }
-    $.ajax({
-        url: "./saveNotes",
-        type: "POST",
-        data: {
-            // checkedValue: checkedValue,
-            tomatoType: tomatoType,
-            notes: notes,
-        },
-        success: function (result) {
-            new Toasteur().success("Note saved", 'Have fun in your next tomato',
-                () => { });
-            // document.getElementById('publishCheckBox').checked = false;
-            document.getElementById("tomatoType").value = "";
-            ResetClock(0);
-            ResetCDClock(0);
-            $('#summernote').summernote('code', "");
-            $('#notesSec').prepend(
-                result['newNoteDiv']);
-            $('#todayTmtRow').children().eq(0).remove();
-            $('#todayTmtRow').prepend(
-                result['newTodayTmt']);
-            var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
-            document.getElementById('todayTomatoLbl').innerHTML =
-                'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-            document.getElementById('app-cover').dataset.todaycnt += 1;
-
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                '[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
-        },
-        error: function (error) {
-            new Toasteur().error(error.responseText, 'Error!', () => { });
-        },
-    });
 
     $.ajax({
         url: "./stopSession",
@@ -295,12 +259,46 @@ window.StopTomato = function () {
             });
             $('#coolDownForStopModal').modal("show");
             StartCoolDown2();
-
+            ResetCDClock2(0);
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
-            // document.getElementById("publishSection").style.display = "table";
-            // document.getElementById("processNotesSec").style.display = "table-row";
+            $.ajax({
+                url: "./saveNotes",
+                type: "POST",
+                data: {
+                    // checkedValue: checkedValue,
+                    tomatoType: tomatoType,
+                    notes: notes,
+                },
+                success: function (result) {
+                    new Toasteur().success("Note saved", 'Have fun in your next tomato',
+                        () => { });
+                    // document.getElementById('publishCheckBox').checked = false;
+                    document.getElementById("tomatoType").value = "";
+                    ResetClock(0);
+                    ResetCDClock(0);
+                    $('#summernote').summernote('code', "");
+                    $('#notesSec').prepend(
+                        result['newNoteDiv']);
+                    $('#todayTmtRow').children().eq(0).remove();
+                    $('#todayTmtRow').prepend(
+                        result['newTodayTmt']);
+                    var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
+                    document.getElementById('todayTomatoLbl').innerHTML =
+                        'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
+                    document.getElementById('app-cover').dataset.todaycnt += 1;
+
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                        '[data-bs-toggle="tooltip"]'))
+                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                    })
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => { });
+                },
+            });
         },
         error: function (error) {
             new Toasteur().error(error.responseText, 'Error!', () => { });

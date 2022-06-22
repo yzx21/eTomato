@@ -5,6 +5,10 @@
 #app-cover {
   height: 100%;
   aspect-ratio: 3.5;
+  padding: 0px;
+  width: 40%;
+  left: 30%;
+  position: relative;
 }
 
 #intro_img_sec {
@@ -307,11 +311,4 @@
   color: #fff;
 }
 
-#musicDiv {
-  position: fixed;
-  left: 35%;
-  width: 30%;
-  bottom: 35px;
-  height: 100px;
-  aspect-ratio: 3.5;
-}
+#musicDiv {}

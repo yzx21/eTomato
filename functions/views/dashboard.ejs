@@ -192,10 +192,10 @@
                 <div id="todoDiv">
                     <div class="container" id="inputDivId">
                         <input type="text" id="todoInput" placeholder="New todo">
-                        <span onclick="newTodo()" class="addBtn"> Add </span>
+                        <span onclick="newTodo()" class="addBtn"><img src="./public/image/add_btn.png" width="20px"
+                                height="20px" /></span>
                     </div>
                 </div>
-
 
                 <ul id="myUL">
                     <% for(let i=0; i<todos.length; i++) { %>
@@ -217,12 +217,7 @@
                 <label id="noteLable">Me</label>
                 <label
                     id="noteTime"><%=moment.unix(parseInt(tomatos[i]["startTimeSec"]) - parseInt(tomatos[i]["timeOffset"]) * 60).format('lll')%></label>
-                <%if(tomatos[i]["notes"]) {%>
-                <label id="noteType"><%=tomatos[i]["type"]%></label>
-                <%} else {%>
-                <label id="noteType">No type</label>
-                <%}%>
-                        <%if(tomatos[i]["duration"]) {%>
+                <%if(tomatos[i]["duration"]) {%>
                 <img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar"
                     data-bs-toggle="tooltip" data-bs-placement="bottom"
                     title="<%=(tomatos[i]['duration']/60).toFixed(1)%> mins" />
@@ -230,15 +225,23 @@
                 <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"
                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="25 min" />
                 <%}%>
-                    <br>
-                    <div id="noteText">
+                <br>
+                <div class="row" id="typeSec">
+                <%if(tomatos[i]["notes"]) {%>
+                <label id="noteType"><%=tomatos[i]["type"]%></label>
+                <%} else {%>
+                <label id="noteType">No type</label>
+                <%}%>
+                </div>
+                <div id="noteText">
                     <%if(tomatos[i]["notes"] || (tomatos[i]['notes'] && tomatos[i]["notes"] !== "<p><br></p>")) {%>
                 <%-tomatos[i]["notes"]%>
                 <%} else {%>
                 <p class="nothing">Nothing was noted in this session.</p>
                 <%}%>
-                    </div>
-                    <img id="noteLikeBtn" src="./public/image/liked.png">
+                </div>
+                    <img id="noteLikeBtn" src="./public/image/liked.png" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="Edit->publish to collect likes">
                     <label id="likeCnt">0</label>
                     </div>
                     <% } %>
@@ -679,7 +682,7 @@
                     notes: notes,
                 },
                 success: function (result) {
-                    new Toasteur().success("Note saved", 'Have fun in your next tomato',
+                    new Toasteur().success("Note saved", '',
                         () => {});
                 },
                 error: function (error) {

@@ -525,11 +525,3 @@ app.get("/logout", (req, res) => {
 });
 
 exports.functions = functions.https.onRequest(app);
-
-exports.scheduledFunctionCrontab = functions.pubsub.schedule('0 0 * * *')
-    .timeZone('America/Los_Angeles')
-    .onRun((context) => {
-        console.log('This will be run every day at 0:00 AM Western!');
-        return null;
-
-    });

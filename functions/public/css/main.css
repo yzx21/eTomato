@@ -297,18 +297,19 @@ hr {
 }
 
 #noteType {
-  position: absolute;
-  right: 48px;
+  position: relative;
   top: 8px;
   border-radius: 13px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
   background-color: #e7e7e7;
+  width: auto;
+  left: 50px;
 }
 
 #noteText {
   position: relative;
-  padding-top: 10px;
+  padding-top: 35px;
   padding-left: 55px;
   padding-bottom: 30px;
 }
@@ -354,7 +355,7 @@ hr {
 .noteCard {
   position: relative;
   top: 20px;
-  background-color: #FEFFFF;
+  background-color: rgb(114, 127, 132);
   margin-top: 40px;
   border-radius: 6px;
 }

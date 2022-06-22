@@ -23,35 +23,30 @@
 
 #todoInput {
     left: 0px;
-    width: 80%;
     height: 35px;
-    font-size: 15px;
     background-color: transparent;
     color: white;
     padding-left: 15px;
     border-radius: 5px;
+    border-color: white;
+    border-width: 1px;
+    width: 100%;
 }
 
 #inputDivId {
     padding-left: 0px;
+    padding-right: 0px;
 }
 
 /* Style the "Add" button */
 .addBtn {
-    display: inline-block;
-    width: 10%;
-    color: #FEFFFF;
-    height: 25px;
-    text-align: right;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    border-radius: 15;
+    position: absolute;
+    top: 10px;
+    right: 5px;
 }
 
 .addBtn:hover {
     background-color: hsl(227deg 64% 56%);
-    height: 22px;
 }
 
 
@@ -65,11 +60,10 @@ ul {
 ul li {
     cursor: pointer;
     position: relative;
-    width: 85%;
+    width: 100%;
     padding: 5px 8px 5px 40px;
     list-style-type: none;
     color: rgb(206, 206, 206);
-    font-size: 18px;
     transition: 0.2s;
 
     /* make the list items unselectable */
@@ -80,14 +74,14 @@ ul li {
 
     background-color: #3D4D54;
     border-radius: 10px;
-
+    top: 15px;
     margin-bottom: 10px;
 }
 
 /* Set all odd list items to a different color (zebra-stripes) */
 ul li:nth-child(odd) {
     background: #3D4D54;
-    width: 85%;
+    width: 100%;
 }
 
 /* Darker background-color on hover */
@@ -100,7 +94,7 @@ ul li.checked {
     background: #394385;
     color: #fff;
     text-decoration: line-through;
-    width: 85%;
+    width: 100%;
     text-decoration-color: black;
     text-decoration-thickness: 3px;
 }
@@ -112,11 +106,11 @@ ul li.checked::before {
     border-color: #fff;
     border-style: solid;
     border-width: 0 2px 2px 0;
-    top: 10px;
+    top: 5px;
     left: 16px;
     transform: rotate(45deg);
-    height: 15px;
     width: 7px;
+    bottom: 5px;
 }
 
 /* Style the close button */
@@ -125,7 +119,7 @@ ul li.checked::before {
     right: 0;
     top: 0;
     padding: 7px 16px 12px 16px;
-    height: 35px;
+    height: 100%;
 }
 
 .closeTodo:hover {

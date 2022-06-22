@@ -164,14 +164,14 @@
                 <div class="container" id="todayTmtId">
                     <div class="row justify-content-start" id="todayTmtRow">
                         <%if (isTomatoOn) {%>
-                        <div class="col-2">
+                        <div class="col-3">
                             <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px"
                                 alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                 title="Working in progress" />
                         </div>
                         <%}%>
                         <%for(let i=0; i<todayTmt.length; i++) {%>
-                        <div class="col-2">
+                        <div class="col-3">
                             <%if(todayTmt[i]['duration'] == "25 mins") {%>
                             <img id="todayTmtImgId" src="./public/image/tomato.png" width="40px" height="40px"
                                 alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -233,7 +233,7 @@
                 <%}%>
                     <br>
                     <div id="noteText">
-                    <%if(tomatos[i]["notes"] && tomatos[i]["notes"] != "<p><br></p>") {%>
+                    <%if(tomatos[i]["notes"] || (tomatos[i]['notes'] && tomatos[i]["notes"] !== "<p><br></p>")) {%>
                 <%-tomatos[i]["notes"]%>
                 <%} else {%>
                 <p class="nothing">Nothing was noted in this session.</p>
@@ -286,14 +286,14 @@
         <div class="row justify-content-center">
             <div class="collapse" id="composingSec">
                 <input id="tomatoType" list="hosting-plan" placeholder="Leave a task category for better stats..."
-                    type="text">
+                    type="text" value="<%=pendingNoteType%>">
                 <datalist id="hosting-plan">
                     <option value="Reading" />
                     <option value="Working" />
                     <option value="Workout" />
                 </datalist>
 
-                <div id="summernote" class="position-relative justify-content-center"></div>
+                <div id="summernote" class="position-relative justify-content-center"><%-pendingNote%></div>
                 <script>
                     $(document).ready(function () {
                         $('#summernote').summernote({
@@ -321,8 +321,9 @@
             <div class="collapse" id="musicCollapse">
                 <div id="app-cover" data-onload=<%=isMusicPlaying%> data-onrest=<%=remainingRestTimeSec%>
                     data-cddismissable=<%=cdDismissable%> data-tomatoSessionLength=<%=tomatoSessionLength%>
-                    data-defaultcdlength=<%=coolDownLength%> data-todaycnt=<%=todayTmt.length%>>
-                    <div id="player">
+                    data-defaultcdlength=<%=coolDownLength%> data-todaycnt=<%=todayTmt.length%>
+                    data-pendingnote=<%=pendingNote%>>
+                    <div id="player" data-pendingnotetype=<%=pendingNoteType%>>
                         <div id="player-track">
                             <div id="album-name"></div>
                             <div id="track-name"></div>
@@ -518,6 +519,13 @@
                 $('#musicCollapse').collapse("show")
                 document.getElementById('addAnote').style.display = "block";
             }
+
+            var pendingNoteType = document.getElementById('player').dataset.pendingnotetype;
+            var pendingNote = document.getElementById('app-cover').dataset.pendingnote;
+            if (pendingNoteType || (pendingNote && pendingNote !== "<p><br></p>")) {
+                $('#composingSec').collapse("show")
+                document.getElementById('addnote').innerText = "x Add a note";
+            }
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -594,7 +602,7 @@
                         document.getElementById("startBtn").alt = "stop_a_tomato";
                         $('#musicCollapse').collapse("show")
                         var WIPTmt =
-                            '<div class="col-2"> <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="Working in progress"  aria-label="Working in progress" /> </div>'
+                            '<div class="col-3"> <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="Working in progress"  aria-label="Working in progress" /> </div>'
                         $('#todayTmtRow').prepend(
                             WIPTmt);
 
@@ -674,26 +682,6 @@
                 success: function (result) {
                     new Toasteur().success("Note saved", 'Have fun in your next tomato',
                         () => {});
-                    // document.getElementById('publishCheckBox').checked = false;
-                    document.getElementById("tomatoType").value = "";
-                    ResetClock(0);
-                    ResetCDClock(0);
-                    $('#summernote').summernote('code', "");
-                    $('#notesSec').prepend(
-                        result['newNoteDiv']);
-                    $('#todayTmtRow').children().eq(0).remove();
-                    $('#todayTmtRow').prepend(
-                        result['newTodayTmt']);
-                    var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
-                    document.getElementById('todayTomatoLbl').innerHTML =
-                        'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-                    document.getElementById('app-cover').dataset.todaycnt += 1;
-
-                    var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                        '[data-bs-toggle="tooltip"]'))
-                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                        return new bootstrap.Tooltip(tooltipTriggerEl)
-                    })
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});

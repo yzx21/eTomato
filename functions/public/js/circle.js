@@ -81,8 +81,56 @@ function Circlebar(prefs) {
         }
 
         if (progress == 100) {
+            document.getElementById('addnote').innerText = "+ Add a note";
+            document.getElementById('addAnote').style.display = "none";
+            $('#composingSec').collapse("hide")
+            var tomatoType = document.getElementById("tomatoType").value;
+            var notes = $('#summernote').summernote('code')
+            if (tomatoType || (notes && notes !== "<p><br></p>")) {
+                if (!tomatoType) {
+                    tomatoType = "No type";
+                }
+                $.ajax({
+                    url: "./saveNotes",
+                    type: "POST",
+                    data: {
+                        // checkedValue: checkedValue,
+                        tomatoType: tomatoType,
+                        notes: notes,
+                    },
+                    success: function (result) {
+                        new Toasteur().success("Note saved", 'Have fun in your next tomato',
+                            () => { });
+                        // document.getElementById('publishCheckBox').checked = false;
+                        document.getElementById("tomatoType").value = "";
+
+                        $('#summernote').summernote('code', "");
+                        $('#notesSec').prepend(
+                            result['newNoteDiv']);
+                        $('#todayTmtRow').children().eq(0).remove();
+                        $('#todayTmtRow').prepend(
+                            result['newTodayTmt']);
+                        var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
+                        document.getElementById('todayTomatoLbl').innerHTML =
+                            'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
+                        document.getElementById('app-cover').dataset.todaycnt += 1;
+
+                        var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                            '[data-bs-toggle="tooltip"]'))
+                        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                            return new bootstrap.Tooltip(tooltipTriggerEl)
+                        })
+                    },
+                    error: function (error) {
+                        new Toasteur().error(error.responseText, 'Error!', () => { });
+                    },
+                });
+            }
+
             StopTimer();
             StopMusic();
+            ResetClock(0);
+            ResetCDClock(0);
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
             audio.play();
             audio.addEventListener("ended", function () {
@@ -96,6 +144,17 @@ function Circlebar(prefs) {
             // document.getElementById("publishSection").style.display = "table-row";
             document.getElementById("publishSection").style.display = "table";
 
+            $('#todayTmtRow').children().eq(0).remove();
+            var newDiv = '<div class="col-3"> <img id="todayTmtImgId" '
+            newDiv += 'src = "./public/image/tomato.png"'
+            newDiv += 'width = "40px" height = "40px" alt = "Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" '
+            newDiv += 'title = "No type: 25 mins" /> </div>'
+            $('#todayTmtRow').prepend(newDiv);
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                '[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
 
             // Let's check whether notification permissions have already been granted
             if (Notification.permission === "granted") {
@@ -112,7 +171,6 @@ function Circlebar(prefs) {
                     }
                 });
             }
-
         }
     };
     textFilter = function () {
@@ -236,14 +294,6 @@ function StopTimer() {
 }
 
 window.StopTomato = function () {
-    var tomatoType = document.getElementById("tomatoType").value;
-    var notes = $('#summernote').summernote('code')
-    if (!tomatoType && !notes) {
-        return;
-    }
-    if (!tomatoType) {
-        tomatoType = "No type";
-    }
 
     $.ajax({
         url: "./stopSession",
@@ -263,6 +313,30 @@ window.StopTomato = function () {
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
+
+            $('#composingSec').collapse("hide")
+            document.getElementById('addnote').innerText = "+ Add a note";
+            document.getElementById('addAnote').style.display = "none";
+
+            var tomatoType = document.getElementById("tomatoType").value;
+            var notes = $('#summernote').summernote('code')
+            if (!tomatoType && (!notes || notes === "<p><br></p>")) {
+                $('#todayTmtRow').children().eq(0).remove();
+                var newDiv = '<div class="col-3"> <img id="todayTmtImgId" '
+                newDiv += 'src = "./public/image/green_tomato.png"'
+                newDiv += 'width = "40px" height = "40px" alt = "Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" '
+                newDiv += 'title = "No type: ' + result / 60 + ' mins" /> </div>'
+                $('#todayTmtRow').prepend(newDiv);
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll(
+                    '[data-bs-toggle="tooltip"]'))
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                })
+                return;
+            }
+            if (!tomatoType) {
+                tomatoType = "No type";
+            }
             $.ajax({
                 url: "./saveNotes",
                 type: "POST",
@@ -288,8 +362,6 @@ window.StopTomato = function () {
                     document.getElementById('todayTomatoLbl').innerHTML =
                         'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
                     document.getElementById('app-cover').dataset.todaycnt += 1;
-
-                    document.getElementById('addAnote').style.display = "none";
 
                     var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                         '[data-bs-toggle="tooltip"]'))

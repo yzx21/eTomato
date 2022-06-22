@@ -30,8 +30,8 @@ const { user } = require('firebase-functions/v1/auth');
 
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
-const tomatoSessionLength = 1500;
-const coolDownLength = 300;
+const tomatoSessionLength = 13;
+const coolDownLength = 3;
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -125,6 +125,9 @@ app.get("/", async (req, res) => {
     var tomatos = [];
     var lastestTmt = undefined;
     var cdDismissable = false;
+    var pendingNote = {}
+    var pendingNote = undefined;
+    var pendingNoteType = undefined;
     if (tomatosSet) {
         lastestTmt = tomatosSet[Object.keys(tomatosSet)[0]];
     }
@@ -133,6 +136,8 @@ app.get("/", async (req, res) => {
         isTomatoOn = true;
         durationSec = Date.now() / 1000 - tomato['startTimeSec'];
         isMusicPlaying = (tomato['isMusicPlaying'] === 'true');
+        pendingNoteType = tomato['notes'] ? tomato['notes']['tomatoType'] : undefined;
+        pendingNote = tomato['notes'] ? tomato['notes']['notes'] : undefined;
     }
     if (lastestTmt && !isTomatoOngoing(lastestTmt)) {
         var tomato = tomatosSet[Object.keys(tomatosSet)[0]];
@@ -154,13 +159,15 @@ app.get("/", async (req, res) => {
             var type = tmt.val()["notes"] ? tmt.val()["notes"]["tomatoType"] : undefined;
             var notes = tmt.val()["notes"] ? tmt.val()["notes"]["notes"] : undefined;
 
-            tomatos.push({
-                startTimeSec: tmt.val()["startTimeSec"],
-                duration: duration,
-                type: type,
-                timeOffset: tmt.val()["timeOffset"],
-                notes: notes
-            })
+            if (type || notes) {
+                tomatos.push({
+                    startTimeSec: tmt.val()["startTimeSec"],
+                    duration: duration,
+                    type: type,
+                    timeOffset: tmt.val()["timeOffset"],
+                    notes: notes
+                })
+            }
 
             var tmtDurationMins = duration ? (duration / 60).toFixed(1) + " mins" : "25 mins"
             var tmtDate = getDayMonthYear(parseInt(tmt.val()["startTimeSec"]) - parseInt(tmt.val()["timeOffset"] * 60))
@@ -195,6 +202,8 @@ app.get("/", async (req, res) => {
         todayTmt: todayTmt.reverse(),
         cdDismissable: cdDismissable,
         todos: todos,
+        pendingNote: pendingNote,
+        pendingNoteType: pendingNoteType,
     });
 });
 
@@ -351,7 +360,7 @@ app.post("/stopSession", async (req, res) => {
         latestTomatoDurationSnap.update({
             duration: duratioin
         })
-        res.send();
+        res.send(duratioin);
     }
 });
 
@@ -484,7 +493,6 @@ app.post("/saveNotes", async (req, res) => {
         var latestTmtSnap = await latestTomato.once('value')
         var newNoteDiv = await getLatestNote(userRec, latestTmtSnap);
         var newTodayTmt = await getLatestTodayTmt(latestTmtSnap);
-        console.log(newTodayTmt)
         res.send({ newNoteDiv: newNoteDiv, newTodayTmt: newTodayTmt });
         return;
     }

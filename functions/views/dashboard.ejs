@@ -479,38 +479,48 @@
         </div>
     </div>
 
-    <footer class="footer-area-l-12 position-relative" style="text-align:center;">
-        <div class="modal fade" role="dialog" id="editNote">
+
+    <footer class="footer-area-l-12 position-relative" style="text-align:left;">
+        <div class="modal fade" role="dialog" id="editNote" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <input id="EditTomatoType" list="hosting-plan"
-                        placeholder="Leave a task category for better stats..." type="text" value="">
-                    <datalist id="hosting-plan">
-                        <option value="Reading" />
-                        <option value="Working" />
-                        <option value="Workout" />
-                    </datalist>
+                    <div class="modal-header">
+                        <h5 class="edit-title">Editing</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input id="EditTomatoType" list="hosting-plan"
+                            placeholder="Leave a task category for better stats..." type="text" value="">
+                        <datalist id="hosting-plan">
+                            <option value="Reading" />
+                            <option value="Working" />
+                            <option value="Workout" />
+                        </datalist>
 
-                    <div id="EditSummernote" class="position-relative justify-content-center"></div>
-                    <script>
-                        $(document).ready(function () {
-                            $('#EditSummernote').summernote({
-                                placeholder: 'During this tomato session, you can write here: 1.the tasks you want to complete. 2.your thoughts and things to remember. 3.your self reflection. ',
-                                tabsize: 2,
-                                toolbar: [
-                                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                                ],
-                                height: 320,
-                                focus: true,
-                            }).on("EditSummernote.enter", function (we, e) {
-                                $(this).summernote('pasteHTML', '<br>&VeryThinSpace;');
-                                e.preventDefault();
+                        <div id="EditSummernote" class="position-relative justify-content-center"></div>
+                        <script>
+                            $(document).ready(function () {
+                                $('#EditSummernote').summernote({
+                                    placeholder: 'During this tomato session, you can write here: 1.the tasks you want to complete. 2.your thoughts and things to remember. 3.your self reflection. ',
+                                    tabsize: 2,
+                                    toolbar: [
+                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                    ],
+                                    height: 800,
+                                    focus: true,
+                                }).on("EditSummernote.enter", function (we, e) {
+                                    $(this).summernote('pasteHTML', '<br>&VeryThinSpace;');
+                                    e.preventDefault();
+                                });
                             });
-                        });
-                    </script>
-
-                    <div id="EditpublishSection" style="display:table;">
-                        <button id="saveBtn" type="button" onclick="saveEditNotes();">Save</button>
+                        </script>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="EditpublishSection" style="display:table;">
+                            <button id="deleteNoteBtn" type="button" onclick="deleteNotes();">Delete</button>
+                            <button id="publishNoteBtn" type="button" onclick="publishNotes();">Publish</button>
+                            <button id="saveNoteBtn" type="button" onclick="saveEditNotes();">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>

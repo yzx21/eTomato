@@ -131,15 +131,44 @@
 
 #EditTomatoType {
   position: relative;
-  width: 100%;
+  width: 60%;
   margin: auto;
   padding-left: 16px;
   padding-right: 16px;
   top: 1px;
-  border-width: 0;
+  border-width: 1px;
   border-radius: 6px 6px 0 0;
   height: 30px;
-  left: 0px;
+  left: 20%;
+}
+
+#deleteNoteBtn {
+  position: relative;
+  left: 5px;
+  color: red;
+  width: 16%;
+  border-width: 0px;
+  background-color: transparent;
+}
+
+#publishNoteBtn {
+  position: relative;
+  width: 45%;
+  left: 17.5%;
+  color: #7B78FC;
+  border-width: 1px;
+  border-color: #7B78FC;
+  border-style: solid;
+  background-color: transparent;
+}
+
+#saveNoteBtn {
+  position: absolute;
+  right: 5px;
+  width: 20%;
+  color: #7B78FC;
+  background-color: transparent;
+  border-width: 0px;
 }
 
 #publishSection {

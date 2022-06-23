@@ -479,7 +479,6 @@
         </div>
     </div>
 
-
     <footer class="footer-area-l-12 position-relative" style="text-align:left;">
         <div class="modal fade" role="dialog" id="editNote" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered">
@@ -598,6 +597,11 @@
                 }
             });
         }
+
+        function saveEditNotes() {
+
+        }
+
 
         function addAnote() {
             if (document.getElementById('addnote').innerText == "+ Add a note") {
@@ -806,7 +810,14 @@
         }
 
         function EditNote(i) {
+            var noteId = $('#notesSec').children().eq(i)['0'].dataset['nid'];
+            var tmtType = $('#notesSec').children().eq(i)['0'].childNodes[11].childNodes[1].innerText || ""
+            var noteText = $('#notesSec').children().eq(i)['0'].childNodes[13].childNodes[1].innerText || ""
+            document.getElementById("EditTomatoType").value = tmtType
+            $('#EditSummernote').summernote('code', noteText);
             $("#editNote").modal("show");
+            $('#editNote').dataset.noteth = i;
+            $('#editNote').dataset.noteid = noteId;
         }
     </script>
 

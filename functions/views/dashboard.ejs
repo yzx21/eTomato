@@ -14,11 +14,13 @@
     <link type="text/css" rel="stylesheet" href="./public/toast/themes/toasteur-default.min.css">
     <link rel="stylesheet" href='./public/css/bootstrap.min.css'>
     <link rel="stylesheet" href="./public/css/clock.css">
+    <link rel="stylesheet" href="./public/css/toggle.css">
     <link rel="stylesheet" href="./public/css/todo.css">
     <link rel="stylesheet" href="./public/css/feedback.css">
     <link rel="stylesheet" href="./public/fonts/icon-font/css/style.css">
     <link rel="stylesheet" href="./public/fonts/typography-font/typo.css">
     <link rel="stylesheet" href="./public/fonts/fontawesome-5/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -210,9 +212,15 @@
         </div>
     </div>
     <div id="right-side">
+        <div id="toggle">
+            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" checked>
+            <label for="toggle-on" class="toggle-btn">Global notes</label>
+            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio">
+            <label for="toggle-off" class="toggle-btn">My notes</label>
+        </div>
         <div id="notesSec">
             <% for (let i=0; i<tomatos.length; i++) { %>
-            <div class="noteCard">
+            <div class="noteCard" data-nid="<%=tomatos[i]['tid']%>">
                 <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
                 <label id="noteLable">Me</label>
                 <label
@@ -240,11 +248,14 @@
                 <p class="nothing">Nothing was noted in this session.</p>
                 <%}%>
                 </div>
+                    <img id="pubpriImg" src="./public/image/private.png" width="18px" height="18px" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="This is a private note, no one can view." />
                     <img id="noteLikeBtn" src="./public/image/liked.png" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" title="Edit->publish to collect likes">
+                        data-bs-placement="bottom" title="Edit->publish to collect likes"/>
                     <label id="likeCnt">0</label>
-                    </div>
-                    <% } %>
+                    <span onclick="EditNote(i)" class="editBtn">Edit</span>
+            </div>
+            <% } %>
             </div>
         </div>
     </div>
@@ -469,6 +480,41 @@
     </div>
 
     <footer class="footer-area-l-12 position-relative" style="text-align:center;">
+        <div class="modal fade" role="dialog" id="editNote">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <input id="EditTomatoType" list="hosting-plan"
+                        placeholder="Leave a task category for better stats..." type="text" value="">
+                    <datalist id="hosting-plan">
+                        <option value="Reading" />
+                        <option value="Working" />
+                        <option value="Workout" />
+                    </datalist>
+
+                    <div id="EditSummernote" class="position-relative justify-content-center"></div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#EditSummernote').summernote({
+                                placeholder: 'During this tomato session, you can write here: 1.the tasks you want to complete. 2.your thoughts and things to remember. 3.your self reflection. ',
+                                tabsize: 2,
+                                toolbar: [
+                                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                                ],
+                                height: 320,
+                                focus: true,
+                            }).on("EditSummernote.enter", function (we, e) {
+                                $(this).summernote('pasteHTML', '<br>&VeryThinSpace;');
+                                e.preventDefault();
+                            });
+                        });
+                    </script>
+
+                    <div id="EditpublishSection" style="display:table;">
+                        <button id="saveBtn" type="button" onclick="saveEditNotes();">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
     </div>
     <!-- Vendor Scripts -->
@@ -747,6 +793,10 @@
                     new Toasteur().error(error.responseText, 'Error!', () => {});
                 },
             });
+        }
+
+        function EditNote(i) {
+            $("#editNote").modal("show");
         }
     </script>
 

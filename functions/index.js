@@ -165,7 +165,8 @@ app.get("/", async (req, res) => {
                     duration: duration,
                     type: type,
                     timeOffset: tmt.val()["timeOffset"],
-                    notes: notes
+                    notes: notes,
+                    tid: tmt.key,
                 })
             }
 
@@ -249,7 +250,7 @@ async function getAllTomatos(uid) {
 }
 
 async function getLatestNote(userRec, latestTmtSnap) {
-    var newDiv = '<div class="noteCard"> <img id="noteAvatar" src="' + userRec.val()['photoURL'] + '" width="40px" height="40px" alt="Avatar"> <label id="noteLable">Me</label> <label id="noteTime">' +
+    var newDiv = '<div class="noteCard"' + latestTmtSnap.key + '> <img id="noteAvatar" src="' + userRec.val()['photoURL'] + '" width="40px" height="40px" alt="Avatar"> <label id="noteLable">Me</label> <label id="noteTime">' +
         moment.unix(parseInt(latestTmtSnap.val()['startTimeSec']) - parseInt(latestTmtSnap.val()['timeOffset']) * 60).local().format("lll")
         + '</label>';
     if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['tomatoType'] !== undefined) {

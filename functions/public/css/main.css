@@ -129,7 +129,32 @@
   left: calc(20% + 1px);
 }
 
+#EditTomatoType {
+  position: relative;
+  width: 100%;
+  margin: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  top: 1px;
+  border-width: 0;
+  border-radius: 6px 6px 0 0;
+  height: 30px;
+  left: 0px;
+}
+
 #publishSection {
+  position: relative;
+  width: calc(60% - 2px);
+  margin: auto;
+  padding-left: 0;
+  padding-right: 0;
+  background-color: #FEFFFF;
+  top: 0;
+  height: 25px;
+  border-radius: 0 0 6px 6px;
+}
+
+#EditpublishSection {
   position: relative;
   width: calc(60% - 2px);
   margin: auto;
@@ -321,16 +346,25 @@ hr {
   left: calc(50% - 25px);
 }
 
+#pubpriImg {
+  position: relative;
+  width: 15px;
+  aspect-ratio: 1;
+  left: 20px;
+  bottom: 0px;
+}
+
 #likeCnt {
   position: absolute;
   width: 50px;
   height: 35px;
-  left: 50%;
+  left: calc(50% + 20px);
+  bottom: -12px;
 }
 
 #notesSec {
   position: relative;
-  top: 20px;
+  top: 0px;
   width: 100%;
   padding: 0%;
 }

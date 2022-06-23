@@ -3,13 +3,14 @@
 }
 
 .text {
-  color: #0090CE !important;
+  /* color: #0090CE !important; */
+  color: white !important;
   font-weight: bold;
   font-size: 40px;
 }
 
 .loader-spinner {
-  border-color: rgb(4, 199, 10);
+  border-color: #90ECB6;
   border-width: 10px;
 }
 

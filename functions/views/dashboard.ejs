@@ -243,7 +243,7 @@
                 </div>
                 <div id="noteText">
                     <%if(tomatos[i]["notes"] || (tomatos[i]['notes'] && tomatos[i]["notes"] !== "<p><br></p>")) {%>
-                <p class="notehis" id="<%=tomatos[i]['tid']%>_notetext"><%-tomatos[i]["notes"]%></p>
+                <div class="notehis" id="<%=tomatos[i]['tid']%>_notetext"><%-tomatos[i]["notes"]%></div>
                 <%} else {%>
                 <p id="<%=tomatos[i]['tid']%>_notetext" class="nothing">Nothing was noted in this session.</p>
                 <%}%>

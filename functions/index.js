@@ -149,9 +149,6 @@ app.get("/", async (req, res) => {
     if (tomatosSet) {
         var tmpTmts = await getAllTomatos(userSnap.uid);
         tmpTmts.forEach(function (tmt) {
-            if (Object.keys(tomatosSet)[0] == tmt.key) {
-                return;
-            }
             if (isTomatoOngoing(tmt.val())) {
                 return;
             }

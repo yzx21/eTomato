@@ -57,7 +57,7 @@
 
     <div id="header">
         <div class="row position-relative justify-content-center">
-            <div class="float-container">
+            <div class="float-container" id="heading-text-icon">
                 <div class="float-child" id="title-icon">
                     <img src="./public/image/tomato.png" width="60px" alt="">
                 </div>
@@ -220,7 +220,7 @@
         </div>
         <div id="notesSec">
             <% for (let i=0; i<tomatos.length; i++) { %>
-            <div class="noteCard" data-nid="<%=tomatos[i]['tid']%>">
+            <div class="noteCard" id="<%=tomatos[i]['tid']%>_card" data-nid="<%=tomatos[i]['tid']%>">
                 <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
                 <label id="noteLable">Me</label>
                 <label
@@ -235,17 +235,17 @@
                 <%}%>
                 <br>
                 <div class="row" id="typeSec">
-                <%if(tomatos[i]["notes"]) {%>
-                <label id="noteType"><%=tomatos[i]["type"]%></label>
+                <%if(tomatos[i]["notes"] && tomatos[i]['type']) {%>
+                <label class="noteType" id="<%=tomatos[i]['tid']%>_notetype"><%=tomatos[i]["type"]%></label>
                 <%} else {%>
-                <label id="noteType">No type</label>
+                <label class="noteType" id="<%=tomatos[i]['tid']%>_notetype">No type</label>
                 <%}%>
                 </div>
                 <div id="noteText">
                     <%if(tomatos[i]["notes"] || (tomatos[i]['notes'] && tomatos[i]["notes"] !== "<p><br></p>")) {%>
-                <%-tomatos[i]["notes"]%>
+                <p class="notehis" id="<%=tomatos[i]['tid']%>_notetext"><%-tomatos[i]["notes"]%></p>
                 <%} else {%>
-                <p class="nothing">Nothing was noted in this session.</p>
+                <p id="<%=tomatos[i]['tid']%>_notetext" class="nothing">Nothing was noted in this session.</p>
                 <%}%>
                 </div>
                     <img id="pubpriImg" src="./public/image/private.png" width="18px" height="18px" data-bs-toggle="tooltip"
@@ -253,11 +253,11 @@
                     <img id="noteLikeBtn" src="./public/image/liked.png" data-bs-toggle="tooltip"
                         data-bs-placement="bottom" title="Edit->publish to collect likes"/>
                     <label id="likeCnt">0</label>
-                    <span onclick="EditNote(i)" class="editBtn">Edit</span>
+                    <span onclick="EditNote(this.id)" id="<%=tomatos[i]['tid']%>_btn" class="editBtn">Edit</span>
             </div>
             <% } %>
-            </div>
         </div>
+    </div>
     </div>
 
     <div id="middle">
@@ -480,7 +480,8 @@
     </div>
 
     <footer class="footer-area-l-12 position-relative" style="text-align:left;">
-        <div class="modal fade" role="dialog" id="editNote" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal fade" role="dialog" id="editNote" data-bs-backdrop="static" data-bs-keyboard="false"
+            data-tmtid="0">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -598,8 +599,96 @@
             });
         }
 
-        function saveEditNotes() {
+        function EditNote(btnId) {
+            var tmtId = btnId.split("_btn")[0]
+            var tmtType = document.getElementById(tmtId + "_notetype").innerText
+            var noteText = document.getElementById(tmtId + "_notetext").innerText
+            document.getElementById("EditTomatoType").value = tmtType;
+            $('#editNote')[0].dataset.tmtid = tmtId;
+            $('#EditSummernote').summernote('code', noteText);
+            $("#editNote").modal("show");
+        }
 
+        function saveEditNotes() {
+            var tmtId = $('#editNote')[0].dataset.tmtid;
+            var tmtType = document.getElementById("EditTomatoType").value
+            var notes = $('#EditSummernote').summernote('code')
+
+            $.ajax({
+                url: "./editNoteSave",
+                type: "POST",
+                data: {
+                    tmtId: tmtId,
+                    tmtType: tmtType,
+                    noteText: notes,
+                },
+                success: function (result) {
+                    $("#editNote").modal("hide");
+                    document.getElementById(tmtId + "_notetype").innerText = tmtType.length ? tmtType :
+                        "No type";
+                    document.getElementById(tmtId + "_notetext").innerText = notes ? notes :
+                        "Nothing was noted in this session.";
+                    if (!notes || notes === "<p><br></p>") {
+                        document.getElementById(tmtId + "_notetext").className = "nothing"
+                    } else {
+                        document.getElementById(tmtId + "_notetext").className = "notehis"
+                    }
+                    new Toasteur().success('', "Note saved",
+                        () => {});
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => {});
+                },
+            });
+        }
+
+        function deleteNotes() {
+            var answer = window.confirm("Sure to delete this note?");
+            if (answer) {
+                var tmtId = $('#editNote')[0].dataset.tmtid;
+                $.ajax({
+                    url: "./deleteNote",
+                    type: "POST",
+                    data: {
+                        tmtId: tmtId,
+                    },
+                    success: function (result) {
+                        $("#editNote").modal("hide");
+                        var tmtId = $('#editNote')[0].dataset.tmtid;
+                        document.getElementById(tmtId + "_card").remove();
+                        new Toasteur().success('', "Note saved",
+                            () => {});
+                    },
+                    error: function (error) {
+                        new Toasteur().error(error.responseText, 'Error!', () => {});
+                    },
+                });
+            } else {}
+        }
+
+        function publishNotes() {
+            var tmtId = $('#editNote')[0].dataset.tmtid;
+            var answer = window.confirm("Sure to publish this note?");
+            if (answer) {
+                var tmtId = $('#editNote')[0].dataset.tmtid;
+                $.ajax({
+                    url: "./publishNotes",
+                    type: "POST",
+                    data: {
+                        tmtId: tmtId,
+                    },
+                    success: function (result) {
+                        $("#editNote").modal("hide");
+                        var tmtId = $('#editNote')[0].dataset.tmtid;
+
+                        new Toasteur().success('', "Note saved",
+                            () => {});
+                    },
+                    error: function (error) {
+                        new Toasteur().error(error.responseText, 'Error!', () => {});
+                    },
+                });
+            } else {}
         }
 
 
@@ -730,7 +819,7 @@
             if (!tomatoType && !notes) {
                 return;
             }
-            if (!tomatoType) {
+            if (!tomatoType || tomatoType.length == 0) {
                 tomatoType = "No type";
             }
             $.ajax({
@@ -807,17 +896,6 @@
                     new Toasteur().error(error.responseText, 'Error!', () => {});
                 },
             });
-        }
-
-        function EditNote(i) {
-            var noteId = $('#notesSec').children().eq(i)['0'].dataset['nid'];
-            var tmtType = $('#notesSec').children().eq(i)['0'].childNodes[11].childNodes[1].innerText || ""
-            var noteText = $('#notesSec').children().eq(i)['0'].childNodes[13].childNodes[1].innerText || ""
-            document.getElementById("EditTomatoType").value = tmtType
-            $('#EditSummernote').summernote('code', noteText);
-            $("#editNote").modal("show");
-            $('#editNote').dataset.noteth = i;
-            $('#editNote').dataset.noteid = noteId;
         }
     </script>
 

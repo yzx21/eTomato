@@ -142,6 +142,21 @@
   left: 20%;
 }
 
+.noteType {
+  position: relative;
+  left: 52px;
+  top: 2px;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  width: auto;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.notehis {}
+
 #deleteNoteBtn {
   position: relative;
   left: 5px;
@@ -213,11 +228,17 @@
   background-color: #86C232;
 }
 
+#heading-text-icon {
+  position: absolute;
+  left: 2%;
+}
+
 #saveBtn {
   position: absolute;
   right: 10px;
   border-radius: 5px;
   background-color: #DEF2F1;
+  top: 5px;
 }
 
 #startBtnSec {
@@ -340,7 +361,7 @@ hr {
 #noteLable {
   position: relative;
   left: 20px;
-  top: 11px;
+  top: 5px;
 }
 
 #noteTime {
@@ -363,9 +384,9 @@ hr {
 
 #noteText {
   position: relative;
-  padding-top: 35px;
+  padding-top: 10px;
   padding-left: 55px;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 }
 
 #noteLikeBtn {
@@ -420,7 +441,7 @@ hr {
   top: 20px;
   background-color: rgb(114, 127, 132);
   margin-top: 40px;
-  border-radius: 6px;
+  border-radius: 18px;
 }
 
 #todaySummarySec {

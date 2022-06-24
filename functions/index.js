@@ -464,14 +464,63 @@ app.post("/toogleTodo", async (req, res) => {
     }
 })
 
+app.post("/editNoteSave", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const tmtId = req.body["tmtId"];
+    const tmtType = req.body["tmtType"];
+    const noteText = req.body["noteText"];
+    var db = admin.database();
+    var userSnap;
+    try {
+        userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var userTmtRec = db.ref('users').child(userSnap.uid).child('tomatos');
+    var tmtValue = await userTmtRec.once('value');
+    if (!tmtValue.hasChild(tmtId)) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    await userTmtRec.child(tmtId).child('notes').update({
+        notes: noteText,
+        tomatoType: tmtType,
+    })
+    res.status(200).send();
+})
+
+
+app.post("/deleteNote", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const tmtId = req.body["tmtId"];
+    var db = admin.database();
+    var userSnap;
+    try {
+        userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var userTmtRec = db.ref('users').child(userSnap.uid).child('tomatos');
+    var tmtValue = await userTmtRec.once('value');
+    if (!tmtValue.hasChild(tmtId)) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    await userTmtRec.child(tmtId).child('notes').remove()
+    res.status(200).send();
+})
+
 app.post("/saveNotes", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const checkedValue = req.body["checkedValue"];
     const tomatoType = req.body["tomatoType"];
     const notes = req.body["notes"];
     var db = admin.database();
+    var userSnap;
     try {
-        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+        userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
         res.status(401).send("something went wrong");
         return;

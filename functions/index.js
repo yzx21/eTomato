@@ -162,6 +162,7 @@ app.get("/", async (req, res) => {
                     duration: duration,
                     type: type,
                     timeOffset: tmt.val()["timeOffset"],
+                    pubPath: tmt.val()['notes']["pubPath"],
                     notes: notes,
                     tid: tmt.key,
                 })
@@ -486,6 +487,43 @@ app.post("/editNoteSave", async (req, res) => {
     })
     res.status(200).send();
 })
+
+app.post("/publishNotes", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const tmtId = req.body["tmtId"];
+    var db = admin.database();
+    var userSnap;
+    try {
+        userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var userTmtRec = db.ref('users').child(userSnap.uid).child('tomatos');
+    var tmtValue = await userTmtRec.once('value');
+    if (!tmtValue.hasChild(tmtId)) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var thisNote = await userTmtRec.child(tmtId).child('notes').once('value');
+    if (thisNote.val()['pubPath']) {
+        var pubPath = (await userTmtRec.child(tmtId).child('notes').child('pubPath').once('value')).val();
+        db.ref("publicNotes").child(pubPath).remove();
+        userTmtRec.child(tmtId).child('notes').child('pubPath').remove();
+        res.status(200).send("0");
+    } else {
+        var notesPath = "users/" + userSnap.uid + "/tomatos/" + tmtId + "/notes";
+        var userPath = "users/" + userSnap.uid;
+        var newPub = db.ref("publicNotes").push({
+            userPath: userPath,
+            notesPath: notesPath
+        });
+        userTmtRec.child(tmtId).child('notes').update({ pubPath: newPub.key })
+        res.status(200).send("1");
+    }
+
+})
+
 
 
 app.post("/deleteNote", async (req, res) => {

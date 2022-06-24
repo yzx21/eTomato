@@ -168,8 +168,8 @@
 
 #publishNoteBtn {
   position: relative;
-  width: 45%;
-  left: 17.5%;
+  width: auto;
+  left: 24.5%;
   color: #7B78FC;
   border-width: 1px;
   border-color: #7B78FC;
@@ -396,10 +396,10 @@ hr {
   left: calc(50% - 25px);
 }
 
-#pubpriImg {
+.pubpriImg {
   position: relative;
-  width: 15px;
-  aspect-ratio: 1;
+  width: 18px;
+  height: 18px;
   left: 20px;
   bottom: 0px;
 }

@@ -248,12 +248,19 @@
                 <p id="<%=tomatos[i]['tid']%>_notetext" class="nothing">Nothing was noted in this session.</p>
                 <%}%>
                 </div>
-                    <img id="pubpriImg" src="./public/image/private.png" width="18px" height="18px" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" title="This is a private note, no one can view." />
-                    <img id="noteLikeBtn" src="./public/image/liked.png" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" title="Edit->publish to collect likes"/>
-                    <label id="likeCnt">0</label>
-                    <span onclick="EditNote(this.id)" id="<%=tomatos[i]['tid']%>_btn" class="editBtn">Edit</span>
+                <%if(tomatos[i]["pubPath"]){%>
+                <img class="pubpriImg" id="<%=tomatos[i]['tid']%>_status%>" src="./public/image/public.png" width="18px"
+                    height="18px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This is a public notes."
+                    data-ispub="1" />
+                <%} else {%>
+                <img class="pubpriImg" id="<%=tomatos[i]['tid']%>_status%>" src="./public/image/private.png"
+                    width="18px" height="18px" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="This is a private note, no one can view." data-ispub="0" />
+                <% } %>
+                <img id="noteLikeBtn" src="./public/image/liked.png" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Edit->publish to collect likes" />
+                <label id="likeCnt">0</label>
+                <span onclick="EditNote(this.id)" id="<%=tomatos[i]['tid']%>_btn" class="editBtn">Edit</span>
             </div>
             <% } %>
         </div>
@@ -606,6 +613,13 @@
             document.getElementById("EditTomatoType").value = tmtType;
             $('#editNote')[0].dataset.tmtid = tmtId;
             $('#EditSummernote').summernote('code', noteText);
+            if (document.getElementById(tmtId + "_status").dataset.ispub === "1") {
+                document.getElementById('publishNoteBtn').innerHTML = "Unpublish"
+            } else {
+                document.getElementById('publishNoteBtn').innerHTML = "Publish"
+            }
+
+
             $("#editNote").modal("show");
         }
 
@@ -656,7 +670,7 @@
                         $("#editNote").modal("hide");
                         var tmtId = $('#editNote')[0].dataset.tmtid;
                         document.getElementById(tmtId + "_card").remove();
-                        new Toasteur().success('', "Note saved",
+                        new Toasteur().success('', "Note deleted",
                             () => {});
                     },
                     error: function (error) {
@@ -668,7 +682,13 @@
 
         function publishNotes() {
             var tmtId = $('#editNote')[0].dataset.tmtid;
-            var answer = window.confirm("Sure to publish this note?");
+            var question = ""
+            if (document.getElementById(tmtId + "_status").dataset.ispub === "1") {
+                question = "Sure to unpublish this note?"
+            } else {
+                question = "Sure to publish this note?"
+            }
+            var answer = window.confirm(question);
             if (answer) {
                 var tmtId = $('#editNote')[0].dataset.tmtid;
                 $.ajax({
@@ -679,10 +699,23 @@
                     },
                     success: function (result) {
                         $("#editNote").modal("hide");
-                        var tmtId = $('#editNote')[0].dataset.tmtid;
-
-                        new Toasteur().success('', "Note saved",
-                            () => {});
+                        if (result === "1") {
+                            document.getElementById(tmtId + "_status").src = "./public/image/public.png";
+                            document.getElementById(tmtId + "_status").title =
+                                "This is a public notes."
+                            document.getElementById(tmtId + "_status").dataset.ispub =
+                                "1"
+                            new Toasteur().success('', "Note published",
+                                () => {});
+                        } else {
+                            document.getElementById(tmtId + "_status").src = "./public/image/private.png";
+                            document.getElementById(tmtId + "_status").title =
+                                "This is a private note, no one can view."
+                            document.getElementById(tmtId + "_status").dataset.ispub =
+                                "0"
+                            new Toasteur().success('', "Note unpublished",
+                                () => {});
+                        }
                     },
                     error: function (error) {
                         new Toasteur().error(error.responseText, 'Error!', () => {});

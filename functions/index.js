@@ -128,6 +128,8 @@ app.get("/", async (req, res) => {
     var pendingNote = {}
     var pendingNote = undefined;
     var pendingNoteType = undefined;
+    var db = admin.database();
+
     if (tomatosSet) {
         lastestTmt = tomatosSet[Object.keys(tomatosSet)[0]];
     }
@@ -186,6 +188,36 @@ app.get("/", async (req, res) => {
             status: userRec.val()['todos'][todo]['status']
         })
     }
+
+    var allPubNotes = await db.ref('publicNotes').once('value');
+    var pubNotes = [];
+
+    for (let key in allPubNotes.val()) {
+        var pubnote = allPubNotes.val()[key]
+        var notePath = pubnote['notesPath']
+        var userPath = pubnote['userPath']
+        var note = await db.ref(notePath).once('value');
+        var author = await db.ref(userPath).once('value');
+        var profile = author.val()['photoURL'];
+        var name = author.val()['displayName'];
+        var timeOffset = author.val()['timeOffset'];
+        var tid = note.key;
+        var date = note.val()['date'];
+        var type = note.val()['tomatoType'];
+        var notes = note.val()['notes'];
+        var likeCnt = note.val()['likeCnt'] ? note.val()['likeCnt'] : '0'
+        pubNotes.push({
+            tid: tid,
+            profile: profile,
+            name: name,
+            date: date,
+            timeOffset: timeOffset,
+            type: type,
+            notes: notes,
+            likeCnt: likeCnt
+        })
+    }
+
     res.render("dashboard", {
         disPlayName: userRec.val()['displayName'],
         profileUrl: userRec.val()['photoURL'],
@@ -203,6 +235,7 @@ app.get("/", async (req, res) => {
         todos: todos,
         pendingNote: pendingNote,
         pendingNoteType: pendingNoteType,
+        pubNotes: pubNotes,
     });
 });
 

@@ -213,12 +213,14 @@
     </div>
     <div id="right-side">
         <div id="toggle">
-            <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" checked>
+            <input id="toggle-on" class="toggle toggle-left" onclick="toggleLeft();" name="toggle" value="false"
+                type="radio" checked>
             <label for="toggle-on" class="toggle-btn">Global notes</label>
-            <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio">
+            <input id="toggle-off" class="toggle toggle-right" onclick="toggleRight();" name="toggle" value="true"
+                type="radio">
             <label for="toggle-off" class="toggle-btn">My notes</label>
         </div>
-        <div id="notesSec">
+        <div class="collapse" id="notesSec">
             <% for (let i=0; i<tomatos.length; i++) { %>
             <div class="noteCard" id="<%=tomatos[i]['tid']%>_card" data-nid="<%=tomatos[i]['tid']%>">
                 <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
@@ -264,7 +266,37 @@
             </div>
             <% } %>
         </div>
-    </div>
+
+        <div class="collapse" id="pubNotesSec">
+            <% for (let i=0; i<pubNotes.length; i++) { %>
+            <div class="noteCard" id="<%=pubNotes[i]['tid']%>_pubcard" data-nid="<%=pubNotes[i]['tid']%>">
+                <img id="noteAvatar" src="<%=pubNotes[i]['profile']%>" width="40px" height="40px" alt="Avatar">
+                <label id="noteLable"><%=pubNotes[i]['name']%></label>
+                <label
+                    id="noteTime"><%=moment.unix(parseInt(pubNotes[i]["date"]) - parseInt(pubNotes[i]["timeOffset"]) * 60).format('lll')%></label>
+                <br>
+                <div class="row" id="typeSec">
+                    <%if(pubNotes[i]["type"]) {%>
+                    <label class="noteType" id="<%=pubNotes[i]['tid']%>_pubNotetype"><%=pubNotes[i]["type"]%></label>
+                    <%} else {%>
+                    <label class="noteType" id="<%=pubNotes[i]['tid']%>_pubNotetype">No type</label>
+                    <%}%>
+                </div>
+                <div id="noteText">
+                    <%if(pubNotes[i]['notes'] && pubNotes[i]["notes"] !== "<p><br></p>") {%>
+                    <div class="notehis" id="<%=pubNotes[i]['tid']%>_pubNotetext"><%-pubNotes[i]["notes"]%></div>
+                    <%} else {%>
+                    <p id="<%=pubNotes[i]['tid']%>_pubNotetext" class="nothing">Nothing was noted in this session.</p>
+                    <%}%>
+                </div>
+                <img id="<%=pubNotes[i]['tid']%>_likebtn" src="./public/image/liked.png" onclick="LikeNote(this.id)"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" title="Edit->publish to collect likes" />
+                    <label id="likeCnt"><%=pubNotes[i]['likeCnt']%></label>
+                </div>
+                <% } %>
+            </div>
+        </div>
     </div>
 
     <div id="middle">
@@ -604,6 +636,18 @@
                     timeOffset: offset
                 }
             });
+            $('#notesSec').collapse("hide")
+            $('#pubNotesSec').collapse("show")
+        }
+
+        function toggleLeft() {
+            $('#notesSec').collapse("hide")
+            $('#pubNotesSec').collapse("show")
+        }
+
+        function toggleRight() {
+            $('#notesSec').collapse("show")
+            $('#pubNotesSec').collapse("hide")
         }
 
         function EditNote(btnId) {

@@ -393,7 +393,7 @@ hr {
   position: relative;
   width: 50px;
   height: 25px;
-  left: calc(50% - 25px);
+  left: calc(50% - 50px);
 }
 
 .pubpriImg {
@@ -408,7 +408,7 @@ hr {
   position: absolute;
   width: 50px;
   height: 35px;
-  left: calc(50% + 20px);
+  left: 50%;
   bottom: -12px;
 }
 
@@ -417,6 +417,20 @@ hr {
   top: 0px;
   width: 100%;
   padding: 0%;
+}
+
+#pubNotesSec {
+  position: relative;
+  top: 0px;
+  width: 100%;
+  padding: 0%;
+}
+
+#notes_likebtn {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  left: calc(50% - 25px);
 }
 
 #noteAvatar {

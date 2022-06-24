@@ -289,9 +289,10 @@
                     <p id="<%=pubNotes[i]['tid']%>_pubNotetext" class="nothing">Nothing was noted in this session.</p>
                     <%}%>
                 </div>
-                <img id="<%=pubNotes[i]['tid']%>_likebtn" src="./public/image/liked.png" onclick="LikeNote(this.id)"
+                <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['tid']%>_likebtn" src="./public/image/liked.png"
+                    onclick="LikeNote(this.id)"
                     data-bs-toggle="tooltip"
-                    data-bs-placement="bottom" title="Edit->publish to collect likes" />
+                    data-bs-placement="bottom" />
                     <label id="likeCnt"><%=pubNotes[i]['likeCnt']%></label>
                 </div>
                 <% } %>

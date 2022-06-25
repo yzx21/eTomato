@@ -642,4 +642,24 @@ app.get("/logout", (req, res) => {
     res.redirect('/');
 });
 
+function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent) {
+    fs.readFile('./views/email.html', 'utf8', function (err, html) {
+        if (err) {
+            throw err;
+        }
+        html = html
+            .replace("{AvatarUrl}", avatarUrl)
+            .replace('{NoteDate}', noteDate)
+            .replace('{NoteType}', noteType)
+            .replace('{NoteContent}', noteContent);
+        admin.firestore().collection('mail').add({
+            to: '["jieliarch@gmail.com", "yizhuoxie21@gmail.com"]',
+            message: {
+                subject: 'Your note has new likes!',
+                html: html,
+            },
+        })
+    });
+}
+
 exports.functions = functions.https.onRequest(app);

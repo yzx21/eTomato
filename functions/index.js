@@ -576,6 +576,10 @@ app.post("/deleteNote", async (req, res) => {
         res.status(401).send("something went wrong");
         return;
     }
+    if ((await userTmtRec.child(tmtId).child('notes').once('value')).val()['pubPath']) {
+        res.status(401).send("something went wrong");
+        return;
+    }
     await userTmtRec.child(tmtId).child('notes').remove()
     res.status(200).send();
 })

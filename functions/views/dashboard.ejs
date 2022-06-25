@@ -702,9 +702,13 @@
         }
 
         function deleteNotes() {
+            var tmtId = $('#editNote')[0].dataset.tmtid;
+            if (document.getElementById(tmtId + "_status").dataset.ispub === "1") {
+                alert("This note is public, please unpublish it first.")
+                return;
+            }
             var answer = window.confirm("Sure to delete this note?");
             if (answer) {
-                var tmtId = $('#editNote')[0].dataset.tmtid;
                 $.ajax({
                     url: "./deleteNote",
                     type: "POST",

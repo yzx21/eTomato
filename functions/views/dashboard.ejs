@@ -600,7 +600,7 @@
             var pendingNote = document.getElementById('app-cover').dataset.pendingnote;
             if (pendingNoteType || (pendingNote && pendingNote !== "<p><br></p>")) {
                 $('#composingSec').collapse("show")
-                document.getElementById('addnote').innerText = "x Add a note";
+                document.getElementById('addnotebtn').src = "./public/image/add_note.png";
             }
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

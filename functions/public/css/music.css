@@ -165,8 +165,8 @@
 
 #album-art {
   position: absolute;
-  top: -40px;
-  width: 20%;
+  top: -2em;
+  width: 5vh;
   aspect-ratio: 1 /1;
   margin-left: 5%;
   transform: rotateZ(0);

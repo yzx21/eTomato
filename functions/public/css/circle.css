@@ -20,6 +20,18 @@
     justify-content: center;
 }
 
+.loader-bg-cd {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 5px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 .spinner-holder-one {
     position: absolute;
     top: 0;

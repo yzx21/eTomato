@@ -2,9 +2,21 @@
   border-color: #90ECB6;
 }
 
+.loader-bg-cd {
+  border-color: #ddf0e5;
+  border-width: 10px;
+}
+
 .text {
   /* color: #0090CE !important; */
   color: white !important;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.cd-text {
+  /* color: #0090CE !important; */
+  color: #0090CE;
   font-weight: bold;
   font-size: 40px;
 }

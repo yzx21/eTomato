@@ -81,7 +81,7 @@ function Circlebar(prefs) {
         }
 
         if (progress == 100) {
-            document.getElementById('addnote').innerText = "+ Add a note";
+            document.getElementById('addnotebtn').src = "./public/image/add_note.png";
             document.getElementById('addAnote').style.display = "none";
             $('#composingSec').collapse("hide")
             var tomatoType = document.getElementById("tomatoType").value;
@@ -307,15 +307,18 @@ window.StopTomato = function () {
             audio.addEventListener("ended", function () {
                 audio.currentTime = 0;
             });
-            $('#coolDownForStopModal').modal("show");
-            StartCoolDown2();
+
+            // $('#coolDownForStopModal').modal("show");
+            // StartCoolDown2();
             ResetCDClock2(0);
+            resetClock(0);
+
             document.getElementById("startBtn").src = "./public/image/start_tomato.png";
             document.getElementById("startBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
 
             $('#composingSec').collapse("hide")
-            document.getElementById('addnote').innerText = "+ Add a note";
+            document.getElementById('addnotebtn').src = "./public/image/add_note.png";
             document.getElementById('addAnote').style.display = "none";
 
             var tomatoType = document.getElementById("tomatoType").value;

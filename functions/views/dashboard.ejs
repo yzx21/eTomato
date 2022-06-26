@@ -455,17 +455,17 @@
                     <h5 class="modal-title" id="coolDownModalTitle">5 mins Break</h5>
                 </div>
                 <div class="modal-body">
-                    <div>
+                    <div class="row">
                         <div class="circlebarCD" id="circlebarCDiD" data-circle-startTime=<%=remainingRestTimeSec%>
                             data-circle-dialWidth=10 data-circle-size="200px" data-circle-maxValue="<%=coolDownLength%>"
                             data-circle-skin="blue">
-                            <div class="loader-bg">
-                                <div class="text">05:00</div>
+                            <div class="loader-bg-cd">
+                                <div class="cd-text">05:00</div>
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <p class="pos_center">Pomodoro technique suggests 3-5 minutes break to disconnect
+                    <hr class="row" style="width: 100%;">
+                    <p class="pos_center row">Pomodoro technique suggests 3-5 minutes break to disconnect
                         from your work.</p>
                 </div>
             </div>
@@ -574,8 +574,8 @@
             var cdDismissable = document.getElementById('app-cover').dataset.cddismissable;
             if (isOnRest > 0) {
                 if (cdDismissable == "true") {
-                    $('#coolDownForStopModal').modal("show");
-                    StartCoolDown2();
+                    // $('#coolDownForStopModal').modal("show");
+                    // StartCoolDown2();
                 } else {
                     $('#coolDownModal').modal("show");
                     StartCoolDown();

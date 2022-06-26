@@ -41,7 +41,7 @@ function Circlebar(prefs) {
         that.element.find(".loader-bg").css("border-width", that.dialWidth + "px");
         that.element.find(".cd-spinner").css("border-width", that.dialWidth + "px");
         that.element.css({ "width": that.size, "height": that.size });
-        that.element.find(".loader-bg .text")
+        that.element.find(".loader-bg .cd-text")
             .css({ "font-size": that.fontSize, "color": that.fontColor });
     };
     this.initialise();
@@ -89,7 +89,7 @@ function Circlebar(prefs) {
     textFilter = function () {
         var percentage = 0,
             date = 0,
-            text = that.element.find(".text");
+            text = that.element.find(".cd-text");
         if (that.type == "timer") {
             if (timer === undefined) {
                 timer = setInterval(function () {
@@ -133,7 +133,7 @@ function Circlebar(prefs) {
         if (btnVal == "stop_a_tomato") {
             var percentage = 0,
                 date = 0,
-                text = that.element.find(".text");
+                text = that.element.find(".cd-text");
             if (that.type == "timer") {
                 if (timer === undefined) {
                     timer = setInterval(function () {
@@ -176,7 +176,7 @@ function Circlebar(prefs) {
     }
 
     resetCDClock = function (val) {
-        text = that.element.find(".text");
+        text = that.element.find(".cd-text");
         value = val;
         var angle = 90;
         that.element.find(".animate-0-25-b").css("transform", "rotate(" + angle + "deg)");

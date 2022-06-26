@@ -194,8 +194,10 @@
                 <div id="todoDiv">
                     <div class="container" id="inputDivId">
                         <input type="text" id="todoInput" placeholder="New todo">
-                        <span onclick="newTodo()" class="addBtn"><img src="./public/image/add_btn.png" width="20px"
-                                height="20px" /></span>
+                        <span onclick="newTodo()" id="addNotebtn" class="addBtn"><img src="./public/image/add_btn.png"
+                                width="20px" height="20px" /></span>
+                        <span class="spinner-border spinner-border-sm addBtn" id="addNotebtn-spinner"
+                            style="color:white; visibility: hidden"></span>
                     </div>
                 </div>
 
@@ -261,7 +263,7 @@
                 <% } %>
                 <img id="noteLikeBtn" src="./public/image/liked.png" data-bs-toggle="tooltip" data-bs-placement="bottom"
                     title="Edit->publish to collect likes" />
-                <label id="likeCnt">0</label>
+                <label id="likeCnt"><%=tomatos[i]['likeCnt']%></label>
                 <span onclick="EditNote(this.id)" id="<%=tomatos[i]['tid']%>_btn" class="editBtn">Edit</span>
             </div>
             <% } %>
@@ -617,6 +619,14 @@
             });
             $('#notesSec').collapse("hide")
             $('#pubNotesSec').collapse("show")
+
+            var input = document.getElementById("todoInput");
+            input.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById("addNotebtn").click();
+                }
+            });
         }
 
         function toggleLeft() {
@@ -939,12 +949,24 @@
             });
         }
 
+        function showSpinner(show, eleId) {
+            var eleSpinnerId = eleId + '-spinner';
+            if (!show) {
+                document.getElementById(eleId).style.visibility = "visible";
+                document.getElementById(eleSpinnerId).style.visibility = 'hidden'
+            } else {
+                document.getElementById(eleId).style.visibility = "hidden";
+                document.getElementById(eleSpinnerId).style.visibility = 'visible'
+            }
+        }
+
         function newTodo() {
             var inputValue = document.getElementById("todoInput").value;
             if (inputValue === '') {
                 alert("You must write something!");
                 return
             }
+            showSpinner(true, 'addNotebtn')
             $.ajax({
                 url: "./addTodo",
                 type: "POST",
@@ -960,18 +982,30 @@
                     if (inputValue === '') {
                         alert("You must write something!");
                     } else {
-                        document.getElementById("myUL").appendChild(li);
+                        document.getElementById("myUL").insertBefore(li, document.getElementById("myUL")
+                            .firstChild);
                     }
+                    showSpinner(false, 'addNotebtn');
                     document.getElementById("todoInput").value = "";
                     var span = document.createElement("SPAN");
                     var txt = document.createTextNode("\u00D7");
                     span.className = "closeTodo";
+                    span.id = result + "closeTodoId";
                     span.appendChild(txt);
+
+                    var spanSpinner = document.createElement("SPAN");
+                    spanSpinner.className = "spinner-grow spinner-grow-sm closeTodo";
+                    spanSpinner.id = result + "closeTodoId-spinner";
+                    spanSpinner.style.visibility = "hidden";
+                    spanSpinner.style.color = "white"
+                    spanSpinner.style.height = "100%"
                     li.appendChild(span);
+                    li.appendChild(spanSpinner)
                     for (i = 0; i < close.length; i++) {
                         close[i].onclick = function () {
                             var div = this.parentElement;
                             var todoId = div.id;
+                            showSpinner(true, todoId + "closeTodoId");
                             $.ajax({
                                 url: "./deleteTodo",
                                 type: "POST",
@@ -981,11 +1015,13 @@
                                 success: function (result2) {
                                     var div2 = document.getElementById(result2);
                                     div2.style.display = "none";
+                                    showSpinner(false, todoId + "closeTodoId");
                                 },
                                 error: function (error) {
                                     new
                                     Toasteur().error(error.responseText, 'Error!',
                                         () => {});
+                                    showSpinner(false, todoId + "closeTodoId");
                                 },
                             });
                         }
@@ -993,6 +1029,7 @@
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});
+                    showSpinner(false, 'addNotebtn');
                 },
             });
         }
@@ -1019,17 +1056,26 @@
         for (i = 0; i < myNodelist.length; i++) {
             var span = document.createElement("SPAN");
             var txt = document.createTextNode("\u00D7");
+            var tdId = myNodelist[i].id;
             span.className = "closeTodo";
+            span.id = tdId + "closeTodoId";
             span.appendChild(txt);
+            var spanSpinner = document.createElement("SPAN");
+            spanSpinner.className = "spinner-border spinner-border-sm closeTodo";
+            spanSpinner.id = tdId + "closeTodoId-spinner";
+            spanSpinner.style.visibility = "hidden";
+            spanSpinner.style.color = "white"
+            spanSpinner.style.height = "100%"
             myNodelist[i].appendChild(span);
+            myNodelist[i].appendChild(spanSpinner);
         } // Click on a close button to hide the current list item var
         close = document.getElementsByClassName("closeTodo");
         var i;
         for (i = 0; i < close.length; i++) {
             close[i].onclick = function () {
                 var div = this.parentElement;
-                var
-                    todoId = div.id;
+                var todoId = div.id;
+                showSpinner(true, todoId + "closeTodoId")
                 $.ajax({
                     url: "./deleteTodo",
                     type: "POST",
@@ -1039,9 +1085,11 @@
                     success: function (result2) {
                         var div2 = document.getElementById(result2);
                         div2.style.display = "none";
+                        showSpinner(false, todoId + "closeTodoId")
                     },
                     error: function (error) {
                         new Toasteur().error(error.responseText, 'Error!', () => {});
+                        showSpinner(false, todoId + "closeTodoId")
                     },
                 });
             }

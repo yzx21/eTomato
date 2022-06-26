@@ -167,6 +167,7 @@ app.get("/", async (req, res) => {
                     pubPath: tmt.val()['notes']["pubPath"],
                     notes: notes,
                     tid: tmt.key,
+                    likeCnt: tmt.val()['notes'] ? (tmt.val()['notes']['likeCnt'] ? tmt.val()['notes']['likeCnt'] : "0") : "0",
                 })
             }
 
@@ -246,7 +247,7 @@ app.get("/", async (req, res) => {
         moment: moment,
         todayTmt: todayTmt.reverse(),
         cdDismissable: cdDismissable,
-        todos: todos,
+        todos: todos.reverse(),
         pendingNote: pendingNote,
         pendingNoteType: pendingNoteType,
         pubNotes: pubNotes.reverse(),
@@ -438,7 +439,6 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
 app.post("/deleteTodo", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const todoId = req.body["todoId"] || '';
-    console.log(todoId)
     if (todoId === '') {
         res.status(401).send("something went wrong");
         return;

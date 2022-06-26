@@ -31,6 +31,16 @@ var playerTrack = $("#player-track"),
     tFlag = false,
     albums = [
         "Ambient",
+        "Echoes of the forest",
+        "Inner peace",
+        "Inverness",
+        "Mantra meditation",
+        "Weightless",
+        "Nature",
+        "Peaceful garden healing light",
+        "Rain forest sleep",
+        "Warming sun",
+        "Relaxing music",
 
         // "A Subtle Reflection",
         // "Youth is waster on the young",
@@ -60,9 +70,17 @@ var playerTrack = $("#player-track"),
         // "Proxy (Original Mix)"
     ],
     trackNames = [
-        "ambient - piano - meditation"
-
-
+        "ambient - piano - meditation",
+        "echoes - of - the - forest - meditation",
+        "inner - peace- meditation",
+        "inverness meditative ambient sound scape for learning and releaxing",
+        "mantra meditation positive energy",
+        "Marconi Union - Weightless",
+        "Nature sounds",
+        "Peaceful garden healing light paino for meditation zen landscapes",
+        "Rain forest sleep yoga meditation relaxation",
+        "Warming sun remastered remix",
+        "Relaxing music for reflection and creativity",
         // "Daniel Kaede - A Subtle Reflection",
         // "Chez Remis Tellow - Youth is waster on the young",
         // "Dreem - The Hours",
@@ -94,7 +112,25 @@ var playerTrack = $("#player-track"),
     trackUrl = [
         "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fambient-piano-meditation-7359.mp3?alt=media&token=0b4382e8-7209-4932-8fa2-9ac09508d662",
 
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fechoes-of-the-forest-meditation-4813.mp3?alt=media&token=ee166937-015b-42a2-9f15-02d0f1acde16",
 
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Finner-peace-meditation-106798.mp3?alt=media&token=c1181533-113f-4987-bb7f-f68bae198535",
+
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Finverness-meditative-ambient-soundscape-for-learning-and-relaxing-106810.mp3?alt=media&token=659eb09b-c2cb-4ca2-9aa2-009bf8fea76d",
+
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fmantra-meditation-positive-energy-7468.mp3?alt=media&token=365f804d-2d29-416c-af83-3a5689946591",
+
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FMarconi%20Union%20-%20Weightless%20(128).mp3?alt=media&token=7eacaf96-0817-40dd-9a73-7e8f4ee790c7",
+
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fnature-99499.mp3?alt=media&token=0530d83c-a15d-4d8d-bd24-394e7492c4af",
+
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fpeaceful-garden-healing-light-piano-for-meditation-zen-landscapes-112199.mp3?alt=media&token=dc2529bf-c6bd-4246-848c-dfe702345991",
+
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Frain-forest-sleep-yoga-meditation-relaxation-2044.mp3?alt=media&token=2aa61347-f795-448f-b900-795f4abeee29",
+
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fwarming-sun-remastered-remix-13961.mp3?alt=media&token=9e4ef65d-f4e4-4864-a8b5-b6744df3fc59",
+
+        "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Frelaxing-music-for-reflection-and-creativity-16102.mp3?alt=media&token=d349d35c-869f-489c-8157-8459deea229e",
         // "https://docs.google.com/uc?export=download&id=1GspoY9gvWMVsoclq_TRyKlNfrGyzFQNI",
 
         // "https://docs.google.com/uc?export=download&id=1zCUq2o5NCDMWkST9fGywYSc9O9cxqP2j",
@@ -149,7 +185,7 @@ var playerTrack = $("#player-track"),
     ],
     playPreviousTrackButton = $("#play-previous"),
     playNextTrackButton = $("#play-next"),
-    currIndex = getRandomInt(26),
+    currIndex = getRandomInt(11),
     audio, currAlbum, currTrackName, currArtwork;
 
 function playPause() {
@@ -230,7 +266,7 @@ function getRandomInt(max) {
 }
 
 function playNextSong() {
-    currIndex = getRandomInt(26);
+    currIndex = getRandomInt(11);
     var flag = 1;
     if (currIndex == albumArtworks.length) currIndex = 0;
     if (currIndex > -1 && currIndex < albumArtworks.length) {
@@ -342,6 +378,7 @@ function selectTrack(flag) {
     if (flag == 0 || flag == 1) ++currIndex;
     else --currIndex;
     if (currIndex == albumArtworks.length) currIndex = 0;
+    if (currIndex == -1) currIndex = albumArtworks.length - 1;
     if (currIndex > -1 && currIndex < albumArtworks.length) {
         if (flag == 0) i.attr("class", "fa fa-play");
         else {

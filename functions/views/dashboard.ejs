@@ -337,7 +337,9 @@
         </div>
 
         <div class="row justify-content-center" id="addAnote" style="display: none;">
-            <button class="astext" id="addnote" onclick="addAnote();">+ Add a note</button>
+            <button class="astext" id="addnote" onmouseover="addAnoteOver();" onmouseleave="addAnoteLeave();"
+                onclick="addAnote();" data-ison="0"><img id="addnotebtn" src="./public/image/add_note.png" width="87px"
+                    height="32px"></button>
         </div>
 
         <div class="row justify-content-center">
@@ -609,8 +611,10 @@
             } else {
                 var isMusicPlaying = (document.getElementById('app-cover').dataset.onload === "true");
                 if (isMusicPlaying) {
-                    document.getElementById('play-pause-button').click();
-                    var val = confirm("Welcome back to an ongoing tomato!");
+                    // var answer = window.confirm("Your music was on in this session, continue?");
+                    // if (answer) {
+                    //     document.getElementById('play-pause-button').click();
+                    // }
                 }
             }
             var btnVal = document.getElementById("startBtn").alt;
@@ -796,13 +800,34 @@
         }
 
 
-        function addAnote() {
-            if (document.getElementById('addnote').innerText == "+ Add a note") {
-                $('#composingSec').collapse("show")
-                document.getElementById('addnote').innerText = "x Add a note";
+        function addAnoteLeave() {
+            var isOn = document.getElementById("addnote").dataset.ison;
+            if (isOn === "0") {
+                document.getElementById('addnotebtn').src = "./public/image/add_note.png";
             } else {
+                document.getElementById('addnotebtn').src = "./public/image/hide_note.png";
+            }
+        }
+
+        function addAnoteOver() {
+            var isOn = document.getElementById("addnote").dataset.ison;
+            if (isOn === "0") {
+                document.getElementById('addnotebtn').src = "./public/image/add_note_hover.png";
+            } else {
+                document.getElementById('addnotebtn').src = "./public/image/hide_note_hover.png";
+            }
+        }
+
+        function addAnote() {
+            var isOn = document.getElementById("addnote").dataset.ison;
+            if (isOn === "0") {
+                $('#composingSec').collapse("show")
+                document.getElementById('addnotebtn').src = "./public/image/hide_note.png";
+                document.getElementById("addnote").dataset.ison = "1";
+            } else {
+                document.getElementById("addnote").dataset.ison = "0";
                 $('#composingSec').collapse("hide")
-                document.getElementById('addnote').innerText = "+ Add a note";
+                document.getElementById('addnotebtn').src = "./public/image/add_note.png";
             }
         }
 

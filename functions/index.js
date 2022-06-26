@@ -710,7 +710,7 @@ function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent, email) {
             .replace('{NoteDate}', noteDate)
             .replace('{NoteType}', noteType)
             .replace('{NoteContent}', noteContent);
-        admin.firestore().collection('mail').add({
+        admin.firestore().collection('email').add({
             to: '["' + email + '"]',
             message: {
                 subject: 'Your note has new likes!',

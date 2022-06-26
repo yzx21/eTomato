@@ -192,6 +192,12 @@ app.get("/", async (req, res) => {
     var allPubNotes = await db.ref('publicNotes').once('value');
     var pubNotes = [];
 
+    var likedNotesKv = await db.ref('users').child(userSnap.uid).child('likedNotes').once('value');
+    var likedNodes = [];
+    if (likedNotesKv.val()) {
+        likedNodes = Object.values(likedNotesKv.val());
+    }
+
     for (let key in allPubNotes.val()) {
         var pubnote = allPubNotes.val()[key]
         var notePath = pubnote['notesPath']
@@ -206,6 +212,12 @@ app.get("/", async (req, res) => {
         var type = note.val()['tomatoType'];
         var notes = note.val()['notes'];
         var likeCnt = note.val()['likeCnt'] ? note.val()['likeCnt'] : '0'
+        var hasLiked = false;
+
+        if (likedNodes.includes(notePath)) {
+            hasLiked = true;
+        }
+
         pubNotes.push({
             tid: tid,
             profile: profile,
@@ -214,7 +226,9 @@ app.get("/", async (req, res) => {
             timeOffset: timeOffset,
             type: type,
             notes: notes,
-            likeCnt: likeCnt
+            likeCnt: likeCnt,
+            notePath, notePath,
+            hasLiked, hasLiked,
         })
     }
 
@@ -235,7 +249,7 @@ app.get("/", async (req, res) => {
         todos: todos,
         pendingNote: pendingNote,
         pendingNoteType: pendingNoteType,
-        pubNotes: pubNotes,
+        pubNotes: pubNotes.reverse(),
     });
 });
 
@@ -557,7 +571,47 @@ app.post("/publishNotes", async (req, res) => {
 
 })
 
-
+app.post("/likeNote", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    const notePath = req.body["notePath"];
+    var db = admin.database();
+    var userSnap;
+    try {
+        userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var uid = userSnap.uid;
+    var likedNotesKv = await db.ref('users').child(uid).child('likedNotes').once('value');
+    var likedNodes = [];
+    if (likedNotesKv.val()) {
+        likedNodes = Object.values(likedNotesKv.val());
+    }
+    if (likedNodes.includes(notePath)) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    await db.ref('users').child(uid).child('likedNotes').push(notePath);
+    var likeCnt = (await db.ref(notePath).child('likeCnt').once('value')).val();
+    if (likeCnt) {
+        await db.ref(notePath)
+            .child('likeCnt')
+            .set(admin.database.ServerValue.increment(1));
+    } else {
+        await db.ref(notePath).child('likeCnt').set(1);
+    }
+    var noteInfo = (await db.ref(notePath).once('value')).val();
+    var likeCnt = noteInfo['likeCnt'];
+    var userPath = notePath.split('/tomatos/')[0];
+    var authorInfo = (await db.ref(userPath).once('value')).val();
+    var avatarUrl = authorInfo['photoURL'];
+    var timeOffset = authorInfo['timeOffset'];
+    var datetxt = moment.unix(parseInt(noteInfo['date'] / 1000) - parseInt(timeOffset * 60)).format('lll');
+    sendLikedEmail(avatarUrl, datetxt, noteInfo['tomatoType'], noteInfo['notes'], authorInfo['email']);
+    res.send(likeCnt.toString());
+    return;
+})
 
 app.post("/deleteNote", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
@@ -646,7 +700,7 @@ app.get("/logout", (req, res) => {
     res.redirect('/');
 });
 
-function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent) {
+function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent, email) {
     fs.readFile('./views/email.html', 'utf8', function (err, html) {
         if (err) {
             throw err;
@@ -657,7 +711,7 @@ function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent) {
             .replace('{NoteType}', noteType)
             .replace('{NoteContent}', noteContent);
         admin.firestore().collection('mail').add({
-            to: '["jieliarch@gmail.com", "yizhuoxie21@gmail.com"]',
+            to: '["' + email + '"]',
             message: {
                 subject: 'Your note has new likes!',
                 html: html,

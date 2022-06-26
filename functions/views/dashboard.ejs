@@ -199,7 +199,7 @@
                     </div>
                 </div>
 
-                <ul id="myUL">
+                <ul id="myUL" style="overflow: auto; height: 300px">
                     <% for(let i=0; i<todos.length; i++) { %>
                     <% if(todos[i]['status'] == '1') {%>
                     <li id="<%=todos[i]['uid']%>" class="checked"><%=todos[i]['inputvalue']%></li>
@@ -289,11 +289,16 @@
                     <p id="<%=pubNotes[i]['tid']%>_pubNotetext" class="nothing">Nothing was noted in this session.</p>
                     <%}%>
                 </div>
-                <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['tid']%>_likebtn" src="./public/image/liked.png"
-                    onclick="LikeNote(this.id)"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom" />
-                    <label id="likeCnt"><%=pubNotes[i]['likeCnt']%></label>
+                <% if(pubNotes[i]['hasLiked']) {%>
+                    <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn"
+                        src="./public/image/already_liked.png" onclick="LikeNote(this.id)" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" />
+                    <%} else {%>
+                    <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/liked.png"
+                        onclick="LikeNote(this.id)" data-bs-toggle="tooltip" data-bs-placement="bottom" />
+                    <%}%>
+                    <label class="pubNoteLikeCnt" id="<%=pubNotes[i]['notePath']%>_likebtnLabel"
+                    style="pointer-events: none;"><%=pubNotes[i]['likeCnt']%></label>
                 </div>
                 <% } %>
             </div>
@@ -649,6 +654,24 @@
         function toggleRight() {
             $('#notesSec').collapse("show")
             $('#pubNotesSec').collapse("hide")
+        }
+
+        function LikeNote(btnId) {
+            var notePath = btnId.split("_likebtn")[0];
+            $.ajax({
+                url: "./likeNote",
+                type: "POST",
+                data: {
+                    notePath: notePath,
+                },
+                success: function (result) {
+                    document.getElementById(notePath + "_likebtnLabel").innerText = result;
+                    document.getElementById(notePath + "_likebtn").src = "./public/image/already_liked.png";
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => {});
+                },
+            });
         }
 
         function EditNote(btnId) {

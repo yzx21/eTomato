@@ -405,6 +405,21 @@ hr {
   bottom: 0px;
 }
 
+.pubNoteLikeCnt {
+  position: absolute;
+  width: 50px;
+  height: 35px;
+  left: 50%;
+  bottom: -12px;
+}
+
+.pubNoteLikeBtn:hover {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  transition: 0.1s ease;
+}
+
 #likeCnt {
   position: absolute;
   width: 50px;
@@ -428,7 +443,7 @@ hr {
   padding: 0%;
 }
 
-#notes_likebtn {
+.pubNoteLikeBtn {
   position: relative;
   width: 50px;
   height: 25px;

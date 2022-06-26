@@ -607,7 +607,7 @@ app.post("/likeNote", async (req, res) => {
     var authorInfo = (await db.ref(userPath).once('value')).val();
     var avatarUrl = authorInfo['photoURL'];
     var timeOffset = authorInfo['timeOffset'];
-    var datetxt = moment.unix(parseInt(noteInfo['date'] / 1000) - parseInt(timeOffset * 60)).format('lll');
+    var datetxt = moment.unix(parseInt(noteInfo['date']) - parseInt(timeOffset * 60)).format('lll');
     sendLikedEmail(avatarUrl, datetxt, noteInfo['tomatoType'], noteInfo['notes'], authorInfo['email']);
     res.send(likeCnt.toString());
     return;

@@ -291,11 +291,10 @@
                 </div>
                 <% if(pubNotes[i]['hasLiked']) {%>
                     <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn"
-                        src="./public/image/already_liked.png" onclick="LikeNote(this.id)" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" />
+                        src="./public/image/already_liked.png" />
                     <%} else {%>
                     <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/liked.png"
-                        onclick="LikeNote(this.id)" data-bs-toggle="tooltip" data-bs-placement="bottom" />
+                        onclick="LikeNote(this.id)" />
                     <%}%>
                     <label class="pubNoteLikeCnt" id="<%=pubNotes[i]['notePath']%>_likebtnLabel"
                     style="pointer-events: none;"><%=pubNotes[i]['likeCnt']%></label>

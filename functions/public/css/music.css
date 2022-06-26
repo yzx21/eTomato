@@ -36,7 +36,7 @@
   top: 0;
   right: 15px;
   left: 15px;
-  padding: 5px 5px 5px 37%;
+  padding: 5px 5px 5px 25%;
   background-color: #fff7f7;
   border-radius: 15px 15px 0 0;
   transition: 0.3s ease top;
@@ -166,9 +166,9 @@
 #album-art {
   position: absolute;
   top: -40px;
-  width: 25%;
+  width: 20%;
   aspect-ratio: 1 /1;
-  margin-left: 10%;
+  margin-left: 5%;
   transform: rotateZ(0);
   transition: 0.3s ease all;
   border-radius: 50%;
@@ -275,13 +275,11 @@
 .control {
   width: 33.333%;
   float: left;
-  height: 100%;
 }
 
 .button {
   left: 0;
   width: 70%;
-  padding-top: 20%;
   background-color: #fff;
   border-radius: 6px;
   cursor: pointer;
@@ -295,7 +293,7 @@
   color: #d6dee7;
   font-size: 2em;
   text-align: center;
-  line-height: 1;
+  line-height: 2;
 }
 
 .button,

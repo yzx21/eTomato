@@ -147,7 +147,8 @@ app.get("/", async (req, res) => {
         cdDismissable = (tomato['duration'] != undefined);
     }
     var nowDate = getDayMonthYear(Date.now() / 1000 - (userRec.val()["timeOffset"] || 0) * 60);
-    var todayTmt = []
+    var todayTmt = [];
+    var statsDays = []; // [['Mar 1', {'t1': '25'}], ['Mar 2', {'t1': '25'}]]
     if (tomatosSet) {
         var tmpTmts = await getAllTomatos(userSnap.uid);
         tmpTmts.forEach(function (tmt) {
@@ -170,7 +171,6 @@ app.get("/", async (req, res) => {
                     likeCnt: tmt.val()['notes'] ? (tmt.val()['notes']['likeCnt'] ? tmt.val()['notes']['likeCnt'] : "0") : "0",
                 })
             }
-
             var tmtDurationMins = duration ? (duration / 60).toFixed(1) + " mins" : "25 mins"
             var tmtDate = getDayMonthYear(parseInt(tmt.val()["startTimeSec"]) - parseInt(tmt.val()["timeOffset"] * 60))
             if (tmtDate.toString() === nowDate.toString()) {
@@ -178,6 +178,23 @@ app.get("/", async (req, res) => {
                     duration: tmtDurationMins,
                     type: type || "No type",
                 });
+            } else {
+                var statDate = moment.unix(parseInt(tmt.val()['startTimeSec']) - parseInt(tmt.val()['timeOffset']) * 60).local().format("LL")
+                if (statsDays.length == 0 || statsDays[statsDays.length - 1][0] != statDate) {
+                    statsDays.push([statDate, {}]);
+                }
+                if (!duration) {
+                    duration = 1500;
+                }
+                if (!type) {
+                    type = "Others";
+                }
+                var dur = statsDays[statsDays.length - 1][1][type];
+                if (!dur) {
+                    dur = 0;
+                }
+                dur += duration;
+                statsDays[statsDays.length - 1][1][type] = dur;
             }
         })
     }
@@ -251,6 +268,7 @@ app.get("/", async (req, res) => {
         pendingNote: pendingNote,
         pendingNoteType: pendingNoteType,
         pubNotes: pubNotes.reverse(),
+        statsDays: statsDays.reverse(),
     });
 });
 

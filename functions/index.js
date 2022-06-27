@@ -314,31 +314,44 @@ async function getAllTomatos(uid) {
 }
 
 async function getLatestNote(userRec, latestTmtSnap) {
-    var newDiv = '<div class="noteCard"' + latestTmtSnap.key + '> <img id="noteAvatar" src="' + userRec.val()['photoURL'] + '" width="40px" height="40px" alt="Avatar"> <label id="noteLable">Me</label> <label id="noteTime">' +
-        moment.unix(parseInt(latestTmtSnap.val()['startTimeSec']) - parseInt(latestTmtSnap.val()['timeOffset']) * 60).local().format("lll")
-        + '</label>';
-    if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['tomatoType'] !== undefined) {
-        newDiv += '<label id="noteType">' + latestTmtSnap.val()['notes']['tomatoType'] + '</label>'
+    var newDiv = "<div class='noteCard' id='" + latestTmtSnap.key + "_card' data-nid='" + latestTmtSnap.key + "'>"
+    newDiv += "<img id='noteAvatar' src='" + userRec.val()['photoURL'] + "' width='40px' height='40px' alt='Avatar' />"
+    newDiv += "<label id = 'noteLable'> Me</label>"
+    newDiv += "<label id = 'noteTime'>" + moment.unix(parseInt(latestTmtSnap.val()["startTimeSec"]) - parseInt(latestTmtSnap.val()["timeOffset"]) * 60).format('lll') + "</label>"
+    if (latestTmtSnap.val()['duration']) {
+        newDiv += "<img id='noteStatus' src='./public/image/green_tomato.png' width='40px' height='40px' alt='Avatar' data-bs-toggle='tooltip' data-bs-placement='bottom' title = '" + (latestTmtSnap['duration'] / 60).toFixed(1) + " mins' />"
     } else {
-        newDiv += '<label id="noteType">No type</label>'
+        newDiv += "<img id='noteStatus' src='./public/image/tomato.png' width='40px' height='40px' alt='Avatar' data-bs-toggle='tooltip' data-bs-placement='bottom' title = '25 mins' />"
     }
-
-    if (latestTmtSnap.val()['duration'] !== undefined) {
-        newDiv += '<img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="' + (latestTmtSnap.val()["duration"] / 60).toFixed(1) + ' mins" aria-label="' + (latestTmtSnap.val()["duration"] / 60).toFixed(1) + ' mins"/> <br> <div id="noteText">'
+    newDiv += "<br> <div class='row' id='typeSec'>"
+    if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['tomatoType']) {
+        newDiv += "<label class='noteType' id='" + latestTmtSnap.key + "_notetype'>" + latestTmtSnap.val()['notes']["tomatoType"] + "</label>"
     } else {
-        newDiv += '<img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="25 mins"  aria-label="25 mins" /> <br> <div id="noteText">'
+        newDiv += "<label class='noteType' id='" + latestTmtSnap.key + "_notetype'> No type</label>"
     }
-
-    if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()["notes"]["notes"] !== "<p><br></p>") {
-        newDiv += latestTmtSnap.val()['notes']['notes'];
+    newDiv += "</div>"
+    newDiv += "<div id='noteText'>"
+    if (latestTmtSnap.val()['notes'] && latestTmtSnap.val()['notes']['notes'] !== "<p><br></p>") {
+        newDiv += "<div class='notehis' id='" + latestTmtSnap.key + "_notetext'>" + latestTmtSnap.val()["notes"]["notes"] + "</div >"
     } else {
-
-        newDiv += '<p class="nothing">Nothing was noted in this session.</p>';
+        newDiv += "<p id='" + latestTmtSnap.key + "_notetext' class='nothing'> Nothing was noted in this session.</p>"
     }
-    newDiv += '</div>  <img id="noteLikeBtn" src="./public/image/liked.png"><label id="likeCnt">0</label></div>'
+    newDiv += "</div>"
+    if (latestTmtSnap.val()['notes']['pubPath']) {
+        newDiv += "<img class='pubpriImg' id='" + latestTmtSnap.key + "_status' src='./public/image/public.png' width='18px' height = '18px' data-bs-toggle='tooltip' data-bs-placement='bottom' title = 'This is a public notes.' data-ispub='1' />"
+    } else {
+        newDiv += "<img class='pubpriImg' id='" + latestTmtSnap.key + "_status' src='./public/image/private.png' width = '18px' height = '18px' data-bs-toggle='tooltip' data-bs-placement='bottom' title = 'This is a private note, no one can view.' data-ispub='0' />"
+    }
+    newDiv += "<img id='noteLikeBtn' src='./public/image/liked.png' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Edit -> publish to collect likes' />"
+    if (latestTmtSnap.val()['notes']['likeCnt']) {
+        newDiv += "<label id = 'likeCnt'>" + latestTmtSnap.val()['notes']['likeCnt'] + "</label>"
+    } else {
+        newDiv += "<label id = 'likeCnt'>" + 0 + "</label>"
+    }
+    newDiv += "<span onclick = 'EditNote(this.id)' id= " + latestTmtSnap.key + "_btn' class='editBtn'> Edit</span >"
+    newDiv += "</div>"
     return newDiv;
 }
-
 
 async function getLatestTodayTmt(latestTmtSnap) {
     latestTmtSnap = latestTmtSnap.val()

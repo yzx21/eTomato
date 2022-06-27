@@ -39,6 +39,11 @@
     <link type="text/css" rel="stylesheet" href="./public/css/music.css">
     <link href="./public/summernote/summernote.min.css" rel="stylesheet">
 
+    <!-- Share -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
@@ -164,6 +169,9 @@
     <div id="left-side">
         <div class="row justify-content-center" id="todayDiv">
             <lable id="todayTomatoLbl">Today's tomatos (<%=todayTmt.length%>)</lable>
+            <!-- <span onclick="printToFile();" id="shareSpan"><img data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Get a pic for today's summary." src="./public/image/share.png" width="20px"
+                    height="25px" /></span> -->
             <div class="container" id="todayTmtId">
                 <div class="row justify-content-start" id="todayTmtRow">
                     <%if (isTomatoOn) {%>
@@ -196,8 +204,8 @@
                 <div id="todoDiv">
                     <div class="container" id="inputDivId">
                         <input type="text" id="todoInput" placeholder="New todo">
-                        <span onclick="newTodo()" id="addNotebtn" class="addBtn"><img src="./public/image/add_btn.png"
-                                width="20px" height="20px" /></span>
+                        <span onclick="newTodo()" id="addNotebtn" style="cursor:pointer;" class="addBtn"><img
+                                src="./public/image/add_btn.png" width="20px" height="20px" /></span>
                         <span class="spinner-border spinner-border-sm addBtn" id="addNotebtn-spinner"
                             style="color:white; visibility: hidden"></span>
                     </div>
@@ -237,7 +245,7 @@
                     title="<%=(tomatos[i]['duration']/60).toFixed(1)%> mins" />
                 <%} else {%>
                 <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"
-                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="25 min" />
+                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="25 mins" />
                 <%}%>
                 <br>
                 <div class="row" id="typeSec">
@@ -298,7 +306,7 @@
                         src="./public/image/already_liked.png" />
                     <%} else {%>
                     <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/liked.png"
-                        onclick="LikeNote(this.id)" />
+                        onclick="LikeNote(this.id)" style="cursor:pointer;" />
                     <%}%>
                     <label class="pubNoteLikeCnt" id="<%=pubNotes[i]['notePath']%>_likebtnLabel"
                     style="pointer-events: none;"><%=pubNotes[i]['likeCnt']%></label>
@@ -637,6 +645,26 @@
     </script>
 
     <script>
+        // Share
+        function printToFile() {
+            var body = document.createElement("body");
+            body.style.background = "black";
+            var header = document.createElement("header"),
+                h4 = document.createElement("h4");
+
+            h4.textContent = "something";
+            header.appendChild(h4);
+            body.appendChild(header);
+            var todayDiv = structuredClone(document.querySelector("#todayDiv"))
+            body.appendChild(todayDiv)
+            alert(todayDiv)
+            html2canvas(body).then(canvas => {
+                canvas.toBlob(function (blob) {
+                    window.saveAs(blob, 'e-tomato.jpg');
+                });
+            });
+        }
+
         function onLoad() {
             firebase.analytics().logEvent('onLoad');
             var isOnRest = document.getElementById('app-cover').dataset.onrest;
@@ -822,7 +850,7 @@
                         tmtId: tmtId,
                     },
                     success: function (result) {
-                        $("#editNote").modal("hide");
+                        saveEditNotes();
                         if (result === "1") {
                             document.getElementById(tmtId + "_status").src = "./public/image/public.png";
                             document.getElementById(tmtId + "_status").title =

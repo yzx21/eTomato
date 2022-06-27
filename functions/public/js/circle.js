@@ -294,7 +294,6 @@ function StopTimer() {
 }
 
 window.StopTomato = function () {
-
     $.ajax({
         url: "./stopSession",
         type: "POST",

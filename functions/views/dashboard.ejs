@@ -766,8 +766,6 @@
             } else {
                 document.getElementById('publishNoteBtn').innerHTML = "Publish"
             }
-
-
             $("#editNote").modal("show");
         }
 
@@ -775,7 +773,6 @@
             var tmtId = $('#editNote')[0].dataset.tmtid;
             var tmtType = document.getElementById("EditTomatoType").value
             var notes = $('#EditSummernote').summernote('code')
-
             $.ajax({
                 url: "./editNoteSave",
                 type: "POST",
@@ -851,12 +848,13 @@
                     },
                     success: function (result) {
                         saveEditNotes();
-                        if (result === "1") {
+                        if (result['status'] === "1") {
                             document.getElementById(tmtId + "_status").src = "./public/image/public.png";
                             document.getElementById(tmtId + "_status").title =
                                 "This is a public notes."
                             document.getElementById(tmtId + "_status").dataset.ispub =
                                 "1"
+                            $('#pubNotesSec').prepend(result['newPub']);
                             new Toasteur().success('', "Note published",
                                 () => {});
                         } else {
@@ -865,6 +863,7 @@
                                 "This is a private note, no one can view."
                             document.getElementById(tmtId + "_status").dataset.ispub =
                                 "0"
+                            document.getElementById(result['tmtId'] + "_pubcard").remove();
                             new Toasteur().success('', "Note unpublished",
                                 () => {});
                         }

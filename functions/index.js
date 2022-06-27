@@ -225,7 +225,9 @@ app.get("/", async (req, res) => {
         var profile = author.val()['photoURL'];
         var name = author.val()['displayName'];
         var timeOffset = author.val()['timeOffset'];
-        var tid = note.key;
+
+        var tmt = await db.ref(notePath.split('/notes')[0]).once('value');
+        var tid = tmt.key;
         var date = note.val()['date'];
         var type = note.val()['tomatoType'];
         var notes = note.val()['notes'];
@@ -351,6 +353,46 @@ async function getLatestNote(userRec, latestTmtSnap) {
     newDiv += "<span onclick = 'EditNote(this.id)' id= " + latestTmtSnap.key + "_btn' class='editBtn'> Edit</span >"
     newDiv += "</div>"
     return newDiv;
+}
+
+async function getPubedNote(userRec, latestTmtSnap) {
+    var db = admin.database();
+    var newDiv = "<div class='noteCard' id='" + latestTmtSnap.key + "_pubcard' data-nid='" + latestTmtSnap.key + "'>"
+    newDiv += "<img id='noteAvatar' src='" + userRec.val()['photoURL'] + "' width='40px' height='40px' alt='Avatar'>"
+    newDiv += "<label id='noteLable'>" + userRec.val()['displayName'] + "</label>"
+    newDiv += "<label id='noteTime'>" + moment.unix(parseInt(latestTmtSnap.val()["startTimeSec"]) - parseInt(latestTmtSnap.val()["timeOffset"]) * 60).format('lll') + "</label>"
+    newDiv += "<br><div class='row' id = 'typeSec'>"
+    newDiv += "<label class='noteType' id='" + latestTmtSnap.key + "_pubNotetype'>" + latestTmtSnap.val()['notes']["tomatoType"] + "</label>"
+    newDiv += "</div>"
+    newDiv += "<div id='noteText'>"
+    newDiv += "<div class='notehis' id='" + latestTmtSnap.key + "_pubNotetext'>" + latestTmtSnap.val()['notes']["notes"] + "</div>"
+    newDiv += "</div>"
+
+    var likedNotesKv = await db.ref('users').child(userRec.key).child('likedNotes').once('value');
+    var likedNodes = [];
+    if (likedNotesKv.val()) {
+        likedNodes = Object.values(likedNotesKv.val());
+    }
+    var notePath = "users/" + userRec.key + "/tomatos/" + latestTmtSnap.key + "/notes";
+    var hasLiked = false;
+    if (likedNodes.includes(notePath)) {
+        hasLiked = true;
+    }
+
+    if (hasLiked) {
+        newDiv += "<img class='pubNoteLikeBtn' id='" + notePath + "_likebtn' src = './public/image/already_liked.png'/> "
+    } else {
+        newDiv += "<img class='pubNoteLikeBtn' id='" + notePath + "_likebtn' src = './public/image/liked.png' onclick = 'LikeNote(this.id)' style = 'cursor:pointer;'/> "
+    }
+
+    if (latestTmtSnap.val()['notes']['likeCnt']) {
+        newDiv += "<label class = 'pubNoteLikeCnt' id='" + notePath + "_likebtnLabel' style='pointer-events: none;'>" + latestTmtSnap.val()['notes']['likeCnt'] + "</label>"
+    } else {
+        newDiv += "<label class = 'pubNoteLikeCnt' id='" + notePath + "_likebtnLabel' style='pointer-events: none;'>" + 0 + "</label>"
+    }
+    newDiv += "</div>"
+    return newDiv;
+
 }
 
 async function getLatestTodayTmt(latestTmtSnap) {
@@ -588,7 +630,7 @@ app.post("/publishNotes", async (req, res) => {
         var pubPath = (await userTmtRec.child(tmtId).child('notes').child('pubPath').once('value')).val();
         db.ref("publicNotes").child(pubPath).remove();
         userTmtRec.child(tmtId).child('notes').child('pubPath').remove();
-        res.status(200).send("0");
+        res.status(200).send({ status: "0", tmtId: tmtId });
     } else {
         var notesPath = "users/" + userSnap.uid + "/tomatos/" + tmtId + "/notes";
         var userPath = "users/" + userSnap.uid;
@@ -597,7 +639,10 @@ app.post("/publishNotes", async (req, res) => {
             notesPath: notesPath
         });
         userTmtRec.child(tmtId).child('notes').update({ pubPath: newPub.key })
-        res.status(200).send("1");
+        var userRec = await db.ref('users').child(userSnap.uid).once('value');
+        var tmtSnap = await userTmtRec.child(tmtId).once('value');
+        var newNoteDiv = await getPubedNote(userRec, tmtSnap);
+        res.status(200).send({ status: "1", newPub: newNoteDiv });
     }
 
 })

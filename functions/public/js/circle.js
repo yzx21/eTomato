@@ -81,7 +81,7 @@ function Circlebar(prefs) {
             }
         }
 
-        if (progress == 100) {
+        if (progress >= 100) {
             document.getElementById('addnotebtn').src = "./public/image/add_note.png";
             document.getElementById('addAnote').style.display = "none";
             $('#composingSec').collapse("hide")

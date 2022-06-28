@@ -187,8 +187,7 @@ function Circlebar(prefs) {
                     startTime = Date.now();
                     timer = setInterval(function () {
                         if (value < maxValue) {
-                            value += parseInt((Date.now() - startTime) / 1000);
-                            startTime = Date.now();
+                            value = parseInt((Date.now() - startTime) / 1000);
                             percentage = (value * 100) / maxValue;
                             that.renderProgress(percentage);
                             text[0].dataset.value = value;
@@ -225,7 +224,7 @@ function Circlebar(prefs) {
         }
     }
 
-    this.continueOnReloadPage = function () {
+    this.continueOnReloadPage = function (val) {
         var start_btn = document.getElementById("startBtn");
         var btnVal = start_btn.alt;
         if (btnVal == "stop_a_tomato") {
@@ -234,11 +233,10 @@ function Circlebar(prefs) {
                 text = that.element.find(".text");
             if (that.type == "timer") {
                 if (timer === undefined) {
+                    startTime = Date.now() - val * 1000;
                     timer = setInterval(function () {
-                        startTime = Date.now();
                         if (value < maxValue) {
-                            value += parseInt((Date.now() - startTime) / 1000);
-                            startTime = Date.now();
+                            value = parseInt((Date.now() - startTime) / 1000);
                             percentage = (value * 100) / maxValue;
                             that.renderProgress(percentage);
                             text[0].dataset.value = value;
@@ -291,7 +289,7 @@ function Circlebar(prefs) {
     var start_btn = document.getElementById("startBtn");
     start_btn.addEventListener("click", textFilter);
     if (value) {
-        this.continueOnReloadPage();
+        this.continueOnReloadPage(value);
     }
 }
 

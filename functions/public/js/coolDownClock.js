@@ -96,8 +96,7 @@ function Circlebar(prefs) {
                 startTime = Date.now();
                 timer = setInterval(function () {
                     if (value <= maxValue) {
-                        value += parseInt((Date.now() - startTime) / 1000);
-                        startTime = Date.now();
+                        value = parseInt((Date.now() - startTime) / 1000);
                         percentage = (value * 100) / maxValue;
                         that.renderProgress(percentage);
                         text[0].dataset.value = value;
@@ -140,11 +139,10 @@ function Circlebar(prefs) {
                 text = that.element.find(".cd-text");
             if (that.type == "timer") {
                 if (timer === undefined) {
-                    startTime = Date.now();
+                    startTime = Date.now() - value * 1000;
                     timer = setInterval(function () {
                         if (value < maxValue) {
-                            value += parseInt((Date.now() - startTime) / 1000);
-                            startTime = Date.now();
+                            value = parseInt((Date.now() - startTime) / 1000);
                             percentage = (value * 100) / maxValue;
                             that.renderProgress(percentage);
                             text[0].dataset.value = value;

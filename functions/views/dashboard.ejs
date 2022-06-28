@@ -211,7 +211,7 @@
                     </div>
                 </div>
 
-                <ul id="myUL" style="overflow: auto; height: 30vh">
+                <ul id="myUL" style="overflow-x: hidden; overflow-y: auto;height: 30vh">
                     <% for(let i=0; i<todos.length; i++) { %>
                     <% if(todos[i]['status'] == '1') {%>
                     <li id="<%=todos[i]['uid']%>" class="checked"><%=todos[i]['inputvalue']%></li>

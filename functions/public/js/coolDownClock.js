@@ -11,6 +11,7 @@ $(document).ready(function () {
 });
 
 var timer;
+var startTime;
 var textFilter;
 var value;
 var maxValue;
@@ -92,9 +93,11 @@ function Circlebar(prefs) {
             text = that.element.find(".cd-text");
         if (that.type == "timer") {
             if (timer === undefined) {
+                startTime = Date.now();
                 timer = setInterval(function () {
                     if (value <= maxValue) {
-                        value += parseInt(that.counter / 1000);
+                        value += parseInt((Date.now() - startTime) / 1000);
+                        startTime = Date.now();
                         percentage = (value * 100) / maxValue;
                         that.renderProgress(percentage);
                         text[0].dataset.value = value;
@@ -103,7 +106,8 @@ function Circlebar(prefs) {
                         text.html(date.toISOString().substr(14, 5));
                     } else {
                         clearInterval(timer);
-                        timer = undefined
+                        timer = undefined;
+                        startTime = undefined;
                     }
                 }, (that.counter));
             }
@@ -136,9 +140,11 @@ function Circlebar(prefs) {
                 text = that.element.find(".cd-text");
             if (that.type == "timer") {
                 if (timer === undefined) {
+                    startTime = Date.now();
                     timer = setInterval(function () {
                         if (value < maxValue) {
-                            value += parseInt(that.counter / 1000);
+                            value += parseInt((Date.now() - startTime) / 1000);
+                            startTime = Date.now();
                             percentage = (value * 100) / maxValue;
                             that.renderProgress(percentage);
                             text[0].dataset.value = value;
@@ -147,7 +153,8 @@ function Circlebar(prefs) {
                             text.html(date.toISOString().substr(14, 5));
                         } else {
                             clearInterval(timer);
-                            timer = undefined
+                            timer = undefined;
+                            startTime = undefined;
                         }
                     }, (that.counter));
                 }

@@ -128,8 +128,10 @@ ul li.checked::before {
     position: absolute;
     right: 0;
     top: 0;
-    padding: 7px 16px 12px 16px;
+    padding: 16px 12px 16px;
     height: 100%;
+    align-items: center;
+    display: inline-flex;
 }
 
 .closeTodo:hover {

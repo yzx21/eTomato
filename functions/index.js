@@ -98,11 +98,51 @@ app.post("/sessionLogin", async (req, res) => {
 });
 
 app.get("/index", async (req, res) => {
+    var db = admin.database();
     const sessionCookie = req.cookies.__session || "";
+    var userSnap;
     try {
-        var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+        userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.redirect("index");
+
+        var allPubNotes = await db.ref('publicNotes').once('value');
+        var pubNotes = [];
+        for (let key in allPubNotes.val()) {
+            var pubnote = allPubNotes.val()[key]
+            var notePath = pubnote['notesPath']
+            var userPath = pubnote['userPath']
+            var note = await db.ref(notePath).once('value');
+            var author = await db.ref(userPath).once('value');
+            var profile = author.val()['photoURL'];
+            var name = author.val()['displayName'];
+            var timeOffset = author.val()['timeOffset'];
+
+            var tmt = await db.ref(notePath.split('/notes')[0]).once('value');
+            var tid = tmt.key;
+            var date = note.val()['date'];
+            var type = note.val()['tomatoType'];
+            var notes = note.val()['notes'];
+            var likeCnt = note.val()['likeCnt'] ? note.val()['likeCnt'] : '0'
+            var hasLiked = false;
+
+            pubNotes.push({
+                tid: tid,
+                profile: profile,
+                name: name,
+                date: date,
+                timeOffset: timeOffset,
+                type: type,
+                notes: notes,
+                likeCnt: likeCnt,
+                notePath, notePath,
+                hasLiked, hasLiked,
+            })
+        }
+
+        res.render("index", {
+            pubNotes: pubNotes.reverse(),
+            moment: moment,
+        });
         return;
     }
     res.redirect("/");
@@ -113,7 +153,7 @@ app.get("/", async (req, res) => {
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.render("index");
+        res.redirect("index");
         return;
     }
     var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');

@@ -47,7 +47,7 @@ function Circlebar(prefs) {
     };
     this.initialise();
     this.renderProgress = function (progress) {
-        progress = Math.floor(progress);
+        // progress = Math.floor(progress);
         var angle = 0;
         if (progress < 25) {
             angle = -90 + (progress / 100) * 360;

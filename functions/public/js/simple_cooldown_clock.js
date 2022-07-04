@@ -1,16 +1,17 @@
-import { StopMusic } from "./music.js"
+import { StopMusic } from "./simple_music.js"
 
 $(document).ready(function () {
     var prefs = {
-        element: ".circlebarCD2"
+        element: ".circlebarCD"
     };
-    $('.circlebarCD2').each(function () {
+    $('.circlebarCD').each(function () {
         prefs.element = $(this);
         new Circlebar(prefs);
     });
 });
 
 var timer;
+var startTime;
 var textFilter;
 var value;
 var maxValue;
@@ -41,12 +42,12 @@ function Circlebar(prefs) {
         that.element.find(".loader-bg").css("border-width", that.dialWidth + "px");
         that.element.find(".cd-spinner").css("border-width", that.dialWidth + "px");
         that.element.css({ "width": that.size, "height": that.size });
-        that.element.find(".loader-bg .text")
+        that.element.find(".loader-bg .cd-text")
             .css({ "font-size": that.fontSize, "color": that.fontColor });
     };
     this.initialise();
     this.renderProgress = function (progress) {
-        // progress = Math.floor(progress);
+        progress = Math.floor(progress);
         var angle = 0;
         if (progress < 25) {
             angle = -90 + (progress / 100) * 360;
@@ -79,23 +80,23 @@ function Circlebar(prefs) {
             }
         }
 
-        if (progress == 100) {
-            StopCDTimer2();
-            resetCDClock();
+        if (progress >= 100) {
+            StopCDTimer();
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FCD_Completed.mp3?alt=media&token=7a520622-c205-4820-b76f-31390509ac31");
             audio.play();
-            $('#coolDownForStopModal').modal("hide");
+            $('#SimpleCoolDownModal').modal("hide");
         }
     };
     textFilter = function () {
         var percentage = 0,
             date = 0,
-            text = that.element.find(".text");
+            text = that.element.find(".cd-text");
         if (that.type == "timer") {
             if (timer === undefined) {
+                startTime = Date.now();
                 timer = setInterval(function () {
                     if (value <= maxValue) {
-                        value += parseInt(that.counter / 1000);
+                        value = parseInt((Date.now() - startTime) / 1000);
                         percentage = (value * 100) / maxValue;
                         that.renderProgress(percentage);
                         text[0].dataset.value = value;
@@ -104,7 +105,8 @@ function Circlebar(prefs) {
                         text.html(date.toISOString().substr(14, 5));
                     } else {
                         clearInterval(timer);
-                        timer = undefined
+                        timer = undefined;
+                        startTime = undefined;
                     }
                 }, (that.counter));
             }
@@ -129,17 +131,18 @@ function Circlebar(prefs) {
     }
 
     this.continueOnReloadPage = function () {
-        var start_btn = document.getElementById("startBtn");
+        var start_btn = document.getElementById("SimpleStartBtn");
         var btnVal = start_btn.alt;
         if (btnVal == "stop_a_tomato") {
             var percentage = 0,
                 date = 0,
-                text = that.element.find(".text");
+                text = that.element.find(".cd-text");
             if (that.type == "timer") {
                 if (timer === undefined) {
+                    startTime = Date.now() - value * 1000;
                     timer = setInterval(function () {
                         if (value < maxValue) {
-                            value += parseInt(that.counter / 1000);
+                            value = parseInt((Date.now() - startTime) / 1000);
                             percentage = (value * 100) / maxValue;
                             that.renderProgress(percentage);
                             text[0].dataset.value = value;
@@ -148,7 +151,8 @@ function Circlebar(prefs) {
                             text.html(date.toISOString().substr(14, 5));
                         } else {
                             clearInterval(timer);
-                            timer = undefined
+                            timer = undefined;
+                            startTime = undefined;
                         }
                     }, (that.counter));
                 }
@@ -177,7 +181,7 @@ function Circlebar(prefs) {
     }
 
     resetCDClock = function (val) {
-        text = that.element.find(".text");
+        text = that.element.find(".cd-text");
         value = val;
         var angle = 90;
         that.element.find(".animate-0-25-b").css("transform", "rotate(" + angle + "deg)");
@@ -189,15 +193,15 @@ function Circlebar(prefs) {
     }
 }
 
-function StopCDTimer2() {
+function StopCDTimer() {
     clearInterval(timer);
     timer = undefined
 }
 
-window.StartCoolDown2 = function () {
+window.StartCoolDown = function () {
     textFilter();
 }
 
-export function ResetCDClock2(value) {
+window.ResetCDClock = function (value) {
     resetCDClock(value);
 }

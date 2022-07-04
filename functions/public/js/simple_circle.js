@@ -1,5 +1,4 @@
-import { StopMusic } from "./music.js"
-import { ResetCDClock2 } from "./coolDownForStopClock.js"
+import { StopMusic } from "./simple_music.js"
 
 $(document).ready(function () {
     var prefs = {
@@ -84,49 +83,8 @@ function Circlebar(prefs) {
         if (progress >= 100) {
             document.getElementById('addnotebtn').src = "./public/image/add_note.png";
             document.getElementById('addAnote').style.display = "none";
-            $('#composingSec').collapse("hide")
-            var tomatoType = document.getElementById("tomatoType").value;
-            var notes = $('#summernote').summernote('code')
-            if (tomatoType || (notes && notes !== "<p><br></p>")) {
-                if (!tomatoType) {
-                    tomatoType = "No type";
-                }
-                $.ajax({
-                    url: "./saveNotes",
-                    type: "POST",
-                    data: {
-                        // checkedValue: checkedValue,
-                        tomatoType: tomatoType,
-                        notes: notes,
-                    },
-                    success: function (result) {
-                        new Toasteur().success("Note saved", 'Have fun in your next tomato',
-                            () => { });
-                        // document.getElementById('publishCheckBox').checked = false;
-                        document.getElementById("tomatoType").value = "";
-
-                        $('#summernote').summernote('code', "");
-                        $('#notesSec').prepend(
-                            result['newNoteDiv']);
-                        $('#todayTmtRow').children().eq(0).remove();
-                        $('#todayTmtRow').prepend(
-                            result['newTodayTmt']);
-                        var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
-                        document.getElementById('todayTomatoLbl').innerHTML =
-                            'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-                        document.getElementById('app-cover').dataset.todaycnt += 1;
-
-                        var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                            '[data-bs-toggle="tooltip"]'))
-                        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                            return new bootstrap.Tooltip(tooltipTriggerEl)
-                        })
-                    },
-                    error: function (error) {
-                        new Toasteur().error(error.responseText, 'Error!', () => { });
-                    },
-                });
-            }
+            $('#composingSec').collapse("hide");
+            $('#musicCollapse').collapse("hide")
 
             StopTimer();
             StopMusic();
@@ -137,25 +95,12 @@ function Circlebar(prefs) {
             audio.addEventListener("ended", function () {
                 audio.currentTime = 0;
             });
-            $('#coolDownModal').modal("show");
             StartCoolDown();
-            document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-            document.getElementById("startBtn").alt = "start_a_tomato";
+            document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato.png";
+            document.getElementById("SimpleStartBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
             // document.getElementById("publishSection").style.display = "table-row";
-            document.getElementById("publishSection").style.display = "table";
-
-            $('#todayTmtRow').children().eq(0).remove();
-            var newDiv = '<div class="col-3"> <img id="todayTmtImgId" '
-            newDiv += 'src = "./public/image/tomato.png"'
-            newDiv += 'width = "40px" height = "40px" alt = "Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" '
-            newDiv += 'title = "No type: 25 mins" /> </div>'
-            $('#todayTmtRow').prepend(newDiv);
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                '[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
+            $('#SimpleCoolDownModal').modal("show");
 
             // Let's check whether notification permissions have already been granted
             if (Notification.permission === "granted") {
@@ -176,9 +121,12 @@ function Circlebar(prefs) {
     };
     textFilter = function () {
         percentage = (value * 100) / maxValue;
-        var start_btn = document.getElementById("startBtn");
+        var start_btn = document.getElementById("SimpleStartBtn");
         var btnVal = start_btn.alt;
         if (btnVal == "start_a_tomato") {
+            document.getElementById("SimpleStartBtn").src =
+                "./public/image/stop_tomato.png";
+            document.getElementById("SimpleStartBtn").alt = "stop_a_tomato";
             var percentage = 0,
                 date = 0,
                 text = that.element.find(".text");
@@ -224,56 +172,6 @@ function Circlebar(prefs) {
         }
     }
 
-    this.continueOnReloadPage = function (val) {
-        var start_btn = document.getElementById("startBtn");
-        var btnVal = start_btn.alt;
-        if (btnVal == "stop_a_tomato") {
-            var percentage = 0,
-                date = 0,
-                text = that.element.find(".text");
-            if (that.type == "timer") {
-                if (timer === undefined) {
-                    startTime = Date.now() - val * 1000;
-                    timer = setInterval(function () {
-                        if (value < maxValue) {
-                            value = parseInt((Date.now() - startTime) / 1000);
-                            percentage = (value * 100) / maxValue;
-                            that.renderProgress(percentage);
-                            text[0].dataset.value = value;
-                            date = new Date(null);
-                            date.setSeconds(maxValue - value); // specify value for seconds here
-                            text.html(date.toISOString().substr(14, 5));
-                        } else {
-                            clearInterval(timer);
-                            timer = undefined;
-                            startTime = undefined;
-                        }
-                    }, (that.counter));
-                }
-            }
-            if (that.type == "progress") {
-                function setDeceleratingTimeout(factor, times) {
-                    var internalCallback = function (counter) {
-                        return function () {
-                            if (value < maxValue && value < 100) {
-                                value += 1;
-                                that.renderProgress(value);
-                                text[0].dataset.value = value;
-                                text.html(Math.floor(value) + "%");
-                                setTimeout(internalCallback, ++counter * factor);
-                            }
-                        }
-                    }(times, 0);
-                    setTimeout(internalCallback, factor);
-                };
-                setDeceleratingTimeout(0.1, 100);
-            }
-        } else {
-            clearInterval(timer);
-            timer = undefined;
-        }
-    }
-
     resetClock = function (val) {
         text = that.element.find(".text");
         value = val;
@@ -286,7 +184,7 @@ function Circlebar(prefs) {
         text.html("25:00");
     }
 
-    var start_btn = document.getElementById("startBtn");
+    var start_btn = document.getElementById("SimpleStartBtn");
     start_btn.addEventListener("click", textFilter);
     if (value) {
         this.continueOnReloadPage(value);
@@ -314,76 +212,20 @@ window.StopTomato = function () {
 
             // $('#coolDownForStopModal').modal("show");
             // StartCoolDown2();
-            ResetCDClock2(0);
             resetClock(0);
 
-            document.getElementById("startBtn").src = "./public/image/start_tomato.png";
-            document.getElementById("startBtn").alt = "start_a_tomato";
+            document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato.png";
+            document.getElementById("SimpleStartBtn").alt = "start_a_tomato";
             $('#musicCollapse').collapse("hide")
 
             $('#composingSec').collapse("hide")
             document.getElementById('addnotebtn').src = "./public/image/add_note.png";
             document.getElementById('addAnote').style.display = "none";
 
-            var tomatoType = document.getElementById("tomatoType").value;
-            var notes = $('#summernote').summernote('code')
-            if (!tomatoType && (!notes || notes === "<p><br></p>")) {
-                $('#todayTmtRow').children().eq(0).remove();
-                var newDiv = '<div class="col-3"> <img id="todayTmtImgId" '
-                newDiv += 'src = "./public/image/green_tomato.png"'
-                newDiv += 'width = "40px" height = "40px" alt = "Avatar" data-bs-toggle="tooltip" data-bs-placement="bottom" '
-                newDiv += 'title = "No type: ' + (result / 60).toFixed(1) + ' mins" /> </div>'
-                $('#todayTmtRow').prepend(newDiv);
-                var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                    '[data-bs-toggle="tooltip"]'))
-                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                    return new bootstrap.Tooltip(tooltipTriggerEl)
-                })
-                return;
-            }
-            if (!tomatoType) {
-                tomatoType = "No type";
-            }
-            $.ajax({
-                url: "./saveNotes",
-                type: "POST",
-                data: {
-                    // checkedValue: checkedValue,
-                    tomatoType: tomatoType,
-                    notes: notes,
-                },
-                success: function (result) {
-                    new Toasteur().success("Note saved", 'Have fun in your next tomato',
-                        () => { });
-                    // document.getElementById('publishCheckBox').checked = false;
-                    document.getElementById("tomatoType").value = "";
-                    ResetClock(0);
-                    ResetCDClock(0);
-                    $('#summernote').summernote('code', "");
-                    $('#notesSec').prepend(
-                        result['newNoteDiv']);
-                    $('#todayTmtRow').children().eq(0).remove();
-                    $('#todayTmtRow').prepend(
-                        result['newTodayTmt']);
-                    var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
-                    document.getElementById('todayTomatoLbl').innerHTML =
-                        'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-                    document.getElementById('app-cover').dataset.todaycnt += 1;
-
-                    var tooltipTriggerList = [].slice.call(document.querySelectorAll(
-                        '[data-bs-toggle="tooltip"]'))
-                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                        return new bootstrap.Tooltip(tooltipTriggerEl)
-                    })
-                },
-                error: function (error) {
-                    new Toasteur().error(error.responseText, 'Error!', () => { });
-                },
-            });
         },
         error: function (error) {
             new Toasteur().error(error.responseText, 'Error!', () => { });
-            document.getElementById("startBtn").alt = "stop_a_tomato";
+            document.getElementById("SimpleStartBtn").alt = "stop_a_tomato";
             $('#musicCollapse').collapse("show")
         },
     });

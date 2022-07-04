@@ -5,29 +5,453 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Online Pomodoro Timer - eTomato note, stats and music </title>
-  <meta name="description"
-    content="eTomato is an online pomodoro timer integrated with notepad and lofi music - providing an efficient vibe to boost your study and work. See your study stats and evaluate your time spent. Check out fellow’s notes and inspire each other.">
-  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
-  <link type="text/css" rel="stylesheet" href="./public/css/main.css" />
+  <meta name="description" content="eTomato is an online pomodoro timer
+            integrated with notepad and lofi music - providing an efficient vibe
+            to boost your study and work. See your study stats and evaluate your
+            time spent. Check out fellow’s notes and inspire each other.">
   <link rel="shortcut icon" href="./public/image/tomato.png" type="image/x-icon">
-  <!-- Custom stylesheet -->
-  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+  <!-- Bootstrap , fonts & icons  -->
+  <link type="text/css" rel="stylesheet" href="./public/toast/themes/toasteur-default.min.css">
+  <link rel="stylesheet" href='./public/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="./public/css/clock.css">
+  <link rel="stylesheet" href="./public/css/toggle.css">
+  <link rel="stylesheet" href="./public/css/todo.css">
+  <link rel="stylesheet" href="./public/css/feedback.css">
+  <link rel="stylesheet" href="./public/fonts/icon-font/css/style.css">
+  <link rel="stylesheet" href="./public/fonts/typography-font/typo.css">
+  <link rel="stylesheet" href="./public/fonts/fontawesome-5/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./public/css/circle.css">
+  <link rel="stylesheet" type="text/css" href="./public/css/demo.css">
+  <link rel="stylesheet" type="text/css" href="./public/css/simplecircle.css">
+  <link rel="stylesheet" href="./public/plugins/aos/aos.min.css">
+  <link rel="stylesheet" href="./public/css/main.css">
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css">
+  <link type="text/css" rel="stylesheet" href="./public/css/music.css">
+  <link href="./public/summernote/summernote.min.css" rel="stylesheet">
+
+  <!-- Share -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
   <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+
+  <script src="./public/js/popper.min.js"></script>
+  <script src="./public/js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
 </head>
 
-<body onload="onLoad();" style="min-height: 100vh;">
-  <div>
-    <img src="./public/image/landing_page.png" width="100%" height="100%" alt="">
+<body data-theme-mode-panel-active data-theme="light" style="font-family:
+        'Mazzard H';" onload="onLoad();">
+
+  <div id="header">
+    <div class="row position-relative justify-content-center">
+      <div class="float-container" id="heading-text-icon">
+        <div class="float-child" id="title-icon">
+          <img src="./public/image/tomato.png" width="60px" alt="">
+        </div>
+        <div class="float-child" id="title-text">eTomato</div>
+      </div>
+    </div>
+
+    <a data-bs-toggle="modal" data-bs-target="#about">
+      <img src="./public/image/about.png" width="315px" height="60px" id=""
+        style="position: fixed; right: 262px; height: 40px; width: 200px;">
+    </a>
+
     <input type="image" src="./public/image/google_login.png" width="315px" height="60px" id="ggLogin1"
       onclick="login()" />
   </div>
 
+  <div class="modal fade" id="about" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">About pomodoro timer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h1>Why is pomodoro 25 minutes?</h1>
+          <p>This 25-minute timer pomodoro technique was invented by Francesco Cirillo in the late 1980s and was created
+            after a
+            typical cooking alarm of 25 minutes. The name Pomodoro was inspired by the kitchen alarm that Francesco used
+            to time himself that was shaped like a Pomodoro, which is Italian for tomato.</p>
+
+          <h1>Why is 5 minutes break needed?</h1>
+          <p>By applying the Pomodoro Technique, many people have begun to
+            understand the value and effectiveness of detachment. A break every
+            25 minutes lets you see things from a different perspective and
+            enables you to come up with different solutions; you often find
+            mistakes to correct, and your creative processes are stimulated.
+            Detachment enhances the value of continuity.</p>
+
+          <h1>Does the Pomodoro Technique really work?</h1>
+          <p>Pomodoro technique is highly effective as it helps you effectively manage your time and work on a task
+            without distractions. It is also beneficial as it helps you become more disciplined and think about your
+            work. This technique is designed to combat multitasking and improve concentration.</p>
+
+          <h1>How many pomodoros can you do in a day?</h1>
+          <p>Everyone's job is different so there's no hard and fast rule for how many Pomodoros you should aim for.
+            Personally, if I can do 4 Pomodoros in a day (that's essentially two hours of focused time) I would consider
+            that a highly productive day.</p>
+
+          <h1>Is pomodoro good for ADHD?</h1>
+          <p>The technique involves breaking down work into 25-minute intervals, with five-minute breaks in between.
+            Research has shown that the Pomodoro Technique is an effective way to manage ADHD symptoms, and can help
+            students to better concentrate and complete tasks.Jan</p>
+
+          <h1>Why is pomodoro so good?</h1>
+          <p>The idea behind the pomodoro technique is that the timer instills a sense of urgency. Rather than feeling
+            like you
+            have endless time in the workday to get things done and then ultimately squandering those precious work
+            hours on distractions, you know you only have 25 minutes to make as much progress on a task as possible.</p>
+
+          <h1>Is pomodoro good for studying?</h1>
+          <p> The method is based on studying in timed intervals. In fact Cirillo named it after the timer he used which
+            happened to be shaped like a tomato (pomodoro in Italian). Cirillo found that breaking large tasks up into
+            smaller manageable timed units (called “pomodoros”) is the most effective way to study.</p>
+
+          <h1>What do you do in the 5 minute pomodoro break?</h1>
+          <p>
+            8 Things You Can Do During Your Pomodoro Break
+            Go for a short walk. Ah – exercise. ...
+            Invest time in mindfulness. ...
+            Get into origami. ...
+            Listen to your favourite playlist. ...
+            Doodle (or draw, if you can) ...
+            Have a good stretch. ...
+            Drink some water. ...
+            Play fetch with the pooch.</p>
+
+          <h1>What science says about Pomodoro?</h1>
+          <p>The pomodoro technique fuels your decision-making
+
+            For those who have to call the shots daily, this research is going to be the best thing you read all day. It
+            suggests that taking breaks helps fight decision fatigue. Essentially, frequent decisions can take a toll on
+            your reasoning ability and willpower.</p>
+
+          <h1>Why is it called Pomodoro?</h1>
+          <p>Pomodoro is the Italian word for tomato. The pomodoro technique was developed by Francesco Cirillo as a
+            university student, when he used a tomato timer to measure his 25-minute sessions. These intervals became
+            known as pomodoros and the technique became its namesake.</p>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="loginToAccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Login to:</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <input type="image" src="./public/image/google_login.png" width="252" height="45px" onclick="login()" />
+
+          <p>1. Track your pomodoro history</p>
+          <p>2. Track your todo list</p>
+          <p>3. Track your notes during pomodoro sessions</p>
+          <p>4. Like the notes by others</p>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal stopTomato -->
+  <div class="modal fade" id="stopTomatoModal" tabindex="-1" aria-labelledby="stopLableModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="stopLableModalLabel">Stop this tomato?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Do not worry: The next Pomodoro will go better. Be gentle with yourself.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <script type="module" src="./public/js/simple_circle.js"></script>
+          <button onclick="StopTomato()" type="button" class="btn btn-danger px-4" data-ds-dismiss="modal"
+            id="modalClose2">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="SimpleCoolDownModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="coolDownModalTitle">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="coolDownModalTitle">5 mins Break</h5>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="circlebarCD" id="circlebarCDiD" data-circle-startTime=300 data-circle-dialWidth=10
+              data-circle-size="200px" data-circle-maxValue="300" data-circle-skin="blue">
+              <div class="loader-bg-cd">
+                <div class="cd-text">05:00</div>
+              </div>
+            </div>
+          </div>
+          <hr class="row" style="width: 100%;">
+          <p class="pos_center row">Pomodoro technique suggests 3-5 minutes break to disconnect
+            from your work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="left-side">
+    <div class="row justify-content-center" id="todayDiv">
+      <lable id="todayTomatoLbl">Today's tomatos (0)</lable>
+      <!-- <span onclick="printToFile();" id="shareSpan"><img data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Get a pic for today's summary." src="./public/image/share.png" width="20px"
+                    height="25px" /></span> -->
+      <div class="container" id="todayTmtId">
+        <div class="row justify-content-start" id="todayTmtRow">
+          <div class="col-3">
+            <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar"
+              data-bs-toggle="tooltip" data-bs-placement="bottom"
+              title="Sign in to collect and track your pomodoro timer history" />
+          </div>
+          <hr class="split" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row justify-content-center" id="todoDivId">
+      <lable id="todoLabel">Today's todo</lable>
+      <div id="todoDiv">
+        <div class="container" id="inputDivId">
+          <input type="text" id="todoInput" placeholder="New todo">
+          <span onclick="newTodo()" id="addNotebtn" style="cursor:pointer;" class="addBtn" data-bs-toggle="tooltip"
+            data-bs-placement="bottom" title="Sign in to save your pomodoro timer todos"><img
+              src="./public/image/add_btn.png" width="20px" height="20px" /></span>
+          <span class="spinner-border spinner-border-sm addBtn" id="addNotebtn-spinner"
+            style="color:white; visibility: hidden"></span>
+        </div>
+      </div>
+
+      <ul id="myUL" style="overflow-x: hidden; overflow-y: auto;height: 30vh">
+        <li class="">What pomodoro time can help with:</li>
+        <li class="">🍅 = tidy your desktop</li>
+        <li class="">🍅🍅 = One session of night school</li>
+        <li class="">🍅🍅🍅 = A coding challeng with retrospective</li>
+        <li class="">🍅🍅🍅🍅 = A solid session of exam preparation</li>
+        <li class="">🍅🍅🍅🍅🍅 = An average workday</li>
+        <li class="">🍅🍅🍅🍅🍅🍅 = One super productive workday</li>
+      </ul>
+      </ul>
+      </ul>
+      </ul>
+      </ul>
+    </div>
+  </div>
+  </div>
+  <div id="right-side">
+    <div id="toggle">
+      <input id="toggle-on" class="toggle toggle-left" onclick="toggleLeft();" name="toggle" value="false" type="radio"
+        checked>
+      <label for="toggle-on" class="toggle-btn">Global notes</label>
+      <input id="toggle-off" class="toggle toggle-right" onclick="toggleRight(event);" name="toggle" value="true"
+        type="radio">
+      <label for="toggle-off" class="toggle-btn">My notes</label>
+    </div>
+    <div class="collapse" id="notesSec">
+    </div>
+
+    <div class="collapse" id="pubNotesSec">
+      <% for (let i=0; i<pubNotes.length; i++) { %>
+      <div class="noteCard" id="<%=pubNotes[i]['tid']%>_pubcard" data-nid="<%=pubNotes[i]['tid']%>">
+        <img id="noteAvatar" src="<%=pubNotes[i]['profile']%>" width="40px" height="40px" alt="Avatar">
+        <label id="noteLable"><%=pubNotes[i]['name']%></label>
+        <label
+          id="noteTime"><%=moment.unix(parseInt(pubNotes[i]["date"]) - parseInt(pubNotes[i]["timeOffset"]) * 60).format('lll')%></label>
+        <br>
+        <div class="row" id="typeSec">
+          <%if(pubNotes[i]["type"]) {%>
+          <label class="noteType" id="<%=pubNotes[i]['tid']%>_pubNotetype"><%=pubNotes[i]["type"]%></label>
+          <%} else {%>
+          <label class="noteType" id="<%=pubNotes[i]['tid']%>_pubNotetype">No type</label>
+          <%}%>
+                </div>
+                <div id="noteText">
+                    <%if(pubNotes[i]['notes'] && pubNotes[i]["notes"] !== "<p><br></p>") {%>
+          <div class="notehis" id="<%=pubNotes[i]['tid']%>_pubNotetext"><%-pubNotes[i]["notes"]%></div>
+          <%} else {%>
+          <p id="<%=pubNotes[i]['tid']%>_pubNotetext" class="nothing">Nothing was noted in this session.</p>
+          <%}%>
+                </div>
+                <% if(pubNotes[i]['hasLiked']) {%>
+          <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/already_liked.png"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sign in to like others' pomodoro timer notes" />
+          <%} else {%>
+          <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/liked.png"
+            onclick="LikeNote(this.id)" style="cursor:pointer;" data-bs-toggle="tooltip" data-bs-placement="bottom"
+            title="Sign in to like others' pomodor timer notes" />
+          <%}%>
+                    <label class="pubNoteLikeCnt" id="<%=pubNotes[i]['notePath']%>_likebtnLabel"
+          style="pointer-events: none;"><%=pubNotes[i]['likeCnt']%></label>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <div id="middle">
+    <div class="row justify-content-center">
+      <div class="circlebar" id="circlebarId" data-circle-startTime="0" data-circle-dialWidth=16
+        data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
+        <div class="loader-bg">
+          <div class="text">25:00</div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div id="SimpleStartBtnSec">
+        <a id="start_btn" style="background-color:
+                                        transparent; border-width: 0px;" role="button" aria-expanded="false"
+          aria-controls="collapseTimer">
+
+          <img id="SimpleStartBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" width="340" height="45"
+            onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();"
+            ondblclick="ClickStartBtn();">
+
+        </a>
+      </div>
+      <hr>
+    </div>
+
+    <div class="row justify-content-center" id="addAnote" style="display: none;">
+      <button class="astext" id="addnote" onmouseover="addAnoteOver();" onmouseleave="addAnoteLeave();"
+        onclick="addAnote();" data-ison="0"><img id="addnotebtn" src="./public/image/add_note.png" width="87px"
+          height="32px"></button>
+    </div>
+
+    <div class="row justify-content-center" id="musicDiv">
+      <div class="collapse" id="musicCollapse">
+        <div id="app-cover" data-onload="false" data-onrest="0" data-cddismissable="false"
+          data-tomatosessionlength="1500" data-defaultcdlength="300" data-todaycnt="0" data-pendingnote="">
+          <div id="player" data-pendingnotetype="">
+            <div id="player-track" class="">
+              <div id="album-name">Weightless</div>
+              <div id="track-name">Marconi Union - Weightless</div>
+              <div id="track-time" class="active">
+                <div id="current-time">00:05</div>
+                <div id="track-length">08:09</div>
+              </div>
+              <div id="s-area">
+                <div id="ins-time"></div>
+                <div id="s-hover"></div>
+                <div id="seek-bar" style="width: 1.10226%;"></div>
+              </div>
+            </div>
+            <div id="player-content">
+              <div id="album-art" class="">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_1.jpeg?alt=media&amp;token=1bb7b4f7-f7aa-43c4-b6e7-8003fb40d8ec"
+                  class="" id="_1">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_2.jpeg?alt=media&amp;token=931388e5-a928-45b6-8db4-5f966559e512"
+                  class="" id="_2">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_3.jpeg?alt=media&amp;token=7d0fcad3-305e-47dc-a1e9-4aca3b0f43ef"
+                  class="" id="_3">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_4.jpeg?alt=media&amp;token=13826994-10ba-47f5-b3cf-668a9f544738"
+                  class="" id="_4">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_5.jpeg?alt=media&amp;token=230fd83b-5cc7-4518-b0d4-a050813f60c2"
+                  class="" id="_5">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_100_Times_Jones_Meadow.jpeg?alt=media&amp;token=3506ed8f-e264-45e0-96c7-5837095261cb"
+                  class="active" id="_6">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_A_Subtle_Reflection_Daniel_Kaede.jpeg?alt=media&amp;token=60eed0ce-c372-4e69-bff5-0c5ee0bcb589"
+                  class="" id="_7">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Abstractions_Aleph_One.jpeg?alt=media&amp;token=8576a2cd-d593-42cc-bb3b-08fefd923518"
+                  class="" id="_8">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Alike_Jones_Meadow.jpeg?alt=media&amp;token=56ad6c86-588d-493a-ad7d-a4f8c314a9e8"
+                  class="" id="_9">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Avinam_Valante.jpeg?alt=media&amp;token=183a9647-f304-485d-8422-c1a57ccd83a0"
+                  class="" id="_10">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FES_Baby_Idk_Rambutan.jpeg?alt=media&amp;token=39785b51-9fc3-4b37-a23f-df73dcc84940"
+                  class="" id="_11">
+                <div id="buffer-box">Buffering ...</div>
+              </div>
+              <div id="player-controls">
+                <div class="control">
+                  <div class="button" id="play-previous">
+                    <i class="fas fa-backward"></i>
+                  </div>
+                </div>
+                <div class="control">
+                  <div class="button" id="play-pause-button">
+                    <i class="fas fa-play"></i>
+                  </div>
+                </div>
+                <div class="control">
+                  <div class="button" id="play-next">
+                    <i class="fas fa-forward"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <footer class="footer-area-l-12 position-relative" style="text-align:left;">
+
+
+    </footer>
+  </div>
+  <!-- Vendor Scripts -->
+  <script src="./public/js/vendor.min.js"></script>
+  <script src="./public/plugins/aos/aos.min.js"></script>
+  <!-- Activation Script -->
+  <script src="./public/js/custom.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBe7BVBWqB6znKy7b_UND2nUd09nnUFmEQ",
@@ -43,11 +467,8 @@
       firebase.initializeApp(firebaseConfig);
     } catch {}
   </script>
-  <script>
-    function onLoad() {
-      firebase.analytics().logEvent('onLoad');
-    }
 
+  <script>
     function login() {
       firebase.analytics().logEvent('login');
       var provider = new firebase.auth.GoogleAuthProvider();
@@ -91,23 +512,196 @@
                 .then(function () {
                   window.location.href = "./";
                 });
-            })
-            .catch((error) => {
-              alert(error)
             });
-        })
-        .catch((error) => {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
         });
     }
+
+    function onLoad() {
+      firebase.analytics().logEvent('visit_LP');
+      var isOnRest = document.getElementById('app-cover').dataset.onrest;
+      var cdDismissable = document.getElementById('app-cover').dataset.cddismissable;
+      var btnVal = document.getElementById("SimpleStartBtn").alt;
+
+      var pendingNoteType = document.getElementById('player').dataset.pendingnotetype;
+      var pendingNote = document.getElementById('app-cover').dataset.pendingnote;
+      if (pendingNoteType || (pendingNote && pendingNote !== "<p><br></p>")) {
+        $('#composingSec').collapse("show")
+        document.getElementById('addnotebtn').src = "./public/image/add_note.png";
+      }
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+      $('#pubNotesSec').collapse("show")
+
+      var input = document.getElementById("todoInput");
+      input.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          $('#loginToAccess').modal("show");
+        }
+      });
+    }
+
+    function toggleLeft() {
+      $('#loginToAccess').modal("show");
+    }
+
+    function toggleRight(event) {
+      event.preventDefault();
+      $('#loginToAccess').modal("show");
+      return false;
+    }
+
+    function LikeNote(btnId) {
+      $('#loginToAccess').modal("show");
+    }
+
+    function EditNote(btnId) {
+      $('#loginToAccess').modal("show");
+    }
+
+    function saveEditNotes() {
+      $('#loginToAccess').modal("show");
+    }
+
+    function deleteNotes() {
+      $('#loginToAccess').modal("show");
+    }
+
+    function publishNotes() {
+      $('#loginToAccess').modal("show");
+    }
+
+    function addAnoteLeave() {
+      var isOn = document.getElementById("addnote").dataset.ison;
+      if (isOn === "0") {
+        document.getElementById('addnotebtn').src = "./public/image/add_note.png";
+      } else {
+        document.getElementById('addnotebtn').src = "./public/image/hide_note.png";
+      }
+    }
+
+    function addAnoteOver() {
+      var isOn = document.getElementById("addnote").dataset.ison;
+      if (isOn === "0") {
+        document.getElementById('addnotebtn').src = "./public/image/add_note_hover.png";
+      } else {
+        document.getElementById('addnotebtn').src = "./public/image/hide_note_hover.png";
+      }
+    }
+
+    function addAnote() {
+      $('#loginToAccess').modal("show");
+    }
+
+    function startOver() {
+      var snd = new Audio("./public/sounds/start_over.mp3");
+      // var snd = new Audio(
+      //     "https://drive.google.com/file/d/1EvRx8uqJ17Q9XpJ9rpXetXdZaWqRaP6w/view?usp=sharing");
+      snd.play();
+      var btnVal = document.getElementById("SimpleStartBtn").alt;
+      if (btnVal == "start_a_tomato") {
+        document.getElementById('SimpleStartBtn').src = "./public/image/start_tomato_hover.png";
+        firebase.analytics().logEvent('startOver');
+      } else {
+        document.getElementById('SimpleStartBtn').src = "./public/image/stop_tomato_hover.png";
+        firebase.analytics().logEvent('stopOver');
+      }
+    }
+
+    function startOut() {
+      var btnVal = document.getElementById("SimpleStartBtn").alt;
+      if (btnVal == "start_a_tomato") {
+        document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato.png";
+        firebase.analytics().logEvent('startOut');
+      } else {
+        document.getElementById("SimpleStartBtn").src = "./public/image/stop_tomato.png";
+        firebase.analytics().logEvent('stopOut');
+      }
+    }
+
+    function ClickStartBtn() {
+      document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato_pressed.png";
+      var snd = new Audio("./public/sounds/start_clicked.mp3");
+      // var snd = new Audio(
+      //     "https://drive.google.com/file/d/1RwlArKE3ls_8tKl3LuRInMGr2TuXpg_s/view?usp=sharing");
+      snd.play();
+      var btnVal = document.getElementById("SimpleStartBtn").alt;
+      if (btnVal == "start_a_tomato") {
+        firebase.analytics().logEvent('ClickStartBtnNonLogin');
+        const date = new Date();
+        const offset = date.getTimezoneOffset();
+        $('#musicCollapse').collapse("show")
+        document.getElementById('addAnote').style.display = "block";
+
+      } else {
+        firebase.analytics().logEvent('ClickStopBtnNonLogin');
+        $('#stopTomatoModal').modal("show");
+      }
+    }
+
+    function newTodo() {
+      $('#loginToAccess').modal("show");
+    }
   </script>
+
+  <script>
+    $(function () {
+      $('#modalClose').on('click', function () {
+        $('#stopTomatoModal').modal("hide");
+      })
+      $('#modalClose1').on('click', function () {
+        $('#stopTomatoModal').modal("hide");
+      })
+      $('#modalClose2').on('click', function () {
+        $('#stopTomatoModal').modal("hide");
+      })
+    })
+  </script>
+
+  <script>
+    // Create a "close" button and append it to each list item
+    var myNodelist = document.getElementsByTagName("LI");
+    var i;
+    for (i = 0; i < myNodelist.length; i++) {
+      var span = document.createElement("SPAN");
+      var txt = document.createTextNode("\u00D7");
+      var tdId = myNodelist[i].id;
+      span.className = "closeTodo";
+      span.id = tdId + "closeTodoId";
+      span.appendChild(txt);
+      var spanSpinner = document.createElement("SPAN");
+      spanSpinner.className = "spinner-border spinner-border-sm closeTodo";
+      spanSpinner.id = tdId + "closeTodoId-spinner";
+      spanSpinner.style.visibility = "hidden";
+      spanSpinner.style.color = "white"
+      spanSpinner.style.height = "100%"
+      myNodelist[i].appendChild(span);
+      myNodelist[i].appendChild(spanSpinner);
+    } // Click on a close button to hide the current list item var
+    close = document.getElementsByClassName("closeTodo");
+    var i;
+    for (i = 0; i < close.length; i++) {
+      close[i].onclick = function () {
+        var div = this.parentElement;
+        var todoId = div.id;
+        showSpinner(true, todoId + "closeTodoId")
+        $('#loginToAccess').modal("show");
+      }
+    }
+    var list = document.querySelector('ul');
+    list.addEventListener('click',
+      function (ev) {
+        $('#loginToAccess').modal("show");
+      }, false); // Create a new list item when clicking on the "Add" button
+  </script>
+  <script type="module" src="./public/js/simple_cooldown_clock.js"></script>
+  <script type="module" src="./public/js/simple_music.js"></script>
+  <script src="./public/summernote/summernote.min.js"></script>
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+
+  <script src="./public/toast/toasteur.min.js"></script>
 </body>
 
 </html>

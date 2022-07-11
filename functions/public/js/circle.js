@@ -1,4 +1,4 @@
-import { StopMusic } from "./music.js"
+import { StopMusic2 } from "./music2.js"
 import { ResetCDClock2 } from "./coolDownForStopClock.js"
 
 $(document).ready(function () {
@@ -129,7 +129,7 @@ function Circlebar(prefs) {
             }
 
             StopTimer();
-            StopMusic();
+            StopMusic2();
             ResetClock(0);
             ResetCDClock(0);
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
@@ -305,7 +305,7 @@ window.StopTomato = function () {
         success: function (result) {
             new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
             StopTimer();
-            StopMusic();
+            StopMusic2();
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
             audio.play();
             audio.addEventListener("ended", function () {

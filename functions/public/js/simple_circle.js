@@ -1,4 +1,4 @@
-import { StopMusic } from "./simple_music.js"
+import { StopMusic2 } from "./simple_music2.js"
 
 $(document).ready(function () {
     var prefs = {
@@ -87,7 +87,7 @@ function Circlebar(prefs) {
             $('#musicCollapse').collapse("hide")
 
             StopTimer();
-            StopMusic();
+            StopMusic2();
             ResetClock(0);
             ResetCDClock(0);
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
@@ -203,7 +203,7 @@ window.StopTomato = function () {
         success: function (result) {
             new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
             StopTimer();
-            StopMusic();
+            StopMusic2();
             var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
             audio.play();
             audio.addEventListener("ended", function () {

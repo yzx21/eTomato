@@ -59,7 +59,7 @@
   height: 100%;
   background-color: hsl(227, 10%, 10%);
   padding-top: 90px;
-  min-height: 120%;
+  min-height: 100%;
   overflow-x: hidden;
   padding-left: 3%;
   padding-right: 3%;
@@ -459,6 +459,8 @@ hr {
   top: 0px;
   width: 100%;
   padding: 0%;
+  overflow-y: auto;
+  height: 80%;
 }
 
 #pubNotesSec {
@@ -466,6 +468,8 @@ hr {
   top: 0px;
   width: 100%;
   padding: 0%;
+  overflow-y: auto;
+  height: 80%;
 }
 
 .pubNoteLikeBtn {

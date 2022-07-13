@@ -94,7 +94,7 @@ app.post("/sessionLogin", async (req, res) => {
         email: email ? email : "",
         phoneNum: phoneNum ? phoneNum : ""
     })
-    res.redirect("/");
+    res.redirect("./");
 });
 
 app.get("/index", async (req, res) => {
@@ -104,7 +104,6 @@ app.get("/index", async (req, res) => {
     try {
         userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-
         var allPubNotes = await db.ref('publicNotes').once('value');
         var pubNotes = [];
         for (let key in allPubNotes.val()) {
@@ -145,7 +144,7 @@ app.get("/index", async (req, res) => {
         });
         return;
     }
-    res.redirect("/");
+    res.redirect("./");
 });
 
 app.get("/", async (req, res) => {
@@ -153,7 +152,7 @@ app.get("/", async (req, res) => {
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.redirect("index");
+        res.redirect("./index");
         return;
     }
     var userRec = await admin.database().ref('users').child(userSnap.uid).once('value');
@@ -813,7 +812,7 @@ app.post("/feedback", async (req, res) => {
 app.get("/logout", (req, res) => {
     res.clearCookie("__session");
     res.setHeader('Cache-control', 'private, max-age=0');
-    res.redirect('/');
+    res.redirect('./');
 });
 
 function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent, email) {
@@ -837,3 +836,5 @@ function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent, email) {
 }
 
 exports.functions = functions.https.onRequest(app);
+
+module.exports = app;

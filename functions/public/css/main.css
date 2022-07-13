@@ -557,6 +557,7 @@ hr {
   right: 30px;
   width: 200px;
   height: 40px;
+  top: 15px;
 }
 
 @import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");

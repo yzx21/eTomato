@@ -1203,7 +1203,7 @@
             function (ev) {
                 if (ev.target.tagName === 'LI') {
                     $.ajax({
-                        url: "./toogleTodo",
+                        url: "./toggleTodo",
                         type: "POST",
                         data: {
                             todoId: ev.target.id,

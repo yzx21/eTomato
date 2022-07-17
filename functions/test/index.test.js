@@ -71,18 +71,18 @@ describe('Add todo', () => {
 
 
 describe('Toggle todo', () => {
-    it('POST /toogleTodo should fail with 401 without valid user session and empty todoId', async () => {
+    it('POST /toggleTodo should fail with 401 without valid user session and empty todoId', async () => {
 
         const res = await requestWithSupertest
-            .post("/toogleTodo")
+            .post("/toggleTodo")
             .send("");
         expect(res.status).equal(401);
     });
 
-    it('POST /toogleTodo should fail with valid user session but empty todoId', async () => {
+    it('POST /toggleTodo should fail with valid user session but empty todoId', async () => {
 
         const res = await requestWithSupertest
-            .post("/toogleTodo")
+            .post("/toggleTodo")
             .set("Cookie", [setCookie])
             .send("");
 
@@ -91,19 +91,19 @@ describe('Toggle todo', () => {
     });
 
 
-    it('POST /toogleTodo should fail with valid user session and illegal todoId', async () => {
+    it('POST /toggleTodo should fail with valid user session and illegal todoId', async () => {
 
         const res = await requestWithSupertest
-            .post("/toogleTodo")
+            .post("/toggleTodo")
             .set("Cookie", [setCookie])
             .send("");
         expect(res.status).equal(401);
     });
 
 
-    it('POST /toogleTodo should pass with valid user session and valid todoId', async () => {
+    it('POST /toggleTodo should pass with valid user session and valid todoId', async () => {
         const res = await requestWithSupertest
-            .post("/toogleTodo")
+            .post("/toggleTodo")
             .set("Cookie", [setCookie])
             .send({ "todoId": todoId });
         expect(res.status).equal(200);
@@ -157,3 +157,160 @@ describe('Send time offset', () => {
         expect(res.status).equal(200);
     })
 })
+
+
+describe('Start session', () => {
+
+    it('Clear the session if any', async () => {
+        await requestWithSupertest.post("/stopSession")
+            .set("Cookie", [setCookie]);
+    })
+
+    it('POST /startSession should fail without user session', async () => {
+        const res = await requestWithSupertest.post("/startSession");
+        expect(res.status).equal(401);
+    })
+
+    it('POST /startSession should pass with user session', async () => {
+        const res = await requestWithSupertest
+            .post("/startSession")
+            .set("Cookie", [setCookie]);
+        expect(res.status).equal(200);
+    })
+})
+
+
+describe('Stop session', () => {
+
+    it('Setup the session, this is to trigger a fail stop session', async () => {
+        const res = await requestWithSupertest.post("/stopSession")
+            .set("Cookie", [setCookie]);
+    })
+
+    it('POST /stopSession Stop the session should fail if there is not a session', async () => {
+        const res = await requestWithSupertest.post("/stopSession")
+            .set("Cookie", [setCookie]);
+        expect(res.status).equal(500);
+    })
+
+    it('POST /stopSession should fail without user session', async () => {
+        const res = await requestWithSupertest.post("/stopSession");
+        expect(res.status).equal(500);
+    })
+
+    it('Setup the session, this is to trigger a pass stop session', async () => {
+        const res = await requestWithSupertest
+            .post("/startSession")
+            .set("Cookie", [setCookie]);
+    })
+
+    it('POST /stopSession should pass with user session', async () => {
+        const res = await requestWithSupertest
+            .post("/stopSession")
+            .set("Cookie", [setCookie]);
+        expect(res.status).equal(200);
+    })
+})
+
+describe('Touch play button', () => {
+
+    it('POST /touchedMusicPlayBtn without a session should fail', async () => {
+        const res = await requestWithSupertest.post("/touchedMusicPlayBtn")
+        expect(res.status).equal(401);
+    })
+
+    it('POST /touchedMusicPlayBtn without an ongoing session should fail', async () => {
+        const res = await requestWithSupertest
+            .post("/touchedMusicPlayBtn")
+            .set("Cookie", [setCookie]);
+        expect(res.status).equal(401);
+    })
+
+
+    it('Setup a valid session.', async () => {
+        const res = await requestWithSupertest
+            .post("/startSession")
+            .set("Cookie", [setCookie]);
+    })
+
+    it('POST /touchedMusicPlayBtn with valid session and an ongoing session should path', async () => {
+        const res = await requestWithSupertest
+            .post("/touchedMusicPlayBtn")
+            .set("Cookie", [setCookie]);
+        expect(res.status).equal(200);
+    })
+
+    it('Recover the session status', async () => {
+        const res = await requestWithSupertest
+            .post("/stopSession")
+            .set("Cookie", [setCookie]);
+    })
+
+})
+
+
+describe('Save notes', () => {
+
+    it('POST /saveNotes without a session should fail', async () => {
+        const res = await requestWithSupertest.post("/saveNotes")
+        expect(res.status).equal(401);
+    })
+
+    it('Setup a valid session.', async () => {
+        const res = await requestWithSupertest
+            .post("/startSession")
+            .set("Cookie", [setCookie]);
+    })
+
+    it('POST /saveNotes with valid session and an ongoing session should path', async () => {
+        const res = await requestWithSupertest
+            .post("/saveNotes")
+            .set("Cookie", [setCookie])
+            .send({ "tomatoType": "test_type", "notes": "test_notes" });
+        expect(res.status).equal(200);
+    })
+
+    it('Recover the session status', async () => {
+        const res = await requestWithSupertest
+            .post("/stopSession")
+            .set("Cookie", [setCookie]);
+    })
+})
+
+// describe('Edit notes', () => {
+
+//     it('POST /editNoteSave without a session should fail', async () => {
+//         const res = await requestWithSupertest.post("/editNoteSave")
+//         expect(res.status).equal(401);
+//     })
+
+//     it('Setup to start a valid session ', async () => {
+//         const res = await requestWithSupertest
+//             .post("/startSession")
+//             .set("Cookie", [setCookie]);
+//         expect(res.status).equal(200);
+//     })
+//     const tmtId = req.body["tmtId"];
+//     const tmtType = req.body["tmtType"];
+//     const noteText = req.body["noteText"];
+
+//     it('Setup a valid session.', async () => {
+//         const res = await requestWithSupertest
+//             .post("/startSession")
+//             .set("Cookie", [setCookie]);
+//     })
+
+//     it('POST /editNoteSave with valid session and an ongoing session should path', async () => {
+//         const res = await requestWithSupertest
+//             .post("/saveNotes")
+//             .set("Cookie", [setCookie])
+//             .send({ "tomatoType": "test_type", "notes": "test_notes" });
+//         expect(res.status).equal(200);
+//     })
+
+//     it('Recover the session status', async () => {
+//         const res = await requestWithSupertest
+//             .post("/stopSession")
+//             .set("Cookie", [setCookie]);
+//     })
+// })

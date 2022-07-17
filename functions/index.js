@@ -70,6 +70,7 @@ app.use(session({
     cookie: { secure: true }
 }));
 
+// Log the user in. Record the session on the client and pass that each time to do the authentication. 
 app.post("/sessionLogin", async (req, res) => {
     const idToken = JSON.parse(req.body)["idToken"];
     const photoURL = JSON.parse(req.body)["photoURL"];
@@ -97,6 +98,7 @@ app.post("/sessionLogin", async (req, res) => {
     res.redirect("./");
 });
 
+// Show user the landing page
 app.get("/index", async (req, res) => {
     var db = admin.database();
     const sessionCookie = req.cookies.__session || "";
@@ -147,6 +149,7 @@ app.get("/index", async (req, res) => {
     res.redirect("./");
 });
 
+// When a use send request to visit the page. Redirect to the landing page if cookies session is invalid.
 app.get("/", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     try {
@@ -313,6 +316,7 @@ app.get("/", async (req, res) => {
     });
 });
 
+// A util method that turn the second to day/month/year array.
 function getDayMonthYear(seconds) {
     var nowDate = moment.unix(seconds);
     var nowDay = nowDate.format("D");
@@ -321,6 +325,8 @@ function getDayMonthYear(seconds) {
     return [nowDay, nowMonth, nowYear]
 }
 
+// Determine whether a particular pomodoro session is going on, if now - startTimeSec > 25 mins or it explicitily marked duration, it should be cnosidered as ended
+// Otherwise it should be ongoing session. Return true/false.
 function isTomatoOngoing(tomato) {
     var nowSec = Date.now() / 1000;
     if (tomato['duration'] != undefined) {
@@ -332,6 +338,7 @@ function isTomatoOngoing(tomato) {
     return false;
 }
 
+// Util method that returns the remaining seconds for a pomodoro session.
 function getRemainingRestTime(tomato) {
     var nowSec = Date.now() / 1000;
     if (tomato['duration'] != undefined) {
@@ -344,16 +351,19 @@ function getRemainingRestTime(tomato) {
     return 0;
 }
 
+// Util method that returns the pomodoro record for a given user
 async function getLastestTomato(uid) {
     var tomatosSet = await admin.database().ref('users').child(uid).child("tomatos").limitToLast(1).once('value');
     tomatosSet = tomatosSet.val();
     return tomatosSet;
 }
 
+// Util method that return all the pomodor session for a given user.
 async function getAllTomatos(uid) {
     return admin.database().ref('users').child(uid).child("tomatos").once('value');
 }
 
+// Get the latest tomato session for the given input user. The result will be a THML that can be dispalyed by the client after a aJax call.
 async function getLatestNote(userRec, latestTmtSnap) {
     var newDiv = "<div class='noteCard' id='" + latestTmtSnap.key + "_card' data-nid='" + latestTmtSnap.key + "'>"
     newDiv += "<img id='noteAvatar' src='" + userRec.val()['photoURL'] + "' width='40px' height='40px' alt='Avatar' />"
@@ -394,6 +404,9 @@ async function getLatestNote(userRec, latestTmtSnap) {
     return newDiv;
 }
 
+
+
+// A util method that generate the latest public notes sesion, the result will be the html content that can be displayed when client make a aJax request.
 async function getPubedNote(userRec, latestTmtSnap) {
     var db = admin.database();
     var newDiv = "<div class='noteCard' id='" + latestTmtSnap.key + "_pubcard' data-nid='" + latestTmtSnap.key + "'>"
@@ -434,6 +447,7 @@ async function getPubedNote(userRec, latestTmtSnap) {
 
 }
 
+// A util method that parse the latest tomato snap and returns the html content that should be displayed on the client side.
 async function getLatestTodayTmt(latestTmtSnap) {
     latestTmtSnap = latestTmtSnap.val()
     var newDiv = '<div class="col-3"> <img id="todayTmtImgId" '
@@ -459,6 +473,8 @@ async function getLatestTodayTmt(latestTmtSnap) {
     return newDiv;
 }
 
+
+// Update the firebase real timer db under path "users/uid/timeOffset", this is used to fetch the accurate client side local time. return status 200.
 app.post("/sendTimeOffset", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const timeOffset = req.body["timeOffset"] || 0;
@@ -470,10 +486,11 @@ app.post("/sendTimeOffset", async (req, res) => {
         return;
     }
     db.ref('users').child(userSnap.uid).update({ timeOffset: timeOffset })
-    res.send();
+    res.status(200).send();
     return;
 })
 
+// Append a new entry in the firebase real timer db under path "users/uid/tomatos" return status 200.
 app.post("/startSession", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const timeOffset = req.body["timeOffset"] || 0;
@@ -481,7 +498,7 @@ app.post("/startSession", async (req, res) => {
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.send("something went wrong");
+        res.status(401).send("something went wrong");
         return;
     }
     var tomatosSet = await getLastestTomato(userSnap.uid);
@@ -494,10 +511,11 @@ app.post("/startSession", async (req, res) => {
             startTimeSec: Date.now() / 1000,
             timeOffset: timeOffset,
         })
-        res.send();
+        res.status(200).send();
     }
 });
 
+// Update the firebase real timer db under path "users/uid/tomatos" by adding duration field to indicate this session has ended. return status 200 + body duration.
 app.post("/stopSession", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     var db = admin.database();
@@ -519,10 +537,11 @@ app.post("/stopSession", async (req, res) => {
         latestTomatoDurationSnap.update({
             duration: duratioin
         })
-        res.send("" + duratioin);
+        res.status(200).send("" + duratioin);
     }
 });
 
+// When a play button is clicked, we should append a new pomodoro session under the 'users/uid/'
 app.post("/touchedMusicPlayBtn", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const isMusicPlaying = req.body["isMusicPlaying"] || false;
@@ -530,12 +549,12 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.send("something went wrong");
+        res.status(401).send("something went wrong");
         return;
     }
     var tomatosSet = await getLastestTomato(userSnap.uid);
     if (!tomatosSet || !isTomatoOngoing(tomatosSet[Object.keys(tomatosSet)[0]])) {
-        res.send();
+        res.status(401).send();
         return;
     }
     else {
@@ -543,11 +562,12 @@ app.post("/touchedMusicPlayBtn", async (req, res) => {
         latestTomatoDurationSnap.update({
             isMusicPlaying: isMusicPlaying
         })
-        res.send();
+        res.status(200).send();
         return;
     }
 });
 
+// Remove the firebase storage under path "users/uid/todo/todoId" and return 200 and todoId as response.
 app.post("/deleteTodo", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const todoId = req.body["todoId"] || '';
@@ -568,9 +588,10 @@ app.post("/deleteTodo", async (req, res) => {
         return;
     }
     todo.child(todoId).remove();
-    res.send(todoId);
+    res.status(200).send(todoId);
 })
 
+// Add the firebase storage under path "users/uid/todo/" and return status 200 + todoId as response. 
 app.post("/addTodo", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const inputValue = req.body["inputValue"] || '';
@@ -590,7 +611,8 @@ app.post("/addTodo", async (req, res) => {
     res.status(200).send(newNoteSnap.key);
 })
 
-app.post("/toogleTodo", async (req, res) => {
+// Toggle the firebase storage under path "users/uid/todo/todoId" and return status 200 + todoId as response. 
+app.post("/toggleTodo", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const todoId = req.body["todoId"] || '';
     if (todoId === '') {
@@ -621,6 +643,8 @@ app.post("/toogleTodo", async (req, res) => {
     }
 })
 
+
+// Update the firebase real time storage under path "users/uid/tomatos/tmtId/notes" and return status 200 in the response.
 app.post("/editNoteSave", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const tmtId = req.body["tmtId"];
@@ -647,6 +671,7 @@ app.post("/editNoteSave", async (req, res) => {
     res.status(200).send();
 })
 
+// Update the firebase real time storage under path "users/uid/tomatos/tmtId/notes/pubPath" and return status 200 in the response.
 app.post("/publishNotes", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const tmtId = req.body["tmtId"];
@@ -686,6 +711,7 @@ app.post("/publishNotes", async (req, res) => {
 
 })
 
+// Update the firebase real time storage under path "users/uid/tomatos/tmtId/notes/likeCnt" and return status 200  and the likeCnt in the response.
 app.post("/likeNote", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const notePath = req.body["notePath"];
@@ -728,6 +754,7 @@ app.post("/likeNote", async (req, res) => {
     return;
 })
 
+// Remove the firebase real time storage under path "users/uid/tomatos/tmtId/notes" and return status 200 in the response.
 app.post("/deleteNote", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const tmtId = req.body["tmtId"];
@@ -753,6 +780,7 @@ app.post("/deleteNote", async (req, res) => {
     res.status(200).send();
 })
 
+// Append a new entry notes into the firebase real time storage under path "users/uid/tomatos" and return status 200 in the response.
 app.post("/saveNotes", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const checkedValue = req.body["checkedValue"];
@@ -784,11 +812,12 @@ app.post("/saveNotes", async (req, res) => {
         var latestTmtSnap = await latestTomato.once('value')
         var newNoteDiv = await getLatestNote(userRec, latestTmtSnap);
         var newTodayTmt = await getLatestTodayTmt(latestTmtSnap);
-        res.send({ newNoteDiv: newNoteDiv, newTodayTmt: newTodayTmt });
+        res.status(200).send({ newNoteDiv: newNoteDiv, newTodayTmt: newTodayTmt });
         return;
     }
 })
 
+// Append a new entry into firebase real time storage under path "feedback" and return status 200 in the response.
 app.post("/feedback", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const checkValue = req.body["checkedValue"];
@@ -806,15 +835,18 @@ app.post("/feedback", async (req, res) => {
         comments: comments,
         date: Date.now() / 1000,
     })
-    res.send();
+    res.status(200).send();
 })
 
+// Clear the client side cookie field.
 app.get("/logout", (req, res) => {
     res.clearCookie("__session");
     res.setHeader('Cache-control', 'private, max-age=0');
     res.redirect('./');
 });
 
+
+// Leverage the email trigger firebase extension to send out an email. This will be fire and forget so return nothing.
 function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent, email) {
     fs.readFile('./views/email.html', 'utf8', function (err, html) {
         if (err) {
@@ -838,4 +870,4 @@ function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent, email) {
 exports.functions = functions.https.onRequest(app);
 
 // Uncomment to do the unit tests
-// module.exports = app;
+module.exports = app;

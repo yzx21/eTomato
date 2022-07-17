@@ -507,11 +507,11 @@ app.post("/startSession", async (req, res) => {
     }
     else {
         var tomatosSnap = db.ref('users').child(userSnap.uid).child("tomatos");
-        tomatosSnap.push({
+        var newSnap = await tomatosSnap.push({
             startTimeSec: Date.now() / 1000,
             timeOffset: timeOffset,
         })
-        res.status(200).send();
+        res.status(200).send(newSnap.key);
     }
 });
 
@@ -870,4 +870,4 @@ function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent, email) {
 exports.functions = functions.https.onRequest(app);
 
 // Uncomment to do the unit tests
-module.exports = app;
+// module.exports = app;

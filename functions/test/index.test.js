@@ -1,3 +1,7 @@
+// Uncomment the following code in index.js to make the unit test passing. 
+//module.exports = app;
+
+
 const server = require('../index');
 const supertest = require('supertest');
 const { expect } = require('chai');
@@ -277,40 +281,105 @@ describe('Save notes', () => {
     })
 })
 
-// describe('Edit notes', () => {
+describe('Edit notes', () => {
 
-//     it('POST /editNoteSave without a session should fail', async () => {
-//         const res = await requestWithSupertest.post("/editNoteSave")
-//         expect(res.status).equal(401);
-//     })
+    it('POST /editNoteSave without a session should fail', async () => {
+        const res = await requestWithSupertest.post("/editNoteSave")
+        expect(res.status).equal(401);
+    })
 
-//     it('Setup to start a valid session ', async () => {
-//         const res = await requestWithSupertest
-//             .post("/startSession")
-//             .set("Cookie", [setCookie]);
-//         expect(res.status).equal(200);
-//     })
-//     const tmtId = req.body["tmtId"];
-//     const tmtType = req.body["tmtType"];
-//     const noteText = req.body["noteText"];
+    var newSessionId = ""
+    it('Setup to start a valid session ', async () => {
+        const res = await requestWithSupertest
+            .post("/startSession")
+            .set("Cookie", [setCookie]);
+        newSessionId = res.text;
+    })
 
-//     it('Setup a valid session.', async () => {
-//         const res = await requestWithSupertest
-//             .post("/startSession")
-//             .set("Cookie", [setCookie]);
-//     })
+    it('POST /editNoteSave with valid session and tmtId, tmtType and noteTxt should pass', async () => {
+        const res = await requestWithSupertest
+            .post("/editNoteSave")
+            .set("Cookie", [setCookie])
+            .send({
+                "tmtId": newSessionId,
+                "tmtType": "testType",
+                "noteText": "testTxt",
+            })
+        expect(res.status).equal(200);
+    })
 
-//     it('POST /editNoteSave with valid session and an ongoing session should path', async () => {
-//         const res = await requestWithSupertest
-//             .post("/saveNotes")
-//             .set("Cookie", [setCookie])
-//             .send({ "tomatoType": "test_type", "notes": "test_notes" });
-//         expect(res.status).equal(200);
-//     })
+    it('Recover the session status', async () => {
+        const res = await requestWithSupertest
+            .post("/stopSession")
+            .set("Cookie", [setCookie]);
+    })
+})
 
-//     it('Recover the session status', async () => {
-//         const res = await requestWithSupertest
-//             .post("/stopSession")
-//             .set("Cookie", [setCookie]);
-//     })
-// })
+describe('Publish notes', () => {
+
+    it('POST /publishNotes without a session should fail', async () => {
+        const res = await requestWithSupertest.post("/publishNotes")
+        expect(res.status).equal(401);
+    })
+
+    var newSessionId = ""
+    it('Setup to start a valid session ', async () => {
+        const res = await requestWithSupertest
+            .post("/startSession")
+            .set("Cookie", [setCookie]);
+        newSessionId = res.text;
+    })
+
+    it('POST /saveNotes with valid session and an ongoing session should path', async () => {
+        const res = await requestWithSupertest
+            .post("/saveNotes")
+            .set("Cookie", [setCookie])
+            .send({ "tomatoType": "test_type", "notes": "test_notes" });
+        expect(res.status).equal(200);
+    })
+
+
+    it('POST /publishNotes with valid session and tmtId should pass', async () => {
+        const res = await requestWithSupertest
+            .post("/publishNotes")
+            .set("Cookie", [setCookie])
+            .send({
+                "tmtId": newSessionId,
+            })
+        expect(res.status).equal(200);
+    })
+
+    it('POST /publishNotes second time will do unplublish with valid session and tmtId should pass', async () => {
+        const res = await requestWithSupertest
+            .post("/publishNotes")
+            .set("Cookie", [setCookie])
+            .send({
+                "tmtId": newSessionId,
+            })
+        expect(res.status).equal(200);
+    })
+
+    it('POST /deleteNote without valid session and an ongoing session should fail', async () => {
+        const res = await requestWithSupertest
+            .post("/deleteNote");
+        expect(res.status).equal(401);
+    })
+
+    it('POST /deleteNote with valid session and an ongoing session should pass', async () => {
+        const res = await requestWithSupertest
+            .post("/deleteNote")
+            .set("Cookie", [setCookie])
+            .send({
+                "tmtId": newSessionId
+            });
+        expect(res.status).equal(200);
+    })
+
+
+    it('Recover the session status', async () => {
+        const res = await requestWithSupertest
+            .post("/stopSession")
+            .set("Cookie", [setCookie]);
+    })
+})
+

@@ -138,3 +138,14 @@ ul li.checked::before {
     background-color: #f44336;
     color: white;
 }
+
+.closeTodoSpinner {
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 5px);
+    height: 100%;
+    align-items: center;
+    display: inline-flex;
+    width: 10px;
+    height: 10px;
+}

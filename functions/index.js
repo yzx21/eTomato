@@ -466,7 +466,7 @@ app.post("/sendTimeOffset", async (req, res) => {
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.send("something went wrong");
+        res.status(401).send("something went wrong");
         return;
     }
     db.ref('users').child(userSnap.uid).update({ timeOffset: timeOffset })
@@ -504,7 +504,7 @@ app.post("/stopSession", async (req, res) => {
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.send("something went wrong");
+        res.status(500).send("something went wrong");
         return;
     }
     var tomatosSet = await getLastestTomato(userSnap.uid);
@@ -575,19 +575,19 @@ app.post("/addTodo", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";
     const inputValue = req.body["inputValue"] || '';
     if (inputValue === '') {
-        res.status(401).send("something went wrong");
+        res.status(401).send("something went wrong: 1");
         return;
     }
     var db = admin.database();
     try {
         var userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
     } catch (err) {
-        res.status(401).send("something went wrong");
+        res.status(401).send("something went wrong: 2");
         return;
     }
     var todo = db.ref('users').child(userSnap.uid).child("todos");
     var newNoteSnap = await todo.push({ noteDate: Date.now() / 1000, inputValue: inputValue })
-    res.send(newNoteSnap.key);
+    res.status(200).send(newNoteSnap.key);
 })
 
 app.post("/toogleTodo", async (req, res) => {
@@ -837,4 +837,5 @@ function sendLikedEmail(avatarUrl, noteDate, noteType, noteContent, email) {
 
 exports.functions = functions.https.onRequest(app);
 
-module.exports = app;
+// Uncomment to do the unit tests
+// module.exports = app;

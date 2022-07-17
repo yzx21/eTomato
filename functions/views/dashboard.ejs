@@ -1098,11 +1098,11 @@
                     span.appendChild(txt);
 
                     var spanSpinner = document.createElement("SPAN");
-                    spanSpinner.className = "spinner-grow spinner-grow-sm closeTodo";
+                    spanSpinner.className = "spinner-border pinner-border-sm closeTodoSpinner";
                     spanSpinner.id = result + "closeTodoId-spinner";
                     spanSpinner.style.visibility = "hidden";
                     spanSpinner.style.color = "white"
-                    spanSpinner.style.height = "100%"
+                    // spanSpinner.style.height = "100%"
                     li.appendChild(span);
                     li.appendChild(spanSpinner)
                     for (i = 0; i < close.length; i++) {
@@ -1165,11 +1165,11 @@
             span.id = tdId + "closeTodoId";
             span.appendChild(txt);
             var spanSpinner = document.createElement("SPAN");
-            spanSpinner.className = "spinner-border spinner-border-sm closeTodo";
+            spanSpinner.className = "spinner-border spinner-border-sm closeTodoSpinner";
             spanSpinner.id = tdId + "closeTodoId-spinner";
             spanSpinner.style.visibility = "hidden";
             spanSpinner.style.color = "white"
-            spanSpinner.style.height = "100%"
+            // spanSpinner.style.height = "100%"
             myNodelist[i].appendChild(span);
             myNodelist[i].appendChild(spanSpinner);
         } // Click on a close button to hide the current list item var

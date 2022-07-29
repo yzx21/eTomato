@@ -32,8 +32,8 @@ const { user } = require('firebase-functions/v1/auth');
 
 const admin_user_id = ["a0EwM29GJnNUN5yGys7XU3CTv9q2", "80F3IL4sgqZrfudzNLHusBLIJwc2"]
 
-const tomatoSessionLength = 1500;
-const coolDownLength = 300;
+const tomatoSessionLength = 15;
+const coolDownLength = 3;
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),

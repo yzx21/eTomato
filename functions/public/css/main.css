@@ -894,15 +894,6 @@ input {
   outline: none;
 }
 
-#app-cover {
-  height: 100%;
-  aspect-ratio: 3.5;
-  padding: 0px;
-  width: 40%;
-  left: 30%;
-  position: relative;
-}
-
 #intro_img_sec {
   position: relative;
   top: 0px;

@@ -111,10 +111,10 @@ function Circlebar(prefs) {
                         $('#todayTmtRow').children().eq(0).remove();
                         $('#todayTmtRow').prepend(
                             result['newTodayTmt']);
-                        var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
+                        var todayCnt = document.getElementById('ap').dataset.todaycnt;
                         document.getElementById('todayTomatoLbl').innerHTML =
                             'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-                        document.getElementById('app-cover').dataset.todaycnt += 1;
+                        document.getElementById('ap').dataset.todaycnt += 1;
 
                         var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                             '[data-bs-toggle="tooltip"]'))
@@ -339,6 +339,10 @@ window.StopTomato = function () {
                 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                     return new bootstrap.Tooltip(tooltipTriggerEl)
                 })
+                var todayCnt = document.getElementById('ap').dataset.todaycnt;
+                document.getElementById('todayTomatoLbl').innerHTML =
+                    'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
+                document.getElementById('ap').dataset.todaycnt += 1;
                 return;
             }
             if (!tomatoType) {
@@ -365,10 +369,10 @@ window.StopTomato = function () {
                     $('#todayTmtRow').children().eq(0).remove();
                     $('#todayTmtRow').prepend(
                         result['newTodayTmt']);
-                    var todayCnt = document.getElementById('app-cover').dataset.todaycnt;
+                    var todayCnt = document.getElementById('ap').dataset.todaycnt;
                     document.getElementById('todayTomatoLbl').innerHTML =
                         'Today\'s tomatos (' + (parseInt(todayCnt) + 1).toString() + ')';
-                    document.getElementById('app-cover').dataset.todaycnt += 1;
+                    document.getElementById('ap').dataset.todaycnt += 1;
 
                     var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                         '[data-bs-toggle="tooltip"]'))

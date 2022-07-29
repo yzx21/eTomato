@@ -382,8 +382,9 @@
 
         <div class="row justify-content-center" id="musicDiv">
             <div class="collapse" id="musicCollapse">
-                <div class="ap" id="ap" data-onrest="0" data-cddismissable="false" data-tomatosessionlength="1500"
-                    data-defaultcdlength="300" data-todaycntcnt="0" data-pendingnote="">
+                <div class="ap" id="ap" data-onrest="0" data-cddismissable="false"
+                    data-tomatosessionlength="<%=tomatoSessionLength%>" data-defaultcdlength="<%=coolDownLength%>"
+                    data-todaycnt=<%=todayTmt.length%> data-pendingnote="">
                     <div class="ap__inner">
                         <div class="ap__item ap__item--playback">
                             <button class="ap__controls ap__controls--prev">
@@ -963,7 +964,7 @@
                             WIPTmt);
 
                         document.getElementById('addAnote').style.display = "block";
-                        document.getElementById('play-pause-button').click();
+                        document.getElementById('play-pause-button-2').click();
                         var tooltipTriggerList = [].slice.call(document.querySelectorAll(
                             '[data-bs-toggle="tooltip"]'))
                         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

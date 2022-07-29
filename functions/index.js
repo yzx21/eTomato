@@ -59,7 +59,13 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(express.json());
-app.use("/public", express.static(__dirname + '/public'));
+app.use("/public", express.static(__dirname + '/public', {
+    maxAge: 86400000,
+    setHeaders: function (res, path) {
+        res.setHeader("Expires", new Date(Date.now() + 2592000000 * 30).toUTCString());
+    }
+}));
+
 process.env.TZ = "America/Los Angeles"
 
 // user sessions

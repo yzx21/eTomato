@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session')
+// gzip/deflate outgoing responses
+var compression = require('compression');
 var moment = require('moment');
 const fs = require('fs')
 const functions = require('firebase-functions');
@@ -65,7 +67,7 @@ app.use("/public", express.static(__dirname + '/public', {
         res.setHeader("Expires", new Date(Date.now() + 2592000000 * 30).toUTCString());
     }
 }));
-
+app.use(compression());
 process.env.TZ = "America/Los Angeles"
 
 // user sessions

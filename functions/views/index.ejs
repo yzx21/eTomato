@@ -16,10 +16,6 @@
   <!-- Bootstrap , fonts & icons  -->
   <link type="text/css" rel="stylesheet" href="./public/toast/themes/toasteur-default.min.css">
   <link rel="stylesheet" href='./public/css/bootstrap.min.css'>
-  <link rel="stylesheet" href="./public/css/clock.css">
-  <link rel="stylesheet" href="./public/css/toggle.css">
-  <link rel="stylesheet" href="./public/css/todo.css">
-  <link rel="stylesheet" href="./public/css/feedback.css">
   <link rel="stylesheet" href="./public/fonts/icon-font/css/style.css">
   <link rel="stylesheet" href="./public/fonts/typography-font/typo.css">
   <link rel="stylesheet" href="./public/fonts/fontawesome-5/css/all.css">
@@ -33,13 +29,9 @@
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="./public/css/circle.css">
-  <link rel="stylesheet" type="text/css" href="./public/css/demo.css">
-  <link rel="stylesheet" type="text/css" href="./public/css/simplecircle.css">
   <link rel="stylesheet" href="./public/plugins/aos/aos.min.css">
   <link rel="stylesheet" href="./public/css/main.css">
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css">
-  <link type="text/css" rel="stylesheet" href="./public/css/music2.css">
   <link href="./public/summernote/summernote.min.css" rel="stylesheet">
 
   <!-- Share -->
@@ -241,7 +233,7 @@
       <!-- <span onclick="printToFile();" id="shareSpan"><img data-bs-toggle="tooltip" data-bs-placement="bottom"
                     title="Get a pic for today's summary." src="./public/image/share.png" width="20px"
                     height="25px" /></span> -->
-      <div class="container" id="todayTmtId">
+      <div id="todayTmtId">
         <div class="row justify-content-start" id="todayTmtRow">
           <div class="col-3">
             <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar"
@@ -257,7 +249,7 @@
     <div class="row justify-content-center" id="todoDivId">
       <lable id="todoLabel">Today's todo</lable>
       <div id="todoDiv">
-        <div class="container" id="inputDivId">
+        <div id="inputDivId">
           <input type="text" id="todoInput" placeholder="New todo">
           <span onclick="newTodo()" id="addNotebtn" style="cursor:pointer;" class="addBtn" data-bs-toggle="tooltip"
             data-bs-placement="bottom" title="Sign in to save your pomodoro timer todos"><img

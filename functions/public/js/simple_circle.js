@@ -197,38 +197,26 @@ function StopTimer() {
 }
 
 window.StopTomato = function () {
-    $.ajax({
-        url: "./stopSession",
-        type: "POST",
-        success: function (result) {
-            new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
-            StopTimer();
-            StopMusic2();
-            var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
-            audio.play();
-            audio.addEventListener("ended", function () {
-                audio.currentTime = 0;
-            });
-
-            // $('#coolDownForStopModal').modal("show");
-            // StartCoolDown2();
-            resetClock(0);
-
-            document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato.png";
-            document.getElementById("SimpleStartBtn").alt = "start_a_tomato";
-            $('#musicCollapse').collapse("hide")
-
-            $('#composingSec').collapse("hide")
-            document.getElementById('addnotebtn').src = "./public/image/add_note.png";
-            document.getElementById('addAnote').style.display = "none";
-
-        },
-        error: function (error) {
-            new Toasteur().error(error.responseText, 'Error!', () => { });
-            document.getElementById("SimpleStartBtn").alt = "stop_a_tomato";
-            $('#musicCollapse').collapse("show")
-        },
+    new Toasteur().success("Tomato stopped", 'Have a break now', () => { });
+    StopTimer();
+    StopMusic2();
+    var audio = new Audio("https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fending_music.mov?alt=media&token=bf79ce38-cf06-4a12-8fc8-425677a3c62d");
+    audio.play();
+    audio.addEventListener("ended", function () {
+        audio.currentTime = 0;
     });
+
+    // $('#coolDownForStopModal').modal("show");
+    // StartCoolDown2();
+    resetClock(0);
+
+    document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato.png";
+    document.getElementById("SimpleStartBtn").alt = "start_a_tomato";
+    $('#musicCollapse').collapse("hide")
+
+    $('#composingSec').collapse("hide")
+    document.getElementById('addnotebtn').src = "./public/image/add_note.png";
+    document.getElementById('addAnote').style.display = "none";
 }
 
 

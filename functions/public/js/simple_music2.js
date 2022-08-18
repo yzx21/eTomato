@@ -655,7 +655,7 @@ start_btn.addEventListener("click", function () {
     var btnVal = start_btn.alt;
     if (btnVal == "start_a_tomato") {
         if (!AP.isPlaying()) {
-            document.getElementById('play-pause-button-2').click();
+            document.getElementById('play-pause-button').click();
         }
         $('#musicCollapse').collapse("hide")
     } else {
@@ -665,7 +665,7 @@ start_btn.addEventListener("click", function () {
 
 export function StopMusic2() {
     if (AP.isPlaying()) {
-        document.getElementById('play-pause-button-2').click();
+        document.getElementById('play-pause-button').click();
     }
     $('#musicCollapse').collapse("hide")
 }

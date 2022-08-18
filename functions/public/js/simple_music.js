@@ -453,19 +453,19 @@ function initPlayer() {
         selectTrack(1);
     });
 
-    var start_btn = document.getElementById("SimpleStartBtn");
-    start_btn.addEventListener("click", function () {
-        var start_btn = document.getElementById("SimpleStartBtn");
-        var btnVal = start_btn.alt;
-        if (btnVal == "start_a_tomato") {
-            if (audio.paused) {
-                document.getElementById('play-pause-button').click();
-            }
-            $('#musicCollapse').collapse("hide")
-        } else {
-            $('#musicCollapse').collapse("show")
-        }
-    });
+    // var start_btn = document.getElementById("SimpleStartBtn");
+    // start_btn.addEventListener("click", function () {
+    //     var start_btn = document.getElementById("SimpleStartBtn");
+    //     var btnVal = start_btn.alt;
+    //     if (btnVal == "start_a_tomato") {
+    //         if (audio.paused) {
+    //             document.getElementById('play-pause-button').click();
+    //         }
+    //         $('#musicCollapse').collapse("hide")
+    //     } else {
+    //         $('#musicCollapse').collapse("show")
+    //     }
+    // });
 }
 
 export function StopMusic() {

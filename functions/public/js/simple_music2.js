@@ -613,6 +613,24 @@ var iconImage = 'https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appsp
 AP.init({
     playList: [
         {
+            'icon': iconImage, 'title': 'Axero - River', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FAxero-River.mp3?alt=media&token=56c8ae59-07a8-45cb-a1ac-9dc057c18c30",
+        },
+        {
+            'icon': iconImage, 'title': 'iamsleepless - A Faint Memory', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FIamSleepless-AFaintMemory.mp3?alt=media&token=4e59fcff-4a3a-469d-829b-3146ae239052",
+        },
+        {
+            'icon': iconImage, 'title': "Tom Day - Flemington", 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FTomDay-Flemington.mp3?alt=media&token=bde4e456-b623-4726-8013-6771d4a3bfe8",
+        },
+        {
+            'icon': iconImage, 'title': "Rameses B - Moon Light", 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FRamesesBMoonLight.mp3?alt=media&token=3c84498f-a9e2-41bd-83b9-58d4171f9a78",
+        },
+        {
+            'icon': iconImage, 'title': 'Explosions In The Sky - Your Hand In Mine', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FExplosionsInTheSky-YourHandInMine.mp3?alt=media&token=f1c8f106-bd9b-45f1-9712-c0e85ac99e5c",
+        },
+        {
+            'icon': iconImage, 'title': 'Various Artists - Steerner By Waves', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FVariousArtists-SteernerByWaves.mp3?alt=media&token=92492536-9e6c-468c-a9e2-4b97500e92b5",
+        },
+        {
             'icon': iconImage, 'title': 'Ambient - piano - meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fambient-piano-meditation-7359.mp3?alt=media&token=0b4382e8-7209-4932-8fa2-9ac09508d662",
         },
         {

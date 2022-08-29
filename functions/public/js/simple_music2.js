@@ -610,61 +610,60 @@ Array.prototype.shuffle = function () {
 // TEST: image for web notifications
 var iconImage = 'https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2F_1.jpeg?alt=media&token=1bb7b4f7-f7aa-43c4-b6e7-8003fb40d8ec';
 
+var firstSong = [{ 'icon': iconImage, 'title': 'Axero - River', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FAxero-River.mp3?alt=media&token=56c8ae59-07a8-45cb-a1ac-9dc057c18c30", },]
+var shuffledSongs = [
+    {
+        'icon': iconImage, 'title': 'iamsleepless - A Faint Memory', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FIamSleepless-AFaintMemory.mp3?alt=media&token=4e59fcff-4a3a-469d-829b-3146ae239052",
+    },
+    {
+        'icon': iconImage, 'title': "Tom Day - Flemington", 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FTomDay-Flemington.mp3?alt=media&token=bde4e456-b623-4726-8013-6771d4a3bfe8",
+    },
+    {
+        'icon': iconImage, 'title': "Rameses B - Moon Light", 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FRamesesBMoonLight.mp3?alt=media&token=3c84498f-a9e2-41bd-83b9-58d4171f9a78",
+    },
+    {
+        'icon': iconImage, 'title': 'Explosions In The Sky - Your Hand In Mine', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FExplosionsInTheSky-YourHandInMine.mp3?alt=media&token=f1c8f106-bd9b-45f1-9712-c0e85ac99e5c",
+    },
+    {
+        'icon': iconImage, 'title': 'Various Artists - Steerner By Waves', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FVariousArtists-SteernerByWaves.mp3?alt=media&token=92492536-9e6c-468c-a9e2-4b97500e92b5",
+    },
+    {
+        'icon': iconImage, 'title': 'Ambient - piano - meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fambient-piano-meditation-7359.mp3?alt=media&token=0b4382e8-7209-4932-8fa2-9ac09508d662",
+    },
+    {
+        'icon': iconImage, 'title': 'Echoes - of - the - forest - meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fechoes-of-the-forest-meditation-4813.mp3?alt=media&token=ee166937-015b-42a2-9f15-02d0f1acde16",
+    },
+    {
+        'icon': iconImage, 'title': 'Inner - peace- meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Finner-peace-meditation-106798.mp3?alt=media&token=c1181533-113f-4987-bb7f-f68bae198535",
+    },
+    {
+        'icon': iconImage, 'title': 'Inverness meditative ambient sound scape for learning and releaxing', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Finverness-meditative-ambient-soundscape-for-learning-and-relaxing-106810.mp3?alt=media&token=659eb09b-c2cb-4ca2-9aa2-009bf8fea76d",
+    },
+    {
+        'icon': iconImage, 'title': 'Ocean choir meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Focean-choir-meditation-8234.mp3?alt=media&token=547d5e0a-8df3-4062-83cf-86c3c9285741",
+    },
+    {
+        'icon': iconImage, 'title': 'Marconi Union - Weightless', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FMarconi%20Union%20-%20Weightless%20(128).mp3?alt=media&token=7eacaf96-0817-40dd-9a73-7e8f4ee790c7",
+    },
+    {
+        'icon': iconImage, 'title': 'Nature sounds', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fnature-99499.mp3?alt=media&token=0530d83c-a15d-4d8d-bd24-394e7492c4af",
+    },
+    {
+        'icon': iconImage, 'title': 'Peaceful garden healing light paino for meditation zen landscapes', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fpeaceful-garden-healing-light-piano-for-meditation-zen-landscapes-112199.mp3?alt=media&token=dc2529bf-c6bd-4246-848c-dfe702345991",
+    },
+    {
+        'icon': iconImage, 'title': 'Rain forest sleep yoga meditation relaxation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Frain-forest-sleep-yoga-meditation-relaxation-2044.mp3?alt=media&token=2aa61347-f795-448f-b900-795f4abeee29",
+    },
+    {
+        'icon': iconImage, 'title': 'Warming sun remastered remix', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fwarming-sun-remastered-remix-13961.mp3?alt=media&token=9e4ef65d-f4e4-4864-a8b5-b6744df3fc59",
+    },
+    {
+        'icon': iconImage, 'title': 'Relaxing music for reflection and creativity', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Frelaxing-music-for-reflection-and-creativity-16102.mp3?alt=media&token=d349d35c-869f-489c-8157-8459deea229e",
+    },
+].shuffle();
+
 AP.init({
-    playList: [
-        {
-            'icon': iconImage, 'title': 'Axero - River', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FAxero-River.mp3?alt=media&token=56c8ae59-07a8-45cb-a1ac-9dc057c18c30",
-        }
-    ] + [
-        {
-            'icon': iconImage, 'title': 'iamsleepless - A Faint Memory', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FIamSleepless-AFaintMemory.mp3?alt=media&token=4e59fcff-4a3a-469d-829b-3146ae239052",
-        },
-        {
-            'icon': iconImage, 'title': "Tom Day - Flemington", 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FTomDay-Flemington.mp3?alt=media&token=bde4e456-b623-4726-8013-6771d4a3bfe8",
-        },
-        {
-            'icon': iconImage, 'title': "Rameses B - Moon Light", 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FRamesesBMoonLight.mp3?alt=media&token=3c84498f-a9e2-41bd-83b9-58d4171f9a78",
-        },
-        {
-            'icon': iconImage, 'title': 'Explosions In The Sky - Your Hand In Mine', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FExplosionsInTheSky-YourHandInMine.mp3?alt=media&token=f1c8f106-bd9b-45f1-9712-c0e85ac99e5c",
-        },
-        {
-            'icon': iconImage, 'title': 'Various Artists - Steerner By Waves', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FVariousArtists-SteernerByWaves.mp3?alt=media&token=92492536-9e6c-468c-a9e2-4b97500e92b5",
-        },
-        {
-            'icon': iconImage, 'title': 'Ambient - piano - meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fambient-piano-meditation-7359.mp3?alt=media&token=0b4382e8-7209-4932-8fa2-9ac09508d662",
-        },
-        {
-            'icon': iconImage, 'title': 'Echoes - of - the - forest - meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fechoes-of-the-forest-meditation-4813.mp3?alt=media&token=ee166937-015b-42a2-9f15-02d0f1acde16",
-        },
-        {
-            'icon': iconImage, 'title': 'Inner - peace- meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Finner-peace-meditation-106798.mp3?alt=media&token=c1181533-113f-4987-bb7f-f68bae198535",
-        },
-        {
-            'icon': iconImage, 'title': 'Inverness meditative ambient sound scape for learning and releaxing', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Finverness-meditative-ambient-soundscape-for-learning-and-relaxing-106810.mp3?alt=media&token=659eb09b-c2cb-4ca2-9aa2-009bf8fea76d",
-        },
-        {
-            'icon': iconImage, 'title': 'Ocean choir meditation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Focean-choir-meditation-8234.mp3?alt=media&token=547d5e0a-8df3-4062-83cf-86c3c9285741",
-        },
-        {
-            'icon': iconImage, 'title': 'Marconi Union - Weightless', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FMarconi%20Union%20-%20Weightless%20(128).mp3?alt=media&token=7eacaf96-0817-40dd-9a73-7e8f4ee790c7",
-        },
-        {
-            'icon': iconImage, 'title': 'Nature sounds', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fnature-99499.mp3?alt=media&token=0530d83c-a15d-4d8d-bd24-394e7492c4af",
-        },
-        {
-            'icon': iconImage, 'title': 'Peaceful garden healing light paino for meditation zen landscapes', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fpeaceful-garden-healing-light-piano-for-meditation-zen-landscapes-112199.mp3?alt=media&token=dc2529bf-c6bd-4246-848c-dfe702345991",
-        },
-        {
-            'icon': iconImage, 'title': 'Rain forest sleep yoga meditation relaxation', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Frain-forest-sleep-yoga-meditation-relaxation-2044.mp3?alt=media&token=2aa61347-f795-448f-b900-795f4abeee29",
-        },
-        {
-            'icon': iconImage, 'title': 'Warming sun remastered remix', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Fwarming-sun-remastered-remix-13961.mp3?alt=media&token=9e4ef65d-f4e4-4864-a8b5-b6744df3fc59",
-        },
-        {
-            'icon': iconImage, 'title': 'Relaxing music for reflection and creativity', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2Frelaxing-music-for-reflection-and-creativity-16102.mp3?alt=media&token=d349d35c-869f-489c-8157-8459deea229e",
-        },
-    ].shuffle()
+    playList: firstSong.concat(shuffledSongs)
 
 });
 

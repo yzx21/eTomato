@@ -1,5 +1,3 @@
-import { StopMusic } from "./music.js"
-
 $(document).ready(function () {
     var prefs = {
         element: ".circlebarCD"

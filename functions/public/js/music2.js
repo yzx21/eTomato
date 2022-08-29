@@ -614,7 +614,8 @@ AP.init({
     playList: [
         {
             'icon': iconImage, 'title': 'Axero - River', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FAxero-River.mp3?alt=media&token=56c8ae59-07a8-45cb-a1ac-9dc057c18c30",
-        },
+        }
+    ] + [
         {
             'icon': iconImage, 'title': "Tom Day - Flemington", 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FTomDay-Flemington.mp3?alt=media&token=bde4e456-b623-4726-8013-6771d4a3bfe8",
         },

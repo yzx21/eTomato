@@ -613,6 +613,21 @@ var iconImage = 'https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appsp
 var firstSong = [{ 'icon': iconImage, 'title': 'Axero - River', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FAxero-River.mp3?alt=media&token=56c8ae59-07a8-45cb-a1ac-9dc057c18c30", },]
 var shuffledSongs = [
     {
+        'icon': iconImage, 'title': 'An Avenue - Tsunenori', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FAnAvenueTsunenori.mp3?alt=media&token=dfbe41cf-9a2a-4de7-add5-93c4ad59e23f",
+    },
+    {
+        'icon': iconImage, 'title': 'Remember-7AND5', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FRemember-7AND5.mp3?alt=media&token=e02f183d-16af-4cce-86cb-c80ab29efd97",
+    },
+    {
+        'icon': iconImage, 'title': 'Sakura Memory-Otokaze', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FSakuraMemory-Otokaze.mp3?alt=media&token=702af1f3-939b-4bd7-af8d-caddf5cae0c1",
+    },
+    {
+        'icon': iconImage, 'title': "Take Me hand Feat - Cecile Corbel - Daishi Dance", 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FtakeMeHandFeat-CecileCorbel-DaishiDance.mp3?alt=media&token=ac9a93db-4b0e-46c8-bc4a-cb8a3230ea36",
+    },
+    {
+        'icon': iconImage, 'title': 'You - Approaching Nivana', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FYou-ApproachingNirvana.mp3?alt=media&token=82629970-bc1b-47a2-b930-d7fc3e985564",
+    },
+    {
         'icon': iconImage, 'title': 'iamsleepless - A Faint Memory', 'file': "https://firebasestorage.googleapis.com/v0/b/etomato-63aac.appspot.com/o/sounds%2FIamSleepless-AFaintMemory.mp3?alt=media&token=4e59fcff-4a3a-469d-829b-3146ae239052",
     },
     {

@@ -164,8 +164,6 @@
   padding-right: 4px;
 }
 
-.notehis {}
-
 #deleteNoteBtn {
   position: relative;
   left: 5px;
@@ -1926,4 +1924,8 @@ input[type="radio"].toggle:checked+label {
 
 input[type="radio"].toggle:checked+label:after {
   left: 0;
+}
+
+.notehis {
+  font-size: 1.0rem;
 }

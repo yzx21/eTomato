@@ -208,7 +208,7 @@
                     <% if(todos[i]['status'] == '1') {%>
                     <li id="<%=todos[i]['uid']%>" class="checked"><%=todos[i]['inputvalue']%></li>
                     <% } else { %>
-                    <li id="<%=todos[i]['uid']%>" class=""><%=todos[i]['inputvalue']%></li>
+                    <li id="<%=todos[i]['uid']%>" class="todoList"><%=todos[i]['inputvalue']%></li>
                     <% }%>
                     <% } %>
                 </ul>
@@ -1072,6 +1072,7 @@
                 },
                 success: function (result) {
                     var li = document.createElement("li");
+                    li.className = "todoList";
                     var inputValue = document.getElementById("todoInput").value;
                     var t = document.createTextNode(inputValue);
                     li.id = result

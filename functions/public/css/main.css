@@ -1793,10 +1793,16 @@ ul li:hover {
 ul li.checked {
   background: #394385;
   color: #fff;
+  font-family: 'Poppins';
   text-decoration: line-through;
   width: 100%;
   text-decoration-color: black;
   text-decoration-thickness: 3px;
+}
+
+.todoList {
+  font-family: 'Poppins';
+  font-size: 1.0rem;
 }
 
 /* Add a "checked" mark when clicked on */
@@ -1927,5 +1933,6 @@ input[type="radio"].toggle:checked+label:after {
 }
 
 .notehis {
+  font-family: "Open Sans", sans-serif;
   font-size: 1.0rem;
 }

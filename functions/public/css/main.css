@@ -512,6 +512,7 @@ hr {
   position: relative;
   color: #FEFFFF;
   top: 0px;
+  font-family: 'Poppins';
   font-size: 15px;
   background-color: #7B78FC;
   padding: 10px;
@@ -1705,6 +1706,7 @@ svg {
   color: #FEFFFF;
   top: 0px;
   left: 0%;
+  font-family: 'Poppins';
   font-size: 15px;
   background-color: #7B78FC;
   padding: 10px;
@@ -1853,6 +1855,7 @@ ul li.checked::before {
   position: relative;
   text-align: center;
   transition: transparent 600ms ease, color 600ms ease;
+  font-family: "Open Sans", sans-serif;
   width: 50%;
   border-radius: 5px;
   border-width: 0px;
@@ -1863,6 +1866,7 @@ ul li.checked::before {
   border-width: 3px;
   border-color: #7B7BFC;
   border-style: solid;
+  font-family: "Open Sans", sans-serif;
   border-radius: 5px;
   padding: 0px;
   width: 100%;

@@ -266,7 +266,7 @@
   position: relative;
   left: 27.5%;
   width: 45%;
-  height: 80%;
+  height: calc(3.7vw);
 }
 
 #SimpleStartBtnSec {

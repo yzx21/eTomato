@@ -5,14 +5,11 @@
   <meta charset="UTF-8">
   <meta name="ahrefs-site-verification" content="9e8d60e49c5b5ba9eb7dfaf63871abbe8bce418c0507b672deb4e162b6893f89">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="keywords"
-    content="pomodoro,etomato,timer,pomodor timer,study timer tomato timer, focus timer,lofi music" />
+  <meta name="keywords" content="" />
   <title>Online Pomodoro Timer - eTomato note, stats and music </title>
-  <meta name="description" content="eTomato is an online pomodoro timer
-            integrated with notepad and lofi music - providing an efficient vibe
-            to boost your study and work. See your study stats and evaluate your
-            time spent. Check out fellow’s notes and inspire each other.">
-  <link rel="shortcut icon" href="./public/image/tomato.png" type="image/x-icon">
+  <meta name="description"
+    content="eTomato is an online pomodoro timer integrated with notepad and lofi music - Boost your productivity with our study timer and focus timer.">
+  <link rel="shortcut icon" href="./public/image/tomato.png" type="image/x-icon" alt"tomato logo">
   <!-- Bootstrap , fonts & icons  -->
   <link type="text/css" rel="stylesheet" href="./public/toast/themes/toasteur-default.min.css">
   <link rel="stylesheet" href='./public/css/bootstrap.min.css'>
@@ -51,6 +48,52 @@
   <script src="./public/js/popper.min.js"></script>
   <script src="./public/js/bootstrap.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+  <script type='application/ld+json'>
+    {
+      "@context": "http://www.schema.org",
+      "@type": "Organization",
+      "name": "e-tomato",
+      "url": "https://e-tomato.online/",
+      "logo": "https://e-tomato.online/public/image/tomato.png",
+      "image": "https://e-tomato.online/public/image/tomato.png",
+      "description": "eTomato is an online pomodoro timer integrated with notepad and lofi music - Boost your productivity with our study timer and focus timer."
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebPage",
+      "name": "e-tomato homepage",
+      "description": "eTomato is an online pomodoro timer integrated with notepad and lofi music - Boost your productivity with our study timer and focus timer. ",
+      "publisher": {
+        "@type": "ProfilePage",
+        "name": "e-tomato"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "e-tomato",
+      "url": "https://e-tomato.online/"
+    }
+  </script>
+
+  <meta name="google-site-verification" content="zOI2JdBnLnC3t54neHourYGxKCSnEf0RRypKfpV6SuM" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GQFH0TJ2K3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-GQFH0TJ2K3');
+  </script>
+
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family:
@@ -60,19 +103,19 @@
     <div class="row position-relative justify-content-center">
       <div class="float-container" id="heading-text-icon">
         <div class="float-child" id="title-icon">
-          <img src="./public/image/tomato.png" width="60px" alt="">
+          <img src="./public/image/tomato.png" width="60px" alt="tomato">
         </div>
         <div class="float-child" id="title-text">eTomato</div>
       </div>
     </div>
 
     <a data-bs-toggle="modal" data-bs-target="#about">
-      <img src="./public/image/about.png" width="315px" height="60px" id=""
+      <img src="./public/image/about.png" alt"about image" width="315px" height="60px" id=""
         style="position: fixed; right: 262px; height: 40px; width: 200px; top:15px;">
     </a>
 
-    <input type="image" src="./public/image/google_login.png" width="315px" height="60px" id="ggLogin1"
-      onclick="login()" />
+    <input type="image" src="./public/image/google_login.png" alt"google login" width="315px" height="60px"
+      id="ggLogin1" onclick="login()" />
   </div>
 
   <div class="modal fade" id="about" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -89,7 +132,7 @@
             typical cooking alarm of 25 minutes. The name Pomodoro was inspired by the kitchen alarm that Francesco used
             to time himself that was shaped like a Pomodoro, which is Italian for tomato.</p>
 
-          <h1>Why is 5 minutes break needed?</h1>
+          <h2>Why is 5 minutes break needed?</h2>
           <p>By applying the Pomodoro Technique, many people have begun to
             understand the value and effectiveness of detachment. A break every
             25 minutes lets you see things from a different perspective and
@@ -97,33 +140,33 @@
             mistakes to correct, and your creative processes are stimulated.
             Detachment enhances the value of continuity.</p>
 
-          <h1>Does the Pomodoro Technique really work?</h1>
+          <h2>Does the Pomodoro Technique really work?</h2>
           <p>Pomodoro technique is highly effective as it helps you effectively manage your time and work on a task
             without distractions. It is also beneficial as it helps you become more disciplined and think about your
             work. This technique is designed to combat multitasking and improve concentration.</p>
 
-          <h1>How many pomodoros can you do in a day?</h1>
+          <h2>How many pomodoros can you do in a day?</h2>
           <p>Everyone's job is different so there's no hard and fast rule for how many Pomodoros you should aim for.
             Personally, if I can do 4 Pomodoros in a day (that's essentially two hours of focused time) I would consider
             that a highly productive day.</p>
 
-          <h1>Is pomodoro good for ADHD?</h1>
+          <h2>Is pomodoro good for ADHD?</h2>
           <p>The technique involves breaking down work into 25-minute intervals, with five-minute breaks in between.
             Research has shown that the Pomodoro Technique is an effective way to manage ADHD symptoms, and can help
             students to better concentrate and complete tasks.Jan</p>
 
-          <h1>Why is pomodoro so good?</h1>
+          <h2>Why is pomodoro so good?</h2>
           <p>The idea behind the pomodoro technique is that the timer instills a sense of urgency. Rather than feeling
             like you
             have endless time in the workday to get things done and then ultimately squandering those precious work
             hours on distractions, you know you only have 25 minutes to make as much progress on a task as possible.</p>
 
-          <h1>Is pomodoro good for studying?</h1>
+          <h2>Is pomodoro good for studying?</h2>
           <p> The method is based on studying in timed intervals. In fact Cirillo named it after the timer he used which
             happened to be shaped like a tomato (pomodoro in Italian). Cirillo found that breaking large tasks up into
             smaller manageable timed units (called “pomodoros”) is the most effective way to study.</p>
 
-          <h1>What do you do in the 5 minute pomodoro break?</h1>
+          <h2>What do you do in the 5 minute pomodoro break?</h2>
           <p>
             8 Things You Can Do During Your Pomodoro Break
             Go for a short walk. Ah – exercise. ...
@@ -135,14 +178,14 @@
             Drink some water. ...
             Play fetch with the pooch.</p>
 
-          <h1>What science says about Pomodoro?</h1>
+          <h2>What science says about Pomodoro?</h2>
           <p>The pomodoro technique fuels your decision-making
 
             For those who have to call the shots daily, this research is going to be the best thing you read all day. It
             suggests that taking breaks helps fight decision fatigue. Essentially, frequent decisions can take a toll on
             your reasoning ability and willpower.</p>
 
-          <h1>Why is it called Pomodoro?</h1>
+          <h2>Why is it called Pomodoro?</h2>
           <p>Pomodoro is the Italian word for tomato. The pomodoro technique was developed by Francesco Cirillo as a
             university student, when he used a tomato timer to measure his 25-minute sessions. These intervals became
             known as pomodoros and the technique became its namesake.</p>
@@ -165,7 +208,8 @@
         </div>
         <div class="modal-body">
 
-          <input type="image" src="./public/image/google_login.png" width="252" height="45px" onclick="login()" />
+          <input type="image" src="./public/image/google_login.png" alt"google login"width="252" height="45px"
+            onclick="login()" />
 
           <p>1. Track your pomodoro history</p>
           <p>2. Track your todo list</p>
@@ -231,12 +275,12 @@
     <div class="row justify-content-center" id="todayDiv">
       <lable id="todayTomatoLbl">Today's tomatos (0)</lable>
       <!-- <span onclick="printToFile();" id="shareSpan"><img data-bs-toggle="tooltip" data-bs-placement="bottom"
-                    title="Get a pic for today's summary." src="./public/image/share.png" width="20px"
+                    title="Get a pic for today's summary." src="./public/image/share.png" alt"share" width="20px"
                     height="25px" /></span> -->
       <div id="todayTmtId">
         <div class="row justify-content-start" id="todayTmtRow">
           <div class="col-3">
-            <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="Avatar"
+            <img id="todayTmtImgId" src="./public/image/growing.gif" width="40px" height="40px" alt="growing Avatar"
               data-bs-toggle="tooltip" data-bs-placement="bottom"
               title="Sign in to collect and track your pomodoro timer history" />
           </div>
@@ -253,7 +297,7 @@
           <input type="text" id="todoInput" placeholder="New todo">
           <span onclick="newTodo()" id="addNotebtn" style="cursor:pointer;" class="addBtn" data-bs-toggle="tooltip"
             data-bs-placement="bottom" title="Sign in to save your pomodoro timer todos"><img
-              src="./public/image/add_btn.png" width="20px" height="20px" /></span>
+              src="./public/image/add_btn.png" alt"add button" width="20px" height="20px" /></span>
           <span class="spinner-border spinner-border-sm addBtn" id="addNotebtn-spinner"
             style="color:white; visibility: hidden"></span>
         </div>
@@ -291,7 +335,7 @@
     <div class="collapse" id="pubNotesSec">
       <% for (let i=0; i<pubNotes.length; i++) { %>
       <div class="noteCard" id="<%=pubNotes[i]['tid']%>_pubcard" data-nid="<%=pubNotes[i]['tid']%>">
-        <img id="noteAvatar" src="<%=pubNotes[i]['profile']%>" width="40px" height="40px" alt="Avatar">
+        <img id="noteAvatar" src="<%=pubNotes[i]['profile']%>" width="40px" height="40px" alt="growing Avatar">
         <label id="noteLable"><%=pubNotes[i]['name']%></label>
         <label
           id="noteTime"><%=moment.unix(parseInt(pubNotes[i]["date"]) - parseInt(pubNotes[i]["timeOffset"]) * 60).format('lll')%></label>
@@ -312,11 +356,12 @@
                 </div>
                 <% if(pubNotes[i]['hasLiked']) {%>
           <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/already_liked.png"
-            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sign in to like others' pomodoro timer notes" />
+            alt"linked source" data-bs-toggle="tooltip" data-bs-placement="bottom"
+            title="Sign in to like others' pomodoro timer notes" />
           <%} else {%>
-          <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/liked.png"
-            onclick="LikeNote(this.id)" style="cursor:pointer;" data-bs-toggle="tooltip" data-bs-placement="bottom"
-            title="Sign in to like others' pomodor timer notes" />
+          <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/liked.png" alt"liked
+            image" onclick="LikeNote(this.id)" style="cursor:pointer;" data-bs-toggle="tooltip"
+            data-bs-placement="bottom" title="Sign in to like others' pomodor timer notes" />
           <%}%>
                     <label class="pubNoteLikeCnt" id="<%=pubNotes[i]['notePath']%>_likebtnLabel"
           style="pointer-events: none;"><%=pubNotes[i]['likeCnt']%></label>
@@ -341,8 +386,8 @@
                                         transparent; border-width: 0px;" role="button" aria-expanded="false"
           aria-controls="collapseTimer">
 
-          <img id="SimpleStartBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" width="340" height="45"
-            onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();"
+          <img id="SimpleStartBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" alt"start tomoto"
+            width="340" height="45" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();"
             ondblclick="ClickStartBtn();">
 
         </a>
@@ -352,8 +397,8 @@
 
     <div class="row justify-content-center" id="addAnote" style="display: none;">
       <button class="astext" id="addnote" onmouseover="addAnoteOver();" onmouseleave="addAnoteLeave();"
-        onclick="addAnote();" data-ison="0"><img id="addnotebtn" src="./public/image/add_note.png" width="87px"
-          height="32px"></button>
+        onclick="addAnote();" data-ison="0"><img id="addnotebtn" src="./public/image/add_note.png" alt"add note"
+          width="87px" height="32px"></button>
     </div>
 
     <div class="row justify-content-center" id="musicDiv">

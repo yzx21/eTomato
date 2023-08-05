@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,9 @@
   <title>Online Pomodoro Timer - eTomato note, stats and music </title>
   <meta name="description"
     content="eTomato is an online pomodoro timer integrated with notepad and lofi music - Boost your productivity with our study timer and focus timer.">
+  <link rel="canonical" href="https://e-tomato.online/index">
   <link rel="shortcut icon" href="./public/image/tomato.png" type="image/x-icon" alt"tomato logo">
+  <link rel="alternate" href="https://e-tomato.online/index/en-us" hreflang="en-us" />
   <!-- Bootstrap , fonts & icons  -->
   <link type="text/css" rel="stylesheet" href="./public/toast/themes/toasteur-default.min.css">
   <link rel="stylesheet" href='./public/css/bootstrap.min.css'>
@@ -110,7 +112,7 @@
     </div>
 
     <a data-bs-toggle="modal" data-bs-target="#about">
-      <img src="./public/image/about.png" alt"about image" width="315px" height="60px" id=""
+      <img src="./public/image/about.png" width="315px" height="60px" alt"about image" id=""
         style="position: fixed; right: 262px; height: 40px; width: 200px; top:15px;">
     </a>
 
@@ -297,7 +299,7 @@
           <input type="text" id="todoInput" placeholder="New todo">
           <span onclick="newTodo()" id="addNotebtn" style="cursor:pointer;" class="addBtn" data-bs-toggle="tooltip"
             data-bs-placement="bottom" title="Sign in to save your pomodoro timer todos"><img
-              src="./public/image/add_btn.png" alt"add button" width="20px" height="20px" /></span>
+              src="./public/image/add_btn.png" width="20px" height="20px" alt"add button" /></span>
           <span class="spinner-border spinner-border-sm addBtn" id="addNotebtn-spinner"
             style="color:white; visibility: hidden"></span>
         </div>
@@ -397,8 +399,8 @@
 
     <div class="row justify-content-center" id="addAnote" style="display: none;">
       <button class="astext" id="addnote" onmouseover="addAnoteOver();" onmouseleave="addAnoteLeave();"
-        onclick="addAnote();" data-ison="0"><img id="addnotebtn" src="./public/image/add_note.png" alt"add note"
-          width="87px" height="32px"></button>
+        onclick="addAnote();" data-ison="0"><img id="addnotebtn" src="./public/image/add_note.png" width="87px"
+          height="32px" alt"add note"></button>
     </div>
 
     <div class="row justify-content-center" id="musicDiv">

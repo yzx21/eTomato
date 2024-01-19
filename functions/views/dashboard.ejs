@@ -41,6 +41,7 @@
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
@@ -48,6 +49,7 @@
     <script src="./public/js/popper.min.js"></script>
     <script src="./public/js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+
 </head>
 
 <body data-theme-mode-panel-active data-theme="light" style="font-family:
@@ -216,94 +218,22 @@
         </div>
     </div>
     <div id="right-side">
-        <div id="toggle">
-            <input id="toggle-on" class="toggle toggle-left" onclick="toggleLeft();" name="toggle" value="false"
-                type="radio" checked>
-            <label for="toggle-on" class="toggle-btn">Global notes</label>
-            <input id="toggle-off" class="toggle toggle-right" onclick="toggleRight();" name="toggle" value="true"
-                type="radio">
-            <label for="toggle-off" class="toggle-btn">My notes</label>
+        <div class="row justify-content-center" id="messageDiv">
+            <lable id="todayTomatoLbl">Chat</lable>
         </div>
-        <div class="collapse" id="notesSec">
-            <% for (let i=0; i<tomatos.length; i++) { %>
-            <div class="noteCard" id="<%=tomatos[i]['tid']%>_card" data-nid="<%=tomatos[i]['tid']%>">
-                <img id="noteAvatar" src="<%=profileUrl%>" width="40px" height="40px" alt="Avatar">
-                <label id="noteLable">Me</label>
-                <label
-                    id="noteTime"><%=moment.unix(parseInt(tomatos[i]["startTimeSec"]) - parseInt(tomatos[i]["timeOffset"]) * 60).format('lll')%></label>
-                <%if(tomatos[i]["duration"]) {%>
-                <img id="noteStatus" src="./public/image/green_tomato.png" width="40px" height="40px" alt="Avatar"
-                    data-bs-toggle="tooltip" data-bs-placement="bottom"
-                    title="<%=(tomatos[i]['duration']/60).toFixed(1)%> mins" />
-                <%} else {%>
-                <img id="noteStatus" src="./public/image/tomato.png" width="40px" height="40px" alt="Avatar"
-                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="25 mins" />
-                <%}%>
-                <br>
-                <div class="row" id="typeSec">
-                <%if(tomatos[i]["notes"] && tomatos[i]['type']) {%>
-                <label class="noteType" id="<%=tomatos[i]['tid']%>_notetype"><%=tomatos[i]["type"]%></label>
-                <%} else {%>
-                <label class="noteType" id="<%=tomatos[i]['tid']%>_notetype">No type</label>
-                <%}%>
-                </div>
-                <div id="noteText">
-                    <%if(tomatos[i]["notes"] || (tomatos[i]['notes'] && tomatos[i]["notes"] !== "<p><br></p>")) {%>
-                <div class="notehis" id="<%=tomatos[i]['tid']%>_notetext"><%-tomatos[i]["notes"]%></div>
-                <%} else {%>
-                <p id="<%=tomatos[i]['tid']%>_notetext" class="nothing">Nothing was noted in this session.</p>
-                <%}%>
-                </div>
-                <%if(tomatos[i]["pubPath"]){%>
-                <img class="pubpriImg" id="<%=tomatos[i]['tid']%>_status%>" src="./public/image/public.png" width="18px"
-                    height="18px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This is a public notes."
-                    data-ispub="1" />
-                <%} else {%>
-                <img class="pubpriImg" id="<%=tomatos[i]['tid']%>_status%>" src="./public/image/private.png"
-                    width="18px" height="18px" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                    title="This is a private note, no one can view." data-ispub="0" />
-                <% } %>
-                <img id="noteLikeBtn" src="./public/image/liked.png" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                    title="Edit->publish to collect likes" />
-                <label id="likeCnt"><%=tomatos[i]['likeCnt']%></label>
-                <span onclick="EditNote(this.id)" id="<%=tomatos[i]['tid']%>_btn" class="editBtn">Edit</span>
-            </div>
-            <% } %>
-        </div>
+        <div class="chat-container">
+            <div class="message" id="message-id">
+                <ul class="messageul" id="messageul-id" style="list-style: none; height: 100%; overflow: auto;">
 
-        <div class="collapse" id="pubNotesSec">
-            <% for (let i=0; i<pubNotes.length; i++) { %>
-            <div class="noteCard" id="<%=pubNotes[i]['tid']%>_pubcard" data-nid="<%=pubNotes[i]['tid']%>">
-                <img id="noteAvatar" src="<%=pubNotes[i]['profile']%>" width="40px" height="40px" alt="Avatar">
-                <label id="noteLable"><%=pubNotes[i]['name']%></label>
-                <label
-                    id="noteTime"><%=moment.unix(parseInt(pubNotes[i]["date"]) - parseInt(pubNotes[i]["timeOffset"]) * 60).format('lll')%></label>
-                <br>
-                <div class="row" id="typeSec">
-                    <%if(pubNotes[i]["type"]) {%>
-                    <label class="noteType" id="<%=pubNotes[i]['tid']%>_pubNotetype"><%=pubNotes[i]["type"]%></label>
-                    <%} else {%>
-                    <label class="noteType" id="<%=pubNotes[i]['tid']%>_pubNotetype">No type</label>
-                    <%}%>
+                </ul>
+            </div>
+            <div id="send-btn-div" class="row justify-content-center">
+                <div class="col-10" style="height: 30px;">
+                    <input type="text" class="text-input" id="send-input" placeholder="Type your message here...">
                 </div>
-                <div id="noteText">
-                    <%if(pubNotes[i]['notes'] && pubNotes[i]["notes"] !== "<p><br></p>") {%>
-                    <div class="notehis" id="<%=pubNotes[i]['tid']%>_pubNotetext"><%-pubNotes[i]["notes"]%></div>
-                    <%} else {%>
-                    <p id="<%=pubNotes[i]['tid']%>_pubNotetext" class="nothing">Nothing was noted in this session.</p>
-                    <%}%>
+                <div class="col-2" style="height: 30px;">
+                    <button class="send-button" id="send-btn" onclick="sendMsg()">Send</button>
                 </div>
-                <% if(pubNotes[i]['hasLiked']) {%>
-                    <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn"
-                        src="./public/image/already_liked.png" />
-                    <%} else {%>
-                    <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/liked.png"
-                        onclick="LikeNote(this.id)" style="cursor:pointer;" />
-                    <%}%>
-                    <label class="pubNoteLikeCnt" id="<%=pubNotes[i]['notePath']%>_likebtnLabel"
-                    style="pointer-events: none;"><%=pubNotes[i]['likeCnt']%></label>
-                </div>
-                <% } %>
             </div>
         </div>
     </div>
@@ -337,13 +267,6 @@
                     <% } %>
                 </a>
             </div>
-            <hr>
-        </div>
-
-        <div class="row justify-content-center" id="addAnote" style="display: none;">
-            <button class="astext" id="addnote" onmouseover="addAnoteOver();" onmouseleave="addAnoteLeave();"
-                onclick="addAnote();" data-ison="0"><img id="addnotebtn" src="./public/image/add_note.png" width="87px"
-                    height="32px"></button>
         </div>
 
         <div class="row justify-content-center">
@@ -400,7 +323,8 @@
                                     viewBox="0 0 36 36"
                                     data-play="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"
                                     data-pause="M 12,26 16.33,26 16.33,10 12,10 z M 20.66,26 25,26 25,10 20.66,10 z">
-                                    <path d="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"></path>
+                                    <path d="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z">
+                                    </path>
                                 </svg>
                             </button>
                             <button class="ap__controls ap__controls--next">
@@ -646,6 +570,28 @@
     </script>
 
     <script>
+        function sendMsg() {
+            var inputValue = document.getElementById("send-input").value;
+            if (inputValue === '') {
+                alert("You must write something!");
+                return
+            }
+            $.ajax({
+                url: "./sendMsg",
+                type: "POST",
+                data: {
+                    // checkedValue: checkedValue,
+                    msg: inputValue,
+                },
+                success: function (result) {
+                    document.getElementById("send-input").value = "";
+                },
+                error: function (error) {
+                    new Toasteur().error(error.responseText, 'Error!', () => {});
+                },
+            });
+        }
+
         // Share
         function printToFile() {
             var body = document.createElement("body");
@@ -688,13 +634,6 @@
                 }
             }
             var btnVal = document.getElementById("startBtn").alt;
-            if (btnVal == "start_a_tomato") {
-                $('#musicCollapse').collapse("hide")
-                document.getElementById('addAnote').style.display = "none";
-            } else {
-                $('#musicCollapse').collapse("show")
-                document.getElementById('addAnote').style.display = "block";
-            }
 
             var pendingNoteType = document.getElementById('ap').dataset.pendingnotetype;
             var pendingNote = document.getElementById('ap').dataset.pendingnote;
@@ -725,6 +664,32 @@
                     document.getElementById("addNotebtn").click();
                 }
             });
+            var msgInput = document.getElementById("send-input");
+            msgInput.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById("send-btn").click();
+                }
+            });
+
+
+            // get firebase database reference...
+            var db_ref = firebase.database().ref('messages');
+            db_ref.on('child_added', function (data) {
+
+                var newMsg =
+                    "<li class=\'msgList\'> <div class=\'row justify-content-start\'> <div class=\'col-2\'> <img class=\'avatar\' src=\'" +
+                    data.val().avatarUrl +
+                    "\' alt=\'User Avatar\'> </div> <div class=\'col-3\'> <label class=\'msg-username\'>" + data
+                    .val().userName +
+                    "</label> </div> <div class=\'msg-txt col-3\'>" + data.val().content + "</div></div></li>"
+                $(newMsg).appendTo($('.message ul'));
+
+
+                $('#messageul-id').animate({
+                    scrollTop: $('#messageul-id li').last().offset().top
+                });
+            });
         }
 
         function toggleLeft() {
@@ -747,7 +712,8 @@
                 },
                 success: function (result) {
                     document.getElementById(notePath + "_likebtnLabel").innerText = result;
-                    document.getElementById(notePath + "_likebtn").src = "./public/image/already_liked.png";
+                    document.getElementById(notePath + "_likebtn").src =
+                        "./public/image/already_liked.png";
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});
@@ -850,7 +816,8 @@
                     success: function (result) {
                         saveEditNotes();
                         if (result['status'] === "1") {
-                            document.getElementById(tmtId + "_status").src = "./public/image/public.png";
+                            document.getElementById(tmtId + "_status").src =
+                                "./public/image/public.png";
                             document.getElementById(tmtId + "_status").title =
                                 "This is a public notes."
                             document.getElementById(tmtId + "_status").dataset.ispub =
@@ -859,7 +826,8 @@
                             new Toasteur().success('', "Note published",
                                 () => {});
                         } else {
-                            document.getElementById(tmtId + "_status").src = "./public/image/private.png";
+                            document.getElementById(tmtId + "_status").src =
+                                "./public/image/private.png";
                             document.getElementById(tmtId + "_status").title =
                                 "This is a private note, no one can view."
                             document.getElementById(tmtId + "_status").dataset.ispub =

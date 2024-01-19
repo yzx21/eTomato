@@ -825,6 +825,31 @@ app.post("/saveNotes", async (req, res) => {
     }
 })
 
+app.post("/sendMsg", async (req, res) => {
+    const sessionCookie = req.cookies.__session || "";
+    var db = admin.database();
+    var userSnap;
+    try {
+        userSnap = await admin.auth().verifySessionCookie(sessionCookie, true);
+    } catch (err) {
+        res.status(401).send("something went wrong");
+        return;
+    }
+    var userPath = "users/" + userSnap.uid;
+    var author = await db.ref(userPath).once('value');
+    var profile = author.val()['photoURL'];
+    var name = author.val()['displayName'];
+    var msg = req.body["msg"];
+    await db.ref('messages').push({
+        uid: userSnap.uid,
+        userName: name,
+        avatarUrl: profile,
+        content: msg,
+    })
+    res.status(200).send("");
+    return;
+})
+
 // Append a new entry into firebase real time storage under path "feedback" and return status 200 in the response.
 app.post("/feedback", async (req, res) => {
     const sessionCookie = req.cookies.__session || "";

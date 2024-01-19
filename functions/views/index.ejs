@@ -43,6 +43,7 @@
   <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
@@ -323,39 +324,13 @@
   <div id="right-side">
     <div class="row justify-content-center" id="messageDiv">
       <lable id="todayTomatoLbl">Chat</lable>
-
     </div>
-
-
     <div class="chat-container">
-      <div class="message">
-        <ul style="list-style: none;">
-          <li class="msgList">
-            <div class="row justify-content-start">
-              <div class="col-1">
-                <img class="avatar" src="./public/image/tomato.png" alt="User Avatar">
-              </div>
-              <div class="col-3">
-                <label class="msg-username">Username</label>
-              </div>
-            </div>
-            <div class="msg-txt">Hello, this is a message!</div>
-          </li>
+      <div class="message" id="message-id">
+        <ul class="messageul" id="messageul-id" style="list-style: none; height: 100%; overflow: auto;">
 
-          <li class="msgList">
-            <div class="row justify-content-start">
-              <div class="col-1">
-                <img class="avatar" src="./public/image/tomato.png" alt="User Avatar">
-              </div>
-              <div class="col-3">
-                <label class="msg-username">Username</label>
-              </div>
-            </div>
-            <div class="msg-txt">Hello, this is a message!</div>
-          </li>
         </ul>
       </div>
-
       <div id="send-btn-div" class="row justify-content-center">
         <div class="col-10" style="height: 30px;">
           <input type="text" class="text-input" id="send-input" placeholder="Type your message here...">
@@ -365,97 +340,96 @@
         </div>
       </div>
     </div>
+  </div>
 
 
-    <div id="middle">
-      <div class="row justify-content-center">
-        <div class="circlebar" id="circlebarId" data-circle-startTime="0" data-circle-dialWidth=16
-          data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
-          <div class="loader-bg">
-            <div class="text">25:00</div>
-          </div>
+  <div id="middle">
+    <div class="row justify-content-center">
+      <div class="circlebar" id="circlebarId" data-circle-startTime="0" data-circle-dialWidth=16
+        data-circle-size="200px" data-circle-maxValue="1500" data-circle-skin="purple">
+        <div class="loader-bg">
+          <div class="text">25:00</div>
         </div>
       </div>
-      <div class="row justify-content-center">
-        <div id="SimpleStartBtnSec">
-          <a id="start_btn" style="background-color:
+    </div>
+    <div class="row justify-content-center">
+      <div id="SimpleStartBtnSec">
+        <a id="start_btn" style="background-color:
                                         transparent; border-width: 0px;" role="button" aria-expanded="false"
-            aria-controls="collapseTimer">
+          aria-controls="collapseTimer">
 
-            <img id="SimpleStartBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" alt"start tomoto"
-              width="340" height="45" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();"
-              ondblclick="ClickStartBtn();">
+          <img id="SimpleStartBtn" alt="start_a_tomato" src="./public/image/start_tomato.png" alt"start tomoto"
+            width="340" height="45" onmouseover="startOver();" onmouseout="startOut();" onclick="ClickStartBtn();"
+            ondblclick="ClickStartBtn();">
 
-          </a>
-        </div>
-        <hr>
+        </a>
       </div>
+    </div>
 
-      <div class="row justify-content-center" id="musicDiv">
-        <div class="collapse" id="musicCollapse">
-          <div class="ap" id="ap" data-onrest="0" data-cddismissable="false" data-tomatosessionlength="1500"
-            data-defaultcdlength="300" data-todaycnt="0" data-pendingnote="">
-            <div class="ap__inner">
-              <div class="ap__item ap__item--playback">
-                <button class="ap__controls ap__controls--prev">
-                  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    fill="#333" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M9.516 12l8.484-6v12zM6 6h2.016v12h-2.016v-12z"></path>
-                  </svg>
-                </button>
-                <button class="ap__controls ap__controls--toggle" id="play-pause-button">
-                  <svg class=" icon-play" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" fill="#333" width="36" height="36" viewBox="0 0 36 36"
-                    data-play="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"
-                    data-pause="M 12,26 16.33,26 16.33,10 12,10 z M 20.66,26 25,26 25,10 20.66,10 z">
-                    <path d="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"></path>
-                  </svg>
-                </button>
-                <button class="ap__controls ap__controls--next">
-                  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    fill="#333" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M15.984 6h2.016v12h-2.016v-12zM6 18v-12l8.484 6z"></path>
-                  </svg>
-                </button>
-              </div>
-              <div class="ap__item ap__item--track">
-                <div class="track">
-                  <div class="track__title">Queue is empty</div>
-                  <div class="track__time">
-                    <span class="track__time--current">--</span>
-                    <span> / </span>
-                    <span class="track__time--duration">--</span>
-                  </div>
-
-                  <div class="progress-container">
-                    <div class="progress">
-                      <div class="progress__bar"></div>
-                      <div class="progress__preload"></div>
-                    </div>
-                  </div>
-
+    <div class="row justify-content-center" id="musicDiv">
+      <div class="collapse" id="musicCollapse">
+        <div class="ap" id="ap" data-onrest="0" data-cddismissable="false" data-tomatosessionlength="1500"
+          data-defaultcdlength="300" data-todaycnt="0" data-pendingnote="">
+          <div class="ap__inner">
+            <div class="ap__item ap__item--playback">
+              <button class="ap__controls ap__controls--prev">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  fill="#333" width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M9.516 12l8.484-6v12zM6 6h2.016v12h-2.016v-12z"></path>
+                </svg>
+              </button>
+              <button class="ap__controls ap__controls--toggle" id="play-pause-button">
+                <svg class=" icon-play" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink" fill="#333" width="36" height="36" viewBox="0 0 36 36"
+                  data-play="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"
+                  data-pause="M 12,26 16.33,26 16.33,10 12,10 z M 20.66,26 25,26 25,10 20.66,10 z">
+                  <path d="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"></path>
+                </svg>
+              </button>
+              <button class="ap__controls ap__controls--next">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  fill="#333" width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M15.984 6h2.016v12h-2.016v-12zM6 18v-12l8.484 6z"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="ap__item ap__item--track">
+              <div class="track">
+                <div class="track__title">Queue is empty</div>
+                <div class="track__time">
+                  <span class="track__time--current">--</span>
+                  <span> / </span>
+                  <span class="track__time--duration">--</span>
                 </div>
+
+                <div class="progress-container">
+                  <div class="progress">
+                    <div class="progress__bar"></div>
+                    <div class="progress__preload"></div>
+                  </div>
+                </div>
+
               </div>
-              <div class="ap__item ap__item--settings">
-                <div class="ap__controls volume-container">
-                  <button class="volume-btn">
-                    <svg class="icon-volume-on" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink" fill="#333" width="24" height="24" viewBox="0 0 24 24">
-                      <path
-                        d="M14.016 3.234q3.047 0.656 5.016 3.117t1.969 5.648-1.969 5.648-5.016 3.117v-2.063q2.203-0.656 3.586-2.484t1.383-4.219-1.383-4.219-3.586-2.484v-2.063zM16.5 12q0 2.813-2.484 4.031v-8.063q2.484 1.219 2.484 4.031zM3 9h3.984l5.016-5.016v16.031l-5.016-5.016h-3.984v-6z">
-                      </path>
-                    </svg>
-                    <svg class="icon-volume-off" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink" fill="#333" width="24" height="24" viewBox="0 0 24 24">
-                      <path
-                        d="M12 3.984v4.219l-2.109-2.109zM4.266 3l16.734 16.734-1.266 1.266-2.063-2.063q-1.734 1.359-3.656 1.828v-2.063q1.172-0.328 2.25-1.172l-4.266-4.266v6.75l-5.016-5.016h-3.984v-6h4.734l-4.734-4.734zM18.984 12q0-2.391-1.383-4.219t-3.586-2.484v-2.063q3.047 0.656 5.016 3.117t1.969 5.648q0 2.25-1.031 4.172l-1.5-1.547q0.516-1.266 0.516-2.625zM16.5 12q0 0.422-0.047 0.609l-2.438-2.438v-2.203q2.484 1.219 2.484 4.031z">
-                      </path>
-                    </svg>
-                  </button>
-                  <div class="volume">
-                    <div class="volume__track">
-                      <div class="volume__bar"></div>
-                    </div>
+            </div>
+            <div class="ap__item ap__item--settings">
+              <div class="ap__controls volume-container">
+                <button class="volume-btn">
+                  <svg class="icon-volume-on" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" fill="#333" width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      d="M14.016 3.234q3.047 0.656 5.016 3.117t1.969 5.648-1.969 5.648-5.016 3.117v-2.063q2.203-0.656 3.586-2.484t1.383-4.219-1.383-4.219-3.586-2.484v-2.063zM16.5 12q0 2.813-2.484 4.031v-8.063q2.484 1.219 2.484 4.031zM3 9h3.984l5.016-5.016v16.031l-5.016-5.016h-3.984v-6z">
+                    </path>
+                  </svg>
+                  <svg class="icon-volume-off" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" fill="#333" width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      d="M12 3.984v4.219l-2.109-2.109zM4.266 3l16.734 16.734-1.266 1.266-2.063-2.063q-1.734 1.359-3.656 1.828v-2.063q1.172-0.328 2.25-1.172l-4.266-4.266v6.75l-5.016-5.016h-3.984v-6h4.734l-4.734-4.734zM18.984 12q0-2.391-1.383-4.219t-3.586-2.484v-2.063q3.047 0.656 5.016 3.117t1.969 5.648q0 2.25-1.031 4.172l-1.5-1.547q0.516-1.266 0.516-2.625zM16.5 12q0 0.422-0.047 0.609l-2.438-2.438v-2.203q2.484 1.219 2.484 4.031z">
+                    </path>
+                  </svg>
+                </button>
+                <div class="volume">
+                  <div class="volume__track">
+                    <div class="volume__bar"></div>
                   </div>
                 </div>
               </div>
@@ -463,101 +437,101 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-      <footer class="footer-area-l-12 position-relative" style="text-align:left;">
-
-
-      </footer>
     </div>
-    <!-- Vendor Scripts -->
-    <script src="./public/js/vendor.min.js"></script>
-    <script src="./public/plugins/aos/aos.min.js"></script>
-    <!-- Activation Script -->
-    <script src="./public/js/custom.js"></script>
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyBe7BVBWqB6znKy7b_UND2nUd09nnUFmEQ",
-        authDomain: "etomato-63aac.firebaseapp.com",
-        databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com",
-        projectId: "etomato-63aac",
-        storageBucket: "etomato-63aac.appspot.com",
-        messagingSenderId: "144378496941",
-        appId: "1:144378496941:web:dc08de13472e73f14d0324",
-        measurementId: "G-7W4Q6GF7JP"
-      };
-      try {
-        firebase.initializeApp(firebaseConfig);
-      } catch {}
-    </script>
 
-    <script>
-      function login() {
-        firebase.analytics().logEvent('login');
-        var provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth()
-          .signInWithPopup(provider)
-          .then((result) => {
-            /** @type {firebase.auth.OAuthCredential} */
-            var credential = result.credential;
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            var photoURL = user.photoURL;
-            var displayName = user.displayName;
-            var uid = user.uid;
-            var email = user.email;
-            var phoneNum = user.phoneNum;
-            var headers = new Headers();
-            headers.append('Content-Type', 'application/json');
-            headers.append('Accept', 'application/json')
-            firebase.auth().currentUser.getIdToken()
-              .then((idToken) => {
-                return fetch("./sessionLogin", {
-                    method: "POST",
-                    mode: 'same-origin',
-                    redirect: 'follow',
-                    credentials: 'include', // Don't forget to specify this if you need cookies
-                    header: headers,
-                    body: JSON.stringify({
-                      idToken,
-                      photoURL,
-                      displayName,
-                      uid,
-                      email,
-                      phoneNum
-                    }),
-                  })
-                  .then(function () {
-                    return firebase.auth().signOut();
-                  })
-                  .then(function () {
-                    window.location.href = "./";
-                  });
-              });
-          });
-      }
 
-      function onLoad() {
-        firebase.analytics().logEvent('visit_LP');
-        var isOnRest = document.getElementById('ap').dataset.onrest;
-        var cdDismissable = document.getElementById('ap').dataset.cddismissable;
-        var btnVal = document.getElementById("SimpleStartBtn").alt;
 
-        var pendingNoteType = document.getElementById('ap').dataset.pendingnotetype;
-        var pendingNote = document.getElementById('ap').dataset.pendingnote;
-        var input = document.getElementById("todoInput");
-        input.addEventListener("keypress", function (event) {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            $('#loginToAccess').modal("show");
-          }
+
+
+    <footer class="footer-area-l-12 position-relative" style="text-align:left;">
+
+
+    </footer>
+  </div>
+  <!-- Vendor Scripts -->
+  <script src="./public/js/vendor.min.js"></script>
+  <script src="./public/plugins/aos/aos.min.js"></script>
+  <!-- Activation Script -->
+  <script src="./public/js/custom.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBe7BVBWqB6znKy7b_UND2nUd09nnUFmEQ",
+      authDomain: "etomato-63aac.firebaseapp.com",
+      databaseURL: "https://etomato-63aac-default-rtdb.firebaseio.com",
+      projectId: "etomato-63aac",
+      storageBucket: "etomato-63aac.appspot.com",
+      messagingSenderId: "144378496941",
+      appId: "1:144378496941:web:dc08de13472e73f14d0324",
+      measurementId: "G-7W4Q6GF7JP"
+    };
+    try {
+      firebase.initializeApp(firebaseConfig);
+    } catch {}
+  </script>
+
+  <script>
+    function login() {
+      firebase.analytics().logEvent('login');
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          /** @type {firebase.auth.OAuthCredential} */
+          var credential = result.credential;
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          var photoURL = user.photoURL;
+          var displayName = user.displayName;
+          var uid = user.uid;
+          var email = user.email;
+          var phoneNum = user.phoneNum;
+          var headers = new Headers();
+          headers.append('Content-Type', 'application/json');
+          headers.append('Accept', 'application/json')
+          firebase.auth().currentUser.getIdToken()
+            .then((idToken) => {
+              return fetch("./sessionLogin", {
+                  method: "POST",
+                  mode: 'same-origin',
+                  redirect: 'follow',
+                  credentials: 'include', // Don't forget to specify this if you need cookies
+                  header: headers,
+                  body: JSON.stringify({
+                    idToken,
+                    photoURL,
+                    displayName,
+                    uid,
+                    email,
+                    phoneNum
+                  }),
+                })
+                .then(function () {
+                  return firebase.auth().signOut();
+                })
+                .then(function () {
+                  window.location.href = "./";
+                });
+            });
         });
-      }
+    }
+
+    function onLoad() {
+      firebase.analytics().logEvent('visit_LP');
+      var isOnRest = document.getElementById('ap').dataset.onrest;
+      var cdDismissable = document.getElementById('ap').dataset.cddismissable;
+      var btnVal = document.getElementById("SimpleStartBtn").alt;
+
+      var pendingNoteType = document.getElementById('ap').dataset.pendingnotetype;
+      var pendingNote = document.getElementById('ap').dataset.pendingnote;
+      var input = document.getElementById("todoInput");
+      input.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          $('#loginToAccess').modal("show");
+        }
+      });
 
       var msgInput = document.getElementById("send-input");
       msgInput.addEventListener("keypress", function (event) {
@@ -567,168 +541,186 @@
         }
       });
 
-      function toggleLeft() {
-        $('#loginToAccess').modal("show");
-      }
+      // get firebase database reference...
+      var db_ref = firebase.database().ref('messages');
+      db_ref.on('child_added', function (data) {
 
-      function toggleRight(event) {
-        event.preventDefault();
-        $('#loginToAccess').modal("show");
-        return false;
-      }
+        var newMsg =
+          "<li class=\'msgList\'> <div class = \'row justify-content-start\'> <div class = \'col-2\'> <img class=\'avatar\' src=\'" +
+          data.val().avatarUrl +
+          "\' alt=\'User Avatar\'> </div> <div class=\'col-3\'> <label class=\'msg-username\'>" + data.val()
+          .userName + "</label> </div> <div class=\'msg-txt col-3\'>" + data.val().content + "</div></div></li>";
+        $(newMsg).appendTo($('.message ul'));
+        $('#messageul-id').animate({
+          scrollTop: $('#messageul-id li').last().offset().top
+        });
+      });
+    }
 
-      function LikeNote(btnId) {
-        $('#loginToAccess').modal("show");
-      }
 
-      function EditNote(btnId) {
-        $('#loginToAccess').modal("show");
-      }
 
-      function saveEditNotes() {
-        $('#loginToAccess').modal("show");
-      }
+    function toggleLeft() {
+      $('#loginToAccess').modal("show");
+    }
 
-      function deleteNotes() {
-        $('#loginToAccess').modal("show");
-      }
+    function toggleRight(event) {
+      event.preventDefault();
+      $('#loginToAccess').modal("show");
+      return false;
+    }
 
-      function publishNotes() {
-        $('#loginToAccess').modal("show");
-      }
+    function LikeNote(btnId) {
+      $('#loginToAccess').modal("show");
+    }
 
-      function addAnoteLeave() {
-        var isOn = document.getElementById("addnote").dataset.ison;
-        if (isOn === "0") {
-          document.getElementById('addnotebtn').src = "./public/image/add_note.png";
-        } else {
-          document.getElementById('addnotebtn').src = "./public/image/hide_note.png";
-        }
-      }
+    function EditNote(btnId) {
+      $('#loginToAccess').modal("show");
+    }
 
-      function addAnoteOver() {
-        var isOn = document.getElementById("addnote").dataset.ison;
-        if (isOn === "0") {
-          document.getElementById('addnotebtn').src = "./public/image/add_note_hover.png";
-        } else {
-          document.getElementById('addnotebtn').src = "./public/image/hide_note_hover.png";
-        }
-      }
+    function saveEditNotes() {
+      $('#loginToAccess').modal("show");
+    }
 
-      function addAnote() {
-        $('#loginToAccess').modal("show");
-      }
+    function deleteNotes() {
+      $('#loginToAccess').modal("show");
+    }
 
-      function startOver() {
-        var snd = new Audio("./public/sounds/start_over.mp3");
-        // var snd = new Audio(
-        //     "https://drive.google.com/file/d/1EvRx8uqJ17Q9XpJ9rpXetXdZaWqRaP6w/view?usp=sharing");
-        snd.play();
-        var btnVal = document.getElementById("SimpleStartBtn").alt;
-        if (btnVal == "start_a_tomato") {
-          document.getElementById('SimpleStartBtn').src = "./public/image/start_tomato_hover.png";
-          firebase.analytics().logEvent('startOver');
-        } else {
-          document.getElementById('SimpleStartBtn').src = "./public/image/stop_tomato_hover.png";
-          firebase.analytics().logEvent('stopOver');
-        }
-      }
+    function publishNotes() {
+      $('#loginToAccess').modal("show");
+    }
 
-      function startOut() {
-        var btnVal = document.getElementById("SimpleStartBtn").alt;
-        if (btnVal == "start_a_tomato") {
-          document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato.png";
-          firebase.analytics().logEvent('startOut');
-        } else {
-          document.getElementById("SimpleStartBtn").src = "./public/image/stop_tomato.png";
-          firebase.analytics().logEvent('stopOut');
-        }
+    function addAnoteLeave() {
+      var isOn = document.getElementById("addnote").dataset.ison;
+      if (isOn === "0") {
+        document.getElementById('addnotebtn').src = "./public/image/add_note.png";
+      } else {
+        document.getElementById('addnotebtn').src = "./public/image/hide_note.png";
       }
+    }
 
-      function ClickStartBtn() {
-        document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato_pressed.png";
-        var snd = new Audio("./public/sounds/start_clicked.mp3");
-        // var snd = new Audio(
-        //     "https://drive.google.com/file/d/1RwlArKE3ls_8tKl3LuRInMGr2TuXpg_s/view?usp=sharing");
-        snd.play();
-        var btnVal = document.getElementById("SimpleStartBtn").alt;
-        if (btnVal == "start_a_tomato") {
-          firebase.analytics().logEvent('ClickStartBtnNonLogin');
-          const date = new Date();
-          const offset = date.getTimezoneOffset();
-          $('#musicCollapse').collapse('show');
-          document.getElementById('play-pause-button').click();
-        } else {
-          firebase.analytics().logEvent('ClickStopBtnNonLogin');
-          $('#stopTomatoModal').modal("show");
-        }
+    function addAnoteOver() {
+      var isOn = document.getElementById("addnote").dataset.ison;
+      if (isOn === "0") {
+        document.getElementById('addnotebtn').src = "./public/image/add_note_hover.png";
+      } else {
+        document.getElementById('addnotebtn').src = "./public/image/hide_note_hover.png";
       }
+    }
 
-      function newTodo() {
-        $('#loginToAccess').modal("show");
+    function addAnote() {
+      $('#loginToAccess').modal("show");
+    }
+
+    function startOver() {
+      var snd = new Audio("./public/sounds/start_over.mp3");
+      // var snd = new Audio(
+      //     "https://drive.google.com/file/d/1EvRx8uqJ17Q9XpJ9rpXetXdZaWqRaP6w/view?usp=sharing");
+      snd.play();
+      var btnVal = document.getElementById("SimpleStartBtn").alt;
+      if (btnVal == "start_a_tomato") {
+        document.getElementById('SimpleStartBtn').src = "./public/image/start_tomato_hover.png";
+        firebase.analytics().logEvent('startOver');
+      } else {
+        document.getElementById('SimpleStartBtn').src = "./public/image/stop_tomato_hover.png";
+        firebase.analytics().logEvent('stopOver');
       }
+    }
 
-      function sendMsg() {
-        $('#loginToAccess').modal("show");
+    function startOut() {
+      var btnVal = document.getElementById("SimpleStartBtn").alt;
+      if (btnVal == "start_a_tomato") {
+        document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato.png";
+        firebase.analytics().logEvent('startOut');
+      } else {
+        document.getElementById("SimpleStartBtn").src = "./public/image/stop_tomato.png";
+        firebase.analytics().logEvent('stopOut');
       }
-    </script>
+    }
 
-    <script>
-      $(function () {
-        $('#modalClose').on('click', function () {
-          $('#stopTomatoModal').modal("hide");
-        })
-        $('#modalClose1').on('click', function () {
-          $('#stopTomatoModal').modal("hide");
-        })
-        $('#modalClose2').on('click', function () {
-          $('#stopTomatoModal').modal("hide");
-        })
+    function ClickStartBtn() {
+      document.getElementById("SimpleStartBtn").src = "./public/image/start_tomato_pressed.png";
+      var snd = new Audio("./public/sounds/start_clicked.mp3");
+      // var snd = new Audio(
+      //     "https://drive.google.com/file/d/1RwlArKE3ls_8tKl3LuRInMGr2TuXpg_s/view?usp=sharing");
+      snd.play();
+      var btnVal = document.getElementById("SimpleStartBtn").alt;
+      if (btnVal == "start_a_tomato") {
+        firebase.analytics().logEvent('ClickStartBtnNonLogin');
+        const date = new Date();
+        const offset = date.getTimezoneOffset();
+        $('#musicCollapse').collapse('show');
+        document.getElementById('play-pause-button').click();
+      } else {
+        firebase.analytics().logEvent('ClickStopBtnNonLogin');
+        $('#stopTomatoModal').modal("show");
+      }
+    }
+
+    function newTodo() {
+      $('#loginToAccess').modal("show");
+    }
+
+    function sendMsg() {
+      $('#loginToAccess').modal("show");
+    }
+  </script>
+
+  <script>
+    $(function () {
+      $('#modalClose').on('click', function () {
+        $('#stopTomatoModal').modal("hide");
       })
-    </script>
+      $('#modalClose1').on('click', function () {
+        $('#stopTomatoModal').modal("hide");
+      })
+      $('#modalClose2').on('click', function () {
+        $('#stopTomatoModal').modal("hide");
+      })
+    })
+  </script>
 
-    <script>
-      // Create a "close" button and append it to each list item
-      var myNodelist = document.getElementsByClassName("todoList");
-      var i;
-      for (i = 0; i < myNodelist.length; i++) {
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("\u00D7");
-        var tdId = myNodelist[i].id;
-        span.className = "closeTodo";
-        span.id = tdId + "closeTodoId";
-        span.appendChild(txt);
-        var spanSpinner = document.createElement("SPAN");
-        spanSpinner.className = "spinner-border spinner-border-sm closeTodoSpinner";
-        spanSpinner.id = tdId + "closeTodoId-spinner";
-        spanSpinner.style.visibility = "hidden";
-        spanSpinner.style.color = "white"
-        spanSpinner.style.height = "100%"
-        myNodelist[i].appendChild(span);
-        myNodelist[i].appendChild(spanSpinner);
-      } // Click on a close button to hide the current list item var
-      close = document.getElementsByClassName("closeTodo");
-      var i;
-      for (i = 0; i < close.length; i++) {
-        close[i].onclick = function () {
-          var div = this.parentElement;
-          var todoId = div.id;
-          showSpinner(true, todoId + "closeTodoId")
-          $('#loginToAccess').modal("show");
-        }
+  <script>
+    // Create a "close" button and append it to each list item
+    var myNodelist = document.getElementsByClassName("todoList");
+    var i;
+    for (i = 0; i < myNodelist.length; i++) {
+      var span = document.createElement("SPAN");
+      var txt = document.createTextNode("\u00D7");
+      var tdId = myNodelist[i].id;
+      span.className = "closeTodo";
+      span.id = tdId + "closeTodoId";
+      span.appendChild(txt);
+      var spanSpinner = document.createElement("SPAN");
+      spanSpinner.className = "spinner-border spinner-border-sm closeTodoSpinner";
+      spanSpinner.id = tdId + "closeTodoId-spinner";
+      spanSpinner.style.visibility = "hidden";
+      spanSpinner.style.color = "white"
+      spanSpinner.style.height = "100%"
+      myNodelist[i].appendChild(span);
+      myNodelist[i].appendChild(spanSpinner);
+    } // Click on a close button to hide the current list item var
+    close = document.getElementsByClassName("closeTodo");
+    var i;
+    for (i = 0; i < close.length; i++) {
+      close[i].onclick = function () {
+        var div = this.parentElement;
+        var todoId = div.id;
+        showSpinner(true, todoId + "closeTodoId")
+        $('#loginToAccess').modal("show");
       }
-      var list = document.querySelector('ul');
-      list.addEventListener('click',
-        function (ev) {
-          $('#loginToAccess').modal("show");
-        }, false); // Create a new list item when clicking on the "Add" button
-    </script>
-    <script type="module" src="./public/js/simple_cooldown_clock.js"></script>
-    <script type="module" src="./public/js/simple_music2.js"></script>
-    <script src="./public/summernote/summernote.min.js"></script>
-    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    }
+    var list = document.querySelector('ul');
+    list.addEventListener('click',
+      function (ev) {
+        $('#loginToAccess').modal("show");
+      }, false); // Create a new list item when clicking on the "Add" button
+  </script>
+  <script type="module" src="./public/js/simple_cooldown_clock.js"></script>
+  <script type="module" src="./public/js/simple_music2.js"></script>
+  <script src="./public/summernote/summernote.min.js"></script>
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 
-    <script src="./public/toast/toasteur.min.js"></script>
+  <script src="./public/toast/toasteur.min.js"></script>
 </body>
 
 </html>

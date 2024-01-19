@@ -529,6 +529,16 @@ hr {
   border-radius: 5px;
 }
 
+#messageDiv {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.messages {
+  background-color: #3D4D54;
+  border-radius: 5px;
+}
+
 .nothing {
   color: #A6A6A6;
 }
@@ -543,7 +553,6 @@ hr {
 #todayTmtImgId {
   position: relative;
   left: 5px;
-  top: 5px;
 }
 
 #myUL {
@@ -1725,6 +1734,11 @@ svg {
   width: 100%;
 }
 
+#messageInput {
+  background-color: transparent;
+  color: white;
+}
+
 #inputDivId {
   padding-left: 0px;
   padding-right: 0px;
@@ -1759,7 +1773,7 @@ ul {
 }
 
 /* Style the list items */
-ul li {
+.todoList {
   cursor: pointer;
   position: relative;
   width: 100%;
@@ -1781,18 +1795,18 @@ ul li {
 }
 
 /* Set all odd list items to a different color (zebra-stripes) */
-ul li:nth-child(odd) {
+.todoList:nth-child(odd) {
   background: #3D4D54;
   width: 100%;
 }
 
 /* Darker background-color on hover */
-ul li:hover {
+.todoList:hover {
   background: #ddd;
 }
 
 /* When clicked on, add a background color and strike out text */
-ul li.checked {
+.todoList.checked {
   background: #394385;
   color: #fff;
   font-family: 'Poppins';
@@ -1808,7 +1822,7 @@ ul li.checked {
 }
 
 /* Add a "checked" mark when clicked on */
-ul li.checked::before {
+.todoList.checked::before {
   content: '';
   position: absolute;
   border-color: #fff;

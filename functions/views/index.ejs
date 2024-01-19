@@ -46,6 +46,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <script src="./public/js/popper.min.js"></script>
   <script src="./public/js/bootstrap.min.js"></script>
@@ -215,8 +216,7 @@
 
           <p>1. Track your pomodoro history</p>
           <p>2. Track your todo list</p>
-          <p>3. Track your notes during pomodoro sessions</p>
-          <p>4. Like the notes by others</p>
+          <p>3. Have chat with others</p>
 
         </div>
         <div class="modal-footer">
@@ -323,52 +323,47 @@
   </div>
   </div>
   <div id="right-side">
-    <div id="toggle">
-      <input id="toggle-on" class="toggle toggle-left" onclick="toggleLeft();" name="toggle" value="false" type="radio"
-        checked>
-      <label for="toggle-on" class="toggle-btn">Global notes</label>
-      <input id="toggle-off" class="toggle toggle-right" onclick="toggleRight(event);" name="toggle" value="true"
-        type="radio">
-      <label for="toggle-off" class="toggle-btn">My notes</label>
-    </div>
-    <div class="collapse" id="notesSec">
-    </div>
+    <div class="row justify-content-center" id="messageDiv">
+      <lable id="todayTomatoLbl">Chat</lable>
 
-    <div class="collapse" id="pubNotesSec">
-      <% for (let i=0; i<pubNotes.length; i++) { %>
-      <div class="noteCard" id="<%=pubNotes[i]['tid']%>_pubcard" data-nid="<%=pubNotes[i]['tid']%>">
-        <img id="noteAvatar" src="<%=pubNotes[i]['profile']%>" width="40px" height="40px" alt="growing Avatar">
-        <label id="noteLable"><%=pubNotes[i]['name']%></label>
-        <label
-          id="noteTime"><%=moment.unix(parseInt(pubNotes[i]["date"]) - parseInt(pubNotes[i]["timeOffset"]) * 60).format('lll')%></label>
-        <br>
-        <div class="row" id="typeSec">
-          <%if(pubNotes[i]["type"]) {%>
-          <label class="noteType" id="<%=pubNotes[i]['tid']%>_pubNotetype"><%=pubNotes[i]["type"]%></label>
-          <%} else {%>
-          <label class="noteType" id="<%=pubNotes[i]['tid']%>_pubNotetype">No type</label>
-          <%}%>
+    </div>
+    <div id="chatsView" class="h-4/6 mx-auto flex flex-col mt-4">
+      <div class="messages flex-1">
+        <ul id="messageList">
+          <li>
+            <div class="flex space-x-2 pl-2 pt-2">
+              <div class="flex flex-col">
+                <div class="flex items-baseline space-x-2">
+                  <div class="text-sm font-bold text-gray-500">Tommy Lee</div>
                 </div>
-                <div id="noteText">
-                    <%if(pubNotes[i]['notes'] && pubNotes[i]["notes"] !== "<p><br></p>") {%>
-          <div class="notehis" id="<%=pubNotes[i]['tid']%>_pubNotetext"><%-pubNotes[i]["notes"]%></div>
-          <%} else {%>
-          <p id="<%=pubNotes[i]['tid']%>_pubNotetext" class="nothing">Nothing was noted in this session.</p>
-          <%}%>
+                <div class="text-sm text-gray-50">Hello world</div>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="flex space-x-2 pl-2 pt-2">
+              <div class="flex flex-col">
+                <div class="flex items-baseline space-x-2">
+                  <div class="text-sm font-bold text-gray-500">Tommy Lee</div>
                 </div>
-                <% if(pubNotes[i]['hasLiked']) {%>
-          <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/already_liked.png"
-            alt"linked source" data-bs-toggle="tooltip" data-bs-placement="bottom"
-            title="Sign in to like others' pomodoro timer notes" />
-          <%} else {%>
-          <img class="pubNoteLikeBtn" id="<%=pubNotes[i]['notePath']%>_likebtn" src="./public/image/liked.png" alt"liked
-            image" onclick="LikeNote(this.id)" style="cursor:pointer;" data-bs-toggle="tooltip"
-            data-bs-placement="bottom" title="Sign in to like others' pomodor timer notes" />
-          <%}%>
-                    <label class="pubNoteLikeCnt" id="<%=pubNotes[i]['notePath']%>_likebtnLabel"
-          style="pointer-events: none;"><%=pubNotes[i]['likeCnt']%></label>
+                <div class="text-sm text-gray-50">Hello world</div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="input h-11 w-full flex border border-slate-200 rounded-md" style="background-color: transparent;">
+        <input id="messageInput" type="text" class="outline-none flex-1 px-1" />
+        <div class="p-1">
+          <button id="sendButton" class="bg-indigo-600 p-2 rounded-lg" onclick="login()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" stroke-width="1.5" stroke="black"
+              class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+            </svg>
+          </button>
         </div>
-        <% } %>
       </div>
     </div>
   </div>
@@ -395,12 +390,6 @@
         </a>
       </div>
       <hr>
-    </div>
-
-    <div class="row justify-content-center" id="addAnote" style="display: none;">
-      <button class="astext" id="addnote" onmouseover="addAnoteOver();" onmouseleave="addAnoteLeave();"
-        onclick="addAnote();" data-ison="0"><img id="addnotebtn" src="./public/image/add_note.png" width="87px"
-          height="32px" alt"add note"></button>
     </div>
 
     <div class="row justify-content-center" id="musicDiv">
@@ -562,16 +551,6 @@
 
       var pendingNoteType = document.getElementById('ap').dataset.pendingnotetype;
       var pendingNote = document.getElementById('ap').dataset.pendingnote;
-      if (pendingNoteType || (pendingNote && pendingNote !== "<p><br></p>")) {
-        $('#composingSec').collapse("show")
-        document.getElementById('addnotebtn').src = "./public/image/add_note.png";
-      }
-      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-      })
-      $('#pubNotesSec').collapse("show")
-
       var input = document.getElementById("todoInput");
       input.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
@@ -580,6 +559,14 @@
         }
       });
     }
+
+    var msgInput = document.getElementById("messageInput");
+    msgInput.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        $('#loginToAccess').modal("show");
+      }
+    });
 
     function toggleLeft() {
       $('#loginToAccess').modal("show");
@@ -670,8 +657,9 @@
         firebase.analytics().logEvent('ClickStartBtnNonLogin');
         const date = new Date();
         const offset = date.getTimezoneOffset();
-        $('#musicCollapse').collapse("show");
-        document.getElementById('addAnote').style.display = "block";
+        $('#musicCollapse').collapse({
+          toggle: false
+        });
         document.getElementById('play-pause-button').click();
       } else {
         firebase.analytics().logEvent('ClickStopBtnNonLogin');
@@ -680,6 +668,10 @@
     }
 
     function newTodo() {
+      $('#loginToAccess').modal("show");
+    }
+
+    function sendMsg() {
       $('#loginToAccess').modal("show");
     }
   </script>
@@ -700,7 +692,7 @@
 
   <script>
     // Create a "close" button and append it to each list item
-    var myNodelist = document.getElementsByTagName("LI");
+    var myNodelist = document.getElementsByClassName("todoList");
     var i;
     for (i = 0; i < myNodelist.length; i++) {
       var span = document.createElement("SPAN");

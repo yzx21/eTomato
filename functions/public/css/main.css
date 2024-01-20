@@ -558,6 +558,7 @@ hr {
 #myUL {
   position: relative;
   top: 17px;
+  padding-left: 0;
 }
 
 #ggLogin1 {
@@ -1766,14 +1767,8 @@ svg {
 }
 
 
-/* Remove margins and padding from the list */
-ul {
-  margin: 0;
-  padding: 0;
-}
-
 /* Style the list items */
-.todoList {
+ul li {
   cursor: pointer;
   position: relative;
   width: 100%;
@@ -1795,18 +1790,18 @@ ul {
 }
 
 /* Set all odd list items to a different color (zebra-stripes) */
-.todoList:nth-child(odd) {
+ul li:nth-child(odd) {
   background: #3D4D54;
   width: 100%;
 }
 
 /* Darker background-color on hover */
-.todoList:hover {
+ul li:hover {
   background: #ddd;
 }
 
 /* When clicked on, add a background color and strike out text */
-.todoList.checked {
+ul li.checked {
   background: #394385;
   color: #fff;
   font-family: 'Poppins';
@@ -1816,13 +1811,8 @@ ul {
   text-decoration-thickness: 3px;
 }
 
-.todoList {
-  font-family: 'Poppins';
-  font-size: 1.0rem;
-}
-
 /* Add a "checked" mark when clicked on */
-.todoList.checked::before {
+ul li.checked::before {
   content: '';
   position: absolute;
   border-color: #fff;
@@ -1968,7 +1958,7 @@ input[type="radio"].toggle:checked+label:after {
 
 .msg-txt {
   font-size: 14px;
-  color: rgb(206, 206, 206);
+  color: white;
 }
 
 .message {

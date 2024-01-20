@@ -586,6 +586,7 @@
                 },
                 success: function (result) {
                     document.getElementById("send-input").value = "";
+                    document.getElementById("send-input").focus();
                 },
                 error: function (error) {
                     new Toasteur().error(error.responseText, 'Error!', () => {});
@@ -679,17 +680,14 @@
             db_ref.on('child_added', function (data) {
 
                 var newMsg =
-                    "<li class=\'msgList\'> <div class=\'row justify-content-start\'> <div class=\'col-2\'> <img class=\'avatar\' src=\'" +
+                    "<li class=\'msgList\' tabindex=\'1\'> <div class=\'row justify-content-start\'> <div class=\'col-2\'> <img class=\'avatar\' src=\'" +
                     data.val().avatarUrl +
                     "\' alt=\'User Avatar\'> </div> <div class=\'col-3\'> <label class=\'msg-username\'>" + data
                     .val().userName +
-                    "</label> </div> <div class=\'msg-txt col-3\'>" + data.val().content + "</div></div></li>"
+                    "</label> </div> <div class=\'msg-txt col-6\'>" + data.val().content + "</div></div></li>"
                 $(newMsg).appendTo($('.message ul'));
 
-
-                $('#messageul-id').animate({
-                    scrollTop: $('#messageul-id li').last().offset().top
-                });
+                $('#messageul-id li').last().addClass('active-li').focus();
             });
         }
 

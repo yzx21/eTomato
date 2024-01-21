@@ -547,7 +547,7 @@
       db_ref.on('child_added', function (data) {
 
         var newMsg =
-          "<li class=\'msgList\'> <div class = \'row justify-content-start\'> <div class = \'col-2\'> <img class=\'avatar\' src=\'" +
+          "<li class=\'msgList\' style=\'padding-left: 0px;\'> <div class = \'row justify-content-start\'> <div class = \'col-2\'> <img class=\'avatar\' src=\'" +
           data.val().avatarUrl +
           "\' alt=\'User Avatar\'> </div> <div class=\'col-3\'> <label class=\'msg-username\'>" + data.val()
           .userName + "</label> </div> <div class=\'msg-txt col-3\'>" + data.val().content + "</div></div></li>";
